@@ -1,0 +1,64 @@
+package com.example.bankcards.util;
+
+import com.example.bankcards.dto.RegistrationDto;
+import com.example.bankcards.dto.TokenDto;
+import com.example.bankcards.service.TokenService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.core.HttpHeaders;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
+    private final TokenService refreshTokenService;
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    @Override
+    @Autowired
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        super.setAuthenticationManager(authenticationManager);
+    }
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException {
+        assert request != null;
+
+        try {
+            var authModel = mapper.readValue(request.getInputStream(), RegistrationDto.class);
+            var authToken = new UsernamePasswordAuthenticationToken(authModel.getEmail(), authModel.getPassword());
+            return getAuthenticationManager().authenticate(authToken);
+        } catch (IOException e) {
+            throw new AuthenticationServiceException("Cannot set user authentication: " + e.getMessage());
+        }
+    }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+                                            Authentication authResult) throws IOException {
+        var user = (String) authResult.getPrincipal();
+        var refreshToken = refreshTokenService.create(user);
+        var responseModel = TokenDto.builder()
+                .accessToken(refreshToken.getAccessToken())
+                .build();
+        response.addHeader("X-Custom-Security-Header", String.format("Bearer %s", refreshToken.getAccessToken()));
+        response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        response.getOutputStream().write(mapper.writeValueAsBytes(responseModel));
+    }
+}

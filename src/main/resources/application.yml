@@ -6,3 +6,75 @@
   - Указать порт приложения.
   - Настроить параметры безопасности и JWT.
   - Включить Swagger UI.
+
+app:
+  jwt:
+    secret: "9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9"
+    tokenExpiration: 15
+    refreshTokenExpiration: 30
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: Bank Cards
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/card_db
+    username: intern
+    password: 1gjAVnJ
+    hikari:
+      schema: custom
+      driver-class-name: org.postgresql.Driver
+      data-source-properties:
+        rewrite-batched-statement: true
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+    show-sql: true
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        jakarta:
+          persistence:
+            schema-generation:
+              create-database-schemas: true
+        format_sql: true
+        default_schema: custom
+        transaction:
+          jta:
+            platform: com.atomikos.icatch.jta.hibernate4.AtomikosPlatform
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: db/migration/changelog/dbChangeLog.yml
+    default-schema: custom
+    liquibase-schema: public
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/card_db
+    user: intern
+    password: 1gjAVnJ
+    contexts: production, test
+    parameters:
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      schema-name: custom
+      tokenLifetime: ${app.jwt.tokenExpiration}
+      refreshTokenLifetime: ${app.jwt.refreshTokenExpiration}
+    drop-first: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /openapi-docs
+  swagger-ui:
+    enabled: true
+    path: /index.html
+  enable-spring-security: true
