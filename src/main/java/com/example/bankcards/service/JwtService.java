@@ -16,6 +16,8 @@ import java.util.HashMap;
 
 import io.jsonwebtoken.Jwts;
 
+import javax.management.timer.Timer;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class JwtService {
 
     public String generateTokenFromUsername(String username) {
         var user = userService.loadUserByUsername(username);
+        var moment = new Date();
         return Jwts.builder()
                 .header().type("JWT").and()
                 .subject(user.getId().toString())
@@ -32,8 +35,8 @@ public class JwtService {
                     put("email", user.getUsername());
                     put("roles", user.getAuthorities());
                 }})
-                .issuedAt(new Date())
-                .expiration(new Date(new Date().getTime() + properties.tokenExpiration().toMillis()))
+                .issuedAt(moment)
+                .expiration(new Date(moment.getTime() + properties.tokenExpiration().toMillis() * Timer.ONE_MINUTE))
                 .signWith(Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8)))
                 .compact();
     }
@@ -52,10 +55,10 @@ public class JwtService {
     @Cacheable(value = "isValid", key = "{ #token }", sync = true)
     public boolean validate(String token) {
         try {
-            var  claim  = Jwts.parser()
+            var  email  = Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8)))
-                    .build().parseSignedClaims(token).getPayload();
-            return userService.findByEmail(claim.get("email").toString()).isEnabled();
+                    .build().parseSignedClaims(token).getPayload().get("email").toString();
+            return userService.findByEmail(email).isEnabled();
         } catch (JwtException | IllegalArgumentException e) {
             log.error("Claims string is empty: {}", e.getMessage());
             return false;

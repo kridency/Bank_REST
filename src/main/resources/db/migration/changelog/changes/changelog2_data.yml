@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: fill-user-table
+      author: kridency
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  valueComputed: uuid_generate_v4()
+              - column:
+                  name: email
+                  value: admin@hostname
+              - column:
+                  name: password
+                  value: $2a$10$IAHJNUoXff9bS6nfWn5gpukjIFnOaKwn8m4WHcoQ5KT5JL9EmXD4q
+
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: (select id from ${schemaName}."user" where email='admin@hostname')
+              - column:
+                  name: roles
+                  value: ROLE_ADMIN

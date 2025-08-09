@@ -1,8 +1,9 @@
 package com.example.bankcards.util;
 
 import com.example.bankcards.dto.RegistrationDto;
-import com.example.bankcards.dto.TokenDto;
-import com.example.bankcards.service.TokenService;
+import com.example.bankcards.dto.RefreshTokenDto;
+import com.example.bankcards.entity.User;
+import com.example.bankcards.service.RefreshTokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
-    private final TokenService refreshTokenService;
+    private final RefreshTokenService refreshTokenService;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
@@ -52,9 +53,9 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException {
-        var user = (String) authResult.getPrincipal();
-        var refreshToken = refreshTokenService.create(user);
-        var responseModel = TokenDto.builder()
+        var user = (User) authResult.getPrincipal();
+        var refreshToken = refreshTokenService.create(user.getUsername());
+        var responseModel = RefreshTokenDto.builder()
                 .accessToken(refreshToken.getAccessToken())
                 .build();
         response.addHeader("X-Custom-Security-Header", String.format("Bearer %s", refreshToken.getAccessToken()));

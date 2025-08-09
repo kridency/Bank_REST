@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -20,6 +21,7 @@ import java.util.*;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Запускает обращение к базе данных пользователей для создания новой записи.
@@ -34,8 +36,8 @@ public class UserService implements UserDetailsService {
             findByEmail(email);
             throw new EntityExistsException("Email = " + email + " уже зарегистрирован!");
         } catch (EntityNotFoundException e) {
-            User newUser = new User(null, request.getEmail(), request.getPassword(), request.getRoles());
-            Optional.of(newUser.getRoles()).filter(Set::isEmpty).map(value -> value.add(RoleType.ROLE_USER));
+            User newUser = new User(null, request.getEmail(), passwordEncoder.encode(request.getPassword()), request.getRoles());
+            Optional.ofNullable(newUser.getRoles()).filter(Set::isEmpty).map(value -> value.add(RoleType.ROLE_USER));
             return userMapper.userToUserDto(userRepository.save(newUser));
         }
     }

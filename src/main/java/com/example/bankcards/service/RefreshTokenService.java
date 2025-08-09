@@ -1,6 +1,6 @@
 package com.example.bankcards.service;
 
-import com.example.bankcards.dto.TokenDto;
+import com.example.bankcards.dto.RefreshTokenDto;
 import com.example.bankcards.entity.RefreshToken;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.repository.TokenRepository;
@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.management.timer.Timer;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class TokenService {
+public class RefreshTokenService {
     @Value("${app.jwt.refreshTokenExpiration}")
     private Duration refreshTokenExpiration;
 
@@ -33,14 +34,14 @@ public class TokenService {
      *
      * @return  объект описания результата обращения к базе данных электронных пропусков
      */
-    public TokenDto create(String username) {
+    public RefreshTokenDto create(String username) {
         User user = userService.findByEmail(username);
         Instant issueDate = Instant.now();
-        Instant expireDate = Instant.now().plusMillis(refreshTokenExpiration.toMillis());
+        Instant expireDate = issueDate.plusMillis(refreshTokenExpiration.toMillis() * Timer.ONE_MINUTE);
         String accessToken = jwtService.generateTokenFromUsername(username);
         RefreshToken token = new RefreshToken(user.getId(), accessToken, issueDate, expireDate);
         tokenRepository.save(token);
-        return TokenDto.builder().accessToken(accessToken).build();
+        return RefreshTokenDto.builder().accessToken(accessToken).build();
     }
 
     /**
@@ -50,7 +51,7 @@ public class TokenService {
      *
      * @return  объект описания результата обращения к базе данных электронных пропусков
      */
-    public TokenDto update(String username) {
+    public RefreshTokenDto update(String username) {
         User user = userService.findByEmail(username);
         String accessToken = validate(findById(user.getId())).getToken();
         return create(jwtService.getUserDetails(accessToken).getUsername());
@@ -76,14 +77,14 @@ public class TokenService {
     public RefreshToken validate(RefreshToken token) {
         String username = jwtService.getUserDetails(token.getToken()).getUsername();
         if(token.getExpireDate().compareTo(Instant.now()) < 0) {
-            tokenRepository.delete(token);
+            delete(token.getToken());
             throw new ExpiredJwtException(Jwts.header()
                     .add("Authorization", "Bearer " + token.getToken())
                     .build(), Jwts.claims()
                     .id(String.valueOf(token.getId()))
                     .subject(username)
                     .expiration(Date.from(token.getExpireDate()))
-                    .issuedAt(Date.from(token.getIssueDate())).build(), "Refresh token was expired. Repeat login action!");
+                    .issuedAt(Date.from(token.getIssueDate())).build(), "Refresh token was expired. Repeat login procedure!");
         }
 
         return token;

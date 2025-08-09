@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Schema(description = "Ответ по запросу на аутентификацию/обновление электронного пропуска.")
-public class TokenDto {
+public class RefreshTokenDto {
     @JsonProperty("access_token")
     @Schema(description = "Символьная последовательность электронного пропуска.")
     private String accessToken;

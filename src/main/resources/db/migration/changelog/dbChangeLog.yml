@@ -6,17 +6,24 @@ databaseChangeLog:
       sqlFile:
         path: db/createCustomSchema.sql
         stripComments: true
+
   - changeSet:
-      id: create-role-type
+      id: create-user-types
+      author: kridency
+      changes:
+        - sqlFile:
+            path: db/createRoleType.sql
+            stripComments: true
+        - sqlFile:
+            path: db/createStatusType.sql
+            stripComments: true
+
+  - changeSet:
+      id: create-extensions
       author: kridency
       sqlFile:
-        path: db/createRoleType.sql
+        path: db/createOSSPExtension.sql
         stripComments: true
-  - changeSet:
-      id: create-status-type
-      author: kridency
-      sqlFile:
-        path: db/createStatusType.sql
-        stripComments: true
+
   - includeAll:
       path: db/migration/changelog/changes/
