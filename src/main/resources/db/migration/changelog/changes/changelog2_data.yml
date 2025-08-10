@@ -17,6 +17,19 @@ databaseChangeLog:
                   value: $2a$10$IAHJNUoXff9bS6nfWn5gpukjIFnOaKwn8m4WHcoQ5KT5JL9EmXD4q
 
         - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  valueComputed: uuid_generate_v4()
+              - column:
+                  name: email
+                  value: user@hostname
+              - column:
+                  name: password
+                  value: $2a$10$.Eh4uZMxW4gsJ3lFh9nnWO5lXJoC3MJ6ZJA894yKq43qoG6vB2Mt6
+
+        - insert:
             tableName: user_roles
             columns:
               - column:
@@ -25,3 +38,13 @@ databaseChangeLog:
               - column:
                   name: roles
                   value: ROLE_ADMIN
+
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: (select id from ${schemaName}."user" where email='user@hostname')
+              - column:
+                  name: roles
+                  value: ROLE_USER

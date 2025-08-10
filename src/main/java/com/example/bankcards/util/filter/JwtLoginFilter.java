@@ -1,4 +1,4 @@
-package com.example.bankcards.util;
+package com.example.bankcards.util.filter;
 
 import com.example.bankcards.dto.RegistrationDto;
 import com.example.bankcards.dto.RefreshTokenDto;

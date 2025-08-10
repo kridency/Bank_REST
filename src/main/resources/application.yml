@@ -2,6 +2,7 @@
 # application.yml — главный конфигурационный файл Spring Boot.
 
 app:
+  pagination-limit: 20
   jwt:
     secret: "9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9"
     tokenExpiration: 15
@@ -27,8 +28,8 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: none
-    generate-ddl: false
+      ddl-auto: update
+    generate-ddl: true
     show-sql: true
     properties:
       hibernate:

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,10 +19,11 @@ import java.util.UUID;
 @Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Getter @Setter
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private UUID id;
     @Column(name = "email", nullable = false, unique = true)
     private String email;

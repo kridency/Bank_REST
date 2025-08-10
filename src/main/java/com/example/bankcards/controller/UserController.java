@@ -27,7 +27,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto registerUser(@RequestBody @Valid RegistrationDto request) {
         userService.create(request);
-        return new MessageDto("User successfully created!", request.getEmail());
+        return new MessageDto("Пользователь успешно зарегистрирован!", request.getEmail());
     }
 
     @Operation(summary = "Обновить учетные дынные пользователя",

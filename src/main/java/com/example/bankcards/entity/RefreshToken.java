@@ -16,7 +16,7 @@ import java.util.UUID;
 public class RefreshToken {
     @Id
     private UUID id;
-    @Column(name = "token", nullable = false)
+    @Column(name = "token", nullable = false, columnDefinition = "text")
     private String token;
     @Column(name = "issue_date", nullable = false)
     private Instant issueDate;

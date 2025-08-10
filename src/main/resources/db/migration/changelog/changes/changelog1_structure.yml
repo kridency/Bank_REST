@@ -14,13 +14,13 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: email
-                  type: varchar
+                  type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
               - column:
                   name: password
-                  type: varchar
+                  type: varchar(255)
 
         - createTable:
             tableName: user_roles
@@ -50,19 +50,19 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: account
+                  name: pan
                   type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
               - column:
-                  name: expiry_date
+                  name: expire_date
                   type: date
-                  valueDate: date_trunc('month', expiry_date)
+                  valueComputed: date_trunc('month', expire_date)
                   constraints:
                     nullable: false
               - column:
-                  name: owner
+                  name: owner_id
                   type: uuid
                   constraints:
                     foreignKeyName: fk_card_owner
@@ -75,7 +75,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: balance
-                  type: number
+                  type: numeric(38,2)
 
         - createTable:
             tableName: refresh_token
@@ -88,7 +88,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: token
-                  type: varchar
+                  type: text
                   constraints:
                     nullable: false
               - column:

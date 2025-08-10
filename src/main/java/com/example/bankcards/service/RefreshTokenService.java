@@ -35,10 +35,10 @@ public class RefreshTokenService {
      * @return  объект описания результата обращения к базе данных электронных пропусков
      */
     public RefreshTokenDto create(String username) {
-        User user = userService.findByEmail(username);
+        User user = userService.find(username);
         Instant issueDate = Instant.now();
         Instant expireDate = issueDate.plusMillis(refreshTokenExpiration.toMillis() * Timer.ONE_MINUTE);
-        String accessToken = jwtService.generateTokenFromUsername(username);
+        String accessToken = jwtService.create(username);
         RefreshToken token = new RefreshToken(user.getId(), accessToken, issueDate, expireDate);
         tokenRepository.save(token);
         return RefreshTokenDto.builder().accessToken(accessToken).build();
@@ -52,9 +52,9 @@ public class RefreshTokenService {
      * @return  объект описания результата обращения к базе данных электронных пропусков
      */
     public RefreshTokenDto update(String username) {
-        User user = userService.findByEmail(username);
-        String accessToken = validate(findById(user.getId())).getToken();
-        return create(jwtService.getUserDetails(accessToken).getUsername());
+        User user = userService.find(username);
+        String accessToken = validate(find(user.getId())).getToken();
+        return create(jwtService.find(accessToken).getUsername());
     }
 
     /**
@@ -75,7 +75,7 @@ public class RefreshTokenService {
      * @return  объект описания результата обращения к базе данных электронных пропусков
      */
     public RefreshToken validate(RefreshToken token) {
-        String username = jwtService.getUserDetails(token.getToken()).getUsername();
+        String username = jwtService.find(token.getToken()).getUsername();
         if(token.getExpireDate().compareTo(Instant.now()) < 0) {
             delete(token.getToken());
             throw new ExpiredJwtException(Jwts.header()
@@ -97,7 +97,7 @@ public class RefreshTokenService {
      *
      * @return  объект описания результата обращения к базе данных электронных пропусков
      */
-    public RefreshToken findById(UUID refreshTokenId) {
+    private RefreshToken find(UUID refreshTokenId) {
         return tokenRepository.findById(refreshTokenId)
                 .orElseThrow(() -> new EntityNotFoundException(" Refresh token " + refreshTokenId + " not found "));
     }

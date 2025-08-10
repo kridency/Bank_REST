@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
     public UserDto create(RegistrationDto request) {
         String email = request.getEmail();
         try {
-            findByEmail(email);
+            find(email);
             throw new EntityExistsException("Email = " + email + " уже зарегистрирован!");
         } catch (EntityNotFoundException e) {
             User newUser = new User(null, request.getEmail(), passwordEncoder.encode(request.getPassword()), request.getRoles());
@@ -51,10 +51,10 @@ public class UserService implements UserDetailsService {
      * @return  объект описания результата обращения к базе данных пользователей
      */
     public UserDto update(RegistrationDto request, String username) {
-        User user = findByEmail(username), updateUser;
+        User user = find(username), updateUser;
         String email = request.getEmail();
         try {
-            findByEmail(email);
+            find(email);
             throw new EntityExistsException("Email = " + email + " уже зарегистрирован!");
         } catch (EntityNotFoundException e) {
             updateUser = new User(user.getId(), request.getEmail(), request.getPassword(),
@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService {
      *
      * @return  объект отображения записи базы данных пользователей
      */
-    public User findByEmail(String email) {
+    public User find(String email) {
         return userRepository.getByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь с Email = " + email + " не найден."));
     }

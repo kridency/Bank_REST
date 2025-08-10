@@ -1,4 +1,4 @@
-package com.example.bankcards.util;
+package com.example.bankcards.util.filter;
 
 import com.example.bankcards.service.JwtService;
 import com.example.bankcards.service.UserService;
@@ -35,7 +35,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             var jwtToken = getToken(request);
 
             if(jwtService.validate(jwtToken)) {
-                var username = jwtService.getUserDetails(jwtToken).getUsername();
+                var username = jwtService.find(jwtToken).getUsername();
                 var userDetails = userService.loadUserByUsername(username);
 
                 var authToken = new UsernamePasswordAuthenticationToken(

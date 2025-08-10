@@ -1,8 +1,9 @@
 package com.example.bankcards.config;
 
-import com.example.bankcards.util.JwtLoginFilter;
+import com.example.bankcards.service.UserService;
+import com.example.bankcards.util.filter.JwtLoginFilter;
 import com.example.bankcards.util.JwtAuthEntryPoint;
-import com.example.bankcards.util.JwtTokenFilter;
+import com.example.bankcards.util.filter.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

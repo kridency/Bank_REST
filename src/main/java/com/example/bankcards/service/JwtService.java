@@ -25,7 +25,7 @@ public class JwtService {
     private final UserService userService;
     private final AppProperties.JwtProperties properties;
 
-    public String generateTokenFromUsername(String username) {
+    public String create(String username) {
         var user = userService.loadUserByUsername(username);
         var moment = new Date();
         return Jwts.builder()
@@ -41,14 +41,14 @@ public class JwtService {
                 .compact();
     }
 
-    public User getUserDetails(String token) {
+    public User find(String token) {
         try {
             String email = Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8)))
                     .build().parseSignedClaims(token).getPayload().get("email").toString();
-            return userService.findByEmail(email);
+            return userService.find(email);
         } catch(ExpiredJwtException e) {
-            return userService.findByEmail(e.getClaims().get("email").toString());
+            return userService.find(e.getClaims().get("email").toString());
         }
     }
 
@@ -58,7 +58,7 @@ public class JwtService {
             var  email  = Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8)))
                     .build().parseSignedClaims(token).getPayload().get("email").toString();
-            return userService.findByEmail(email).isEnabled();
+            return userService.find(email).isEnabled();
         } catch (JwtException | IllegalArgumentException e) {
             log.error("Claims string is empty: {}", e.getMessage());
             return false;
