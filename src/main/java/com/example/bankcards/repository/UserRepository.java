@@ -12,5 +12,5 @@ import java.util.UUID;
 @DynamicUpdate
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> getByEmail(String email);
-    Optional<User> deleteByEmail(String email);
+    int deleteByEmail(String email);
 }

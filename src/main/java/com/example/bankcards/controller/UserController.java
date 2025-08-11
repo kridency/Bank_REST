@@ -1,7 +1,6 @@
 package com.example.bankcards.controller;
 
 import com.example.bankcards.dto.MessageDto;
-import com.example.bankcards.dto.RegistrationDto;
 import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +24,7 @@ public class UserController {
     @PostMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public MessageDto registerUser(@RequestBody @Valid RegistrationDto request) {
+    public MessageDto registerUser(@RequestBody @Valid UserDto request) {
         userService.create(request);
         return new MessageDto("Пользователь успешно зарегистрирован!", request.getEmail());
     }
@@ -36,7 +35,7 @@ public class UserController {
     @PutMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public UserDto updateUser(@RequestBody @Valid RegistrationDto request, @AuthenticationPrincipal String username) {
+    public UserDto updateUser(@RequestBody @Valid UserDto request, @AuthenticationPrincipal String username) {
         return userService.update(request, username);
     }
 
@@ -46,7 +45,9 @@ public class UserController {
     @DeleteMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public UserDto deleteUser(@AuthenticationPrincipal String username) {
-        return userService.delete(username);
+    public MessageDto deleteUser(@RequestBody UserDto request) {
+        return userService.delete(request) == 1
+                ? new MessageDto("Учетная запись пользователя успешно удалена!", "Ожидаемое завершение операции")
+                : new MessageDto("Учетная запись пользователя не найдена!", "Непредвиденное завершение операции.");
     }
 }

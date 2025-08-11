@@ -1,6 +1,5 @@
 package com.example.bankcards.service;
 
-import com.example.bankcards.dto.RegistrationDto;
 import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.entity.RoleType;
 import com.example.bankcards.entity.User;
@@ -8,6 +7,7 @@ import com.example.bankcards.mapper.UserMapper;
 import com.example.bankcards.repository.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
      *
      * @return  объект описания результата обращения к базе данных пользователей
      */
-    public UserDto create(RegistrationDto request) {
+    public UserDto create(UserDto request) {
         String email = request.getEmail();
         try {
             find(email);
@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
      *
      * @return  объект описания результата обращения к базе данных пользователей
      */
-    public UserDto update(RegistrationDto request, String username) {
+    public UserDto update(UserDto request, String username) {
         User user = find(username), updateUser;
         String email = request.getEmail();
         try {
@@ -67,12 +67,14 @@ public class UserService implements UserDetailsService {
     /**
      * Запускает обращение к базе данных пользователей для удаления существующей записи.
      * Основной метод для удаления записи пользователя в базе данных.
-     * @param username  адрес электронной почты пользователя, отправившего запрос на удаление учетной записи
+     * @param request  объект описания аттрибутов удаляемой учетной записи пользователя
      *
      * @return  объект описания результата обращения к базе данных пользователей
      */
-    public UserDto delete(String username) {
-        return userRepository.deleteByEmail(username).map(userMapper::userToUserDto).orElse(null);
+    public int delete(UserDto request) {
+        var email = request.getEmail();
+        Optional.ofNullable(email).orElseThrow(() -> new BadRequestException("Не указан email пользователя."));
+        return userRepository.deleteByEmail(email);
     }
 
     /**

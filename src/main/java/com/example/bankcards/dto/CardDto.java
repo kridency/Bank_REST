@@ -30,6 +30,7 @@ public class CardDto {
     @Schema(description = "Месяц истечения срока действия банковской карты.")
     @JsonProperty("expire_date")
     private YearMonth expireDate;
+    @NotNull(message = "Не указано значение для поля email.")
     @Email(message = "Недопустимое значение для адреса электронной почты.")
     @Schema(description = "Адрес электронной почты держателя банковской карты.")
     private String email;

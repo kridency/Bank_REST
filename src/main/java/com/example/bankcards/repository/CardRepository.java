@@ -20,4 +20,5 @@ public interface CardRepository extends PagingAndSortingRepository<Card, UUID>, 
     Optional<Card> findByPan(String cardNumber);
     @EntityGraph(attributePaths = {"owner"})
     @Nonnull Page<Card> findAll(@Nullable Specification<Card> spec, @Nullable Pageable pageable);
+    int deleteByPan(String pan);
 }

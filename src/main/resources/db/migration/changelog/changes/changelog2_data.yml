@@ -92,3 +92,27 @@ databaseChangeLog:
               - column:
                   name: balance
                   value: 50.00
+
+        - insert:
+            tableName: card
+            columns:
+              - column:
+                  name: id
+                  valueComputed: uuid_generate_v4()
+              - column:
+                  name: pan
+                  value: 902HS/z/OWq5HFbvYdSkzNKNZKbOFBqe
+              - column:
+                  name: expire_date
+                  value: 2026-11-01
+              - column:
+                  name: owner_id
+                  valueComputed: (select id from ${schemaName}."user" where email='user@hostname')
+              - column:
+                  name: status
+                  value: ACTIVE
+              - column:
+                  name: balance
+                  value: 20.00
+
+

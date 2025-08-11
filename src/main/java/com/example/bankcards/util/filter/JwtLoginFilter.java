@@ -1,6 +1,6 @@
 package com.example.bankcards.util.filter;
 
-import com.example.bankcards.dto.RegistrationDto;
+import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.dto.RefreshTokenDto;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.service.RefreshTokenService;
@@ -42,7 +42,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         assert request != null;
 
         try {
-            var authModel = mapper.readValue(request.getInputStream(), RegistrationDto.class);
+            var authModel = mapper.readValue(request.getInputStream(), UserDto.class);
             var authToken = new UsernamePasswordAuthenticationToken(authModel.getEmail(), authModel.getPassword());
             return getAuthenticationManager().authenticate(authToken);
         } catch (IOException e) {
