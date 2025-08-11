@@ -48,3 +48,47 @@ databaseChangeLog:
               - column:
                   name: roles
                   value: ROLE_USER
+
+        - insert:
+            tableName: card
+            columns:
+              - column:
+                  name: id
+                  valueComputed: uuid_generate_v4()
+              - column:
+                  name: pan
+                  value: 902HS/z/OWowY5EIcwMdVNKNZKbOFBqe
+              - column:
+                  name: expire_date
+                  value: 2026-11-01
+              - column:
+                  name: owner_id
+                  valueComputed: (select id from ${schemaName}."user" where email='user@hostname')
+              - column:
+                  name: status
+                  value: ACTIVE
+              - column:
+                  name: balance
+                  value: 100.00
+
+        - insert:
+            tableName: card
+            columns:
+              - column:
+                  name: id
+                  valueComputed: uuid_generate_v4()
+              - column:
+                  name: pan
+                  value: 902HS/z/OWpcr2ho8Eevk9KNZKbOFBqe
+              - column:
+                  name: expire_date
+                  value: 2026-11-01
+              - column:
+                  name: owner_id
+                  valueComputed: (select id from ${schemaName}."user" where email='admin@hostname')
+              - column:
+                  name: status
+                  value: ACTIVE
+              - column:
+                  name: balance
+                  value: 50.00

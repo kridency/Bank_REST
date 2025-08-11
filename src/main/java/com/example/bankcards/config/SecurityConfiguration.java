@@ -1,6 +1,5 @@
 package com.example.bankcards.config;
 
-import com.example.bankcards.service.UserService;
 import com.example.bankcards.util.filter.JwtLoginFilter;
 import com.example.bankcards.util.JwtAuthEntryPoint;
 import com.example.bankcards.util.filter.JwtTokenFilter;
@@ -24,7 +23,6 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -39,8 +37,7 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userService) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userService);
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(authenticationProvider);
     }

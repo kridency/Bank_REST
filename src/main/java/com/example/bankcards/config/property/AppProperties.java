@@ -10,6 +10,7 @@ import java.time.Duration;
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
     private int paginationLimit;
+    private String panKey;
 
     @ConfigurationProperties(prefix = "app.jwt")
     public record JwtProperties(String secret, Duration tokenExpiration, Duration refreshTokenExpiration) {
