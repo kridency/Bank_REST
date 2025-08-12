@@ -5,14 +5,15 @@ import com.example.bankcards.dto.RefreshTokenDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+@DisplayName("Тестирование ресурса управления электронными пропусками.")
 public class RefreshTokenControllerTest extends AbstractTest {
     @Test
-    @WithMockUser(username = "user@hostname", password = "user")
+    @WithUserDetails(value = "user@hostname")
     @DisplayName("Обновление электронного пропуска.")
     void givenExistingUser_whenTryToUpdateRefreshToken_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"user@hostname\", \"password\": \"user\" }";

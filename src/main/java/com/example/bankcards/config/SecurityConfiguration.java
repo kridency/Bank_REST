@@ -3,6 +3,7 @@ package com.example.bankcards.config;
 import com.example.bankcards.security.filter.JwtLoginFilter;
 import com.example.bankcards.security.JwtAuthEntryPoint;
 import com.example.bankcards.security.filter.JwtTokenFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,12 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    private final JwtAuthEntryPoint jwtAuthEntryPoint;
+    private final ObjectMapper objectMapper;
+
+    @Bean
+    public JwtAuthEntryPoint jwtAuthEntryPoint(ObjectMapper objectMapper) {
+        return new JwtAuthEntryPoint(objectMapper);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -68,7 +74,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/login","/openapi-docs", "/openapi-docs/**", "/swagger-ui/**",
                                 "/proxy/**", "/favicon.ico", "/error").permitAll()
                         .anyRequest().authenticated())
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint(objectMapper)))
                 .cors(configurer -> configurer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .securityContext(securityContext ->

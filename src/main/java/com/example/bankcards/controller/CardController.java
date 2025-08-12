@@ -28,7 +28,7 @@ public class CardController {
 
     @Operation(summary = "Зарегистрировать банковскую карту",
             description = "Регистрирует нового банковскую карту.")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -36,7 +36,7 @@ public class CardController {
         return cardService.create(request);
     }
 
-    @Operation(summary = "Обновить статус/баланс банковской карты. (Изменение баланса доступно, если карта активна)",
+    @Operation(summary = "Изменить текущий статус карты.",
             description = "Обновляет статус банковской карты.")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
@@ -98,7 +98,7 @@ public class CardController {
 
     @Operation(summary = "Удалить запись банковской карты из базы банных",
             description = "Удаляет банковскую карту.")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")

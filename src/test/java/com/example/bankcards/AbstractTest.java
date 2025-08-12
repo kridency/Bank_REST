@@ -20,14 +20,14 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = BankCardsApplication.class)
+@SpringBootTest(classes = { BankCardsApplication.class })
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Testcontainers
 public abstract class AbstractTest {
     @Autowired
     protected MockMvc mockMvc;
-    protected static final ObjectMapper objectMapper = new ObjectMapper();
+    protected static ObjectMapper objectMapper;
 
     @Container
     protected static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>(
@@ -49,6 +49,7 @@ public abstract class AbstractTest {
 
     @BeforeAll
     public static void setUp() {
+        objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         postgreSQLContainer.withReuse(true).start();

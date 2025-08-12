@@ -4,14 +4,15 @@ import com.example.bankcards.AbstractTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+@DisplayName("Тестирование ресурса управления учетными записями пользователей.")
 public class UserControllerTest extends AbstractTest {
     @Test
-    @WithMockUser(username = "admin@hostname", password = "admin", roles = {"ADMIN"})
+    @WithUserDetails(value = "admin@hostname")
     @DisplayName("Создание учетной записи пользователя.")
     void givenNewUserCredentials_whenTryToCreate_thenReturnCorrectResult() throws Exception {
         String newUser = "{ \"email\": \"test@hostname\", \"password\": \"test\" }";
@@ -31,7 +32,7 @@ public class UserControllerTest extends AbstractTest {
     }
 
     @Test
-    @WithMockUser(username = "admin@hostname", password = "admin", roles = {"ADMIN"})
+    @WithUserDetails(value = "admin@hostname")
     @DisplayName("Изменение учетной записи пользователя.")
     void givenExistingUser_whenTryToUpdate_thenReturnCorrectResult() throws Exception {
         String updateUser = "{ \"email\": \"user@hostname\", \"password\": \"test\" }";
@@ -51,7 +52,7 @@ public class UserControllerTest extends AbstractTest {
     }
 
     @Test
-    @WithMockUser(username = "admin@hostname", password = "admin", roles = {"ADMIN"})
+    @WithUserDetails(value = "admin@hostname")
     @DisplayName("Удаление учетной записи пользователя.")
     void givenExistingUser_whenTryToDelete_thenReturnsCorrectResult() throws Exception {
         String deleteUser = "{ \"email\": \"user@hostname\"}";
