@@ -11,6 +11,8 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -21,6 +23,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,9 @@ public class CardService {
     private final CardRepository cardRepository;
     private final UserService userService;
     private final CardMapper cardMapper;
+
+    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+    private final SynchronousQueue<BigDecimal> queue = new SynchronousQueue<>();
 
     /**
      * Запускает обращение к базе данных банковских карт для получения отфильтрованного перечня.
@@ -84,31 +92,36 @@ public class CardService {
      *
      * @return  объект описания результата обращения к базе данных банковских карт
      */
-    synchronized public CardDto update(CardDto request, String email) {
+    @Synchronized
+    public CardDto update(CardDto request, String email) throws InterruptedException {
         var card = find(request.getPan());
-        return cardMapper.cardToCardDto(cardRepository.save(new Card(
-                card.getId(),
-                card.getPan(),
-                card.getExpireDate(),
-                card.getOwner(),
-                Optional.ofNullable(request.getStatus()).orElse(card.getStatus()),
-                email.equals(card.getOwner().getEmail())
-                        ? Optional.ofNullable(request.getBalance())
-                        .filter(value -> {
-                            if (!card.getStatus().equals(StatusType.ACTIVE) &&
-                                    !card.getStatus().equals(StatusType.PENDING)) {
-                                throw new BadRequestException("Карта неактивна!");
-                            }
-                            return true;
-                        })
-                        .map(value -> {
-                            if (new BigDecimal(card.getBalance().toString()).add(value).compareTo(BigDecimal.ZERO) < 0) {
-                                throw new BadRequestException("На карте недостаточно средств!");
-                            }
-                            return card.getBalance().add(value);
-                        })
-                        .orElse(card.getBalance())
-                        : card.getBalance())));
+        try {
+            return cardMapper.cardToCardDto(cardRepository.save(new Card(
+                    card.getId(),
+                    card.getPan(),
+                    card.getExpireDate(),
+                    card.getOwner(),
+                    Optional.ofNullable(request.getStatus()).orElse(card.getStatus()),
+                    email.equals(card.getOwner().getEmail())
+                            ? Optional.ofNullable(request.getBalance())
+                            .filter(value -> {
+                                if (!card.getStatus().equals(StatusType.ACTIVE) &&
+                                        !card.getStatus().equals(StatusType.PENDING)) {
+                                    throw new NullPointerException("Карта неактивна!");
+                                }
+                                return true;
+                            })
+                            .map(value -> {
+                                if (new BigDecimal(card.getBalance().toString()).add(value).compareTo(BigDecimal.ZERO) < 0) {
+                                    throw new NullPointerException("На карте недостаточно средств!");
+                                }
+                                return card.getBalance().add(value);
+                            })
+                            .orElse(card.getBalance())
+                            : card.getBalance())));
+        } catch (NullPointerException e) {
+            throw new InterruptedException(e.getMessage());
+        }
     }
 
     /**
@@ -122,6 +135,8 @@ public class CardService {
      * @return  признак успешного завершение перевода денежных средств
      */
     public boolean transfer(String origin, String destination, BigDecimal amount, String email) {
+        final boolean[] result = new boolean[1];
+        result[0] = true;
         var cardFrom = find(origin);
         var cardTo = find(destination);
         if (!email.equals(cardFrom.getOwner().getEmail())) {
@@ -138,20 +153,41 @@ public class CardService {
 
         var credit = cardMapper.cardToCardDto(cardFrom);
         credit.setPan(cardFrom.getPan());
-        credit.setBalance(amount.multiply(new BigDecimal(-1)));
         var debit = cardMapper.cardToCardDto(cardTo);
         debit.setPan(cardTo.getPan());
-        debit.setBalance(amount);
 
-        update(credit, email);
-        try {
-            update(debit, email);
-        } catch (BadRequestException e) {
-            credit.setBalance(amount);
-            update(credit, email);
-        }
 
-        return true;
+        Runnable minus = () -> {
+            try {
+                credit.setBalance(amount.multiply(new BigDecimal(-1)));
+                update(credit, email);
+                queue.put(amount);
+            } catch (InterruptedException ex) {
+                result[0] = false;
+            }
+        };
+
+        Runnable plus = () -> {
+            try {
+                if (result[0]) {
+                    debit.setBalance(queue.take());
+                    update(debit, email);
+                }
+            } catch (InterruptedException ex) {
+                result[0] = false;
+                credit.setBalance(amount.multiply(new BigDecimal(-1)));
+                try {
+                    update(credit, email);
+                } catch (InterruptedException e) {
+                    throw new DataIntegrityViolationException(e.getMessage());
+                }
+            }
+        };
+
+        executor.execute(minus);
+        executor.execute(plus);
+
+        return result[0];
     }
 
     /**

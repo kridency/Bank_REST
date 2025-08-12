@@ -19,12 +19,6 @@ spring:
   main:
     web-application-type: servlet
 
-  cloud:
-    openfeign:
-      autoconfiguration:
-        jackson:
-          enabled: true
-
   datasource:
     url: jdbc:postgresql://localhost:5432/card_db
     username: intern

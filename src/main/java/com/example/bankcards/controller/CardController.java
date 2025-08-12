@@ -13,6 +13,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +32,8 @@ public class CardController {
             description = "Регистрирует нового банковскую карту.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     public CardDto registerCard(@RequestBody @Valid CardDto request) {
         return cardService.create(request);
     }
@@ -40,9 +42,9 @@ public class CardController {
             description = "Обновляет статус банковской карты.")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
-    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public CardDto updateCard(@RequestBody CardDto request, @AuthenticationPrincipal String email) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
+    public CardDto updateCard(@RequestBody CardDto request, @AuthenticationPrincipal String email) throws Exception {
         return cardService.update(request, email);
     }
 
@@ -50,9 +52,8 @@ public class CardController {
             description = "Устанавливает для банковской карты статус PENDING.")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/block")
-    @Transactional
     @PreAuthorize("hasRole('USER')")
-    public CardDto requestBlock(@RequestBody CardDto request, @AuthenticationPrincipal String email) {
+    public CardDto requestBlock(@RequestBody CardDto request, @AuthenticationPrincipal String email) throws Exception {
         request.setStatus(StatusType.PENDING);
         request.setBalance(null);
         return cardService.update(request, email);
@@ -62,8 +63,8 @@ public class CardController {
             description = "Производит списание и зачисление денежных средств.")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/transfer")
-    @Transactional
     @PreAuthorize("hasRole('USER')")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public MessageDto transfer(@RequestParam(name = "origin") String origin,
                                @RequestParam(name = "destination") String destination,
                                @RequestParam(name = "amount") BigDecimal amount,
@@ -100,8 +101,8 @@ public class CardController {
             description = "Удаляет банковскую карту.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public MessageDto deleteCard(@RequestBody CardDto request) {
         return cardService.delete(request) == 1
                 ? new MessageDto("Запись банковской карты успешно удалена!", "Ожидаемое завершение операции.")

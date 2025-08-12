@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,7 @@ public class UserController {
             description = "Регистрирует нового пользователя.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto registerUser(@RequestBody @Valid UserDto request) {
         userService.create(request);
@@ -32,7 +34,7 @@ public class UserController {
             description = "Обновляет адрес электронной почты, пароль и перечень ролей пользователя.")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @PreAuthorize("hasRole('ADMIN')")
     public UserDto updateUser(@RequestBody @Valid UserDto request) {
         return userService.update(request);
@@ -42,7 +44,6 @@ public class UserController {
             description = "Удаляет учетные данные пользователя.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto deleteUser(@RequestBody UserDto request) {
         return userService.delete(request) == 1

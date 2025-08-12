@@ -19,7 +19,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith({SpringExtension.class})
 @SpringBootTest(classes = { BankCardsApplication.class })
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
