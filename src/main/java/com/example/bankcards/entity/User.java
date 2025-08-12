@@ -34,6 +34,8 @@ public class User implements UserDetails {
     @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "roles", nullable = false)
     private Set<RoleType> roles;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    private Set<Card> cards;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

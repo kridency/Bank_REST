@@ -15,6 +15,8 @@ server:
 spring:
   application:
     name: Bank Cards
+  main:
+    web-application-type: servlet
 
   datasource:
     url: jdbc:postgresql://localhost:5432/card_db

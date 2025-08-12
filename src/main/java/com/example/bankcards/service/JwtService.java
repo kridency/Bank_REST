@@ -2,6 +2,7 @@ package com.example.bankcards.service;
 
 import com.example.bankcards.config.property.AppProperties;
 import com.example.bankcards.entity.User;
+import com.example.bankcards.security.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.Keys;
@@ -25,6 +26,13 @@ public class JwtService {
     private final UserService userService;
     private final AppProperties.JwtProperties properties;
 
+    /**
+     * Формирует текстовую последовательность электронного пропуска JWT.
+     * Основной метод генерации JWT пропуска.
+     * @param username   имя пользователя для формирования электронного пропуска
+     *
+     * @return  текстовая последовательность электронного пропуска
+     */
     public String create(String username) {
         var user = userService.loadUserByUsername(username);
         var moment = new Date();
@@ -41,6 +49,13 @@ public class JwtService {
                 .compact();
     }
 
+    /**
+     * Находит учетную запись пользователя по его электронному пропуску.
+     * Основной метод сопоставления пользователей с их электронными пропусками.
+     * @param token   текстовая последовательность электронного пропуска
+     *
+     * @return  объект отображения учетной записи пользователя из базы данных
+     */
     public User find(String token) {
         try {
             String email = Jwts.parser()
@@ -52,6 +67,13 @@ public class JwtService {
         }
     }
 
+    /**
+     * Устанавливает достоверность электронного пропуска пользователя.
+     * Основной метод для сверки действительности электронного пропуска.
+     * @param token   текстовая последовательность электронного пропуска
+     *
+     * @return  признак действия электронного пропуска
+     */
     @Cacheable(value = "isValid", key = "{ #token }", sync = true)
     public boolean validate(String token) {
         try {

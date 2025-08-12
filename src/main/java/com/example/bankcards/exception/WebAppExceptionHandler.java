@@ -1,4 +1,4 @@
-package com.example.bankcards.controller.advice;
+package com.example.bankcards.exception;
 
 import com.example.bankcards.dto.MessageDto;
 import jakarta.persistence.EntityExistsException;

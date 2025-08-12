@@ -4,6 +4,7 @@ import com.example.bankcards.dto.RefreshTokenDto;
 import com.example.bankcards.entity.RefreshToken;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.repository.TokenRepository;
+import com.example.bankcards.security.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.persistence.EntityNotFoundException;

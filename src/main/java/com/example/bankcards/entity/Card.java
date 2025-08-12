@@ -1,7 +1,7 @@
 package com.example.bankcards.entity;
 
-import com.example.bankcards.entity.converter.PanMaskConverter;
-import com.example.bankcards.entity.converter.YearMonthDateConverter;
+import com.example.bankcards.util.converter.PanMaskConverter;
+import com.example.bankcards.util.converter.YearMonthDateConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,9 +1,9 @@
-package com.example.bankcards.service;
+package com.example.bankcards.security;
 
 import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.entity.RoleType;
 import com.example.bankcards.entity.User;
-import com.example.bankcards.mapper.UserMapper;
+import com.example.bankcards.util.mapper.UserMapper;
 import com.example.bankcards.repository.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -36,7 +36,8 @@ public class UserService implements UserDetailsService {
             find(email);
             throw new EntityExistsException("Email = " + email + " уже зарегистрирован!");
         } catch (EntityNotFoundException e) {
-            User newUser = new User(null, request.getEmail(), passwordEncoder.encode(request.getPassword()), request.getRoles());
+            User newUser = new User(null, request.getEmail(),
+                    passwordEncoder.encode(request.getPassword()), request.getRoles(), new HashSet<>());
             Optional.ofNullable(newUser.getRoles()).filter(Set::isEmpty).map(value -> value.add(RoleType.ROLE_USER));
             return userMapper.userToUserDto(userRepository.save(newUser));
         }
@@ -46,22 +47,16 @@ public class UserService implements UserDetailsService {
      * Запускает обращение к базе данных пользователей для обновления существующей записи.
      * Основной метод для обновления записи пользователя в базе данных.
      * @param request   объект описания аттрибутов создаваемой учетной записи пользователя
-     * @param username  адрес электронной почты пользователя, отправившего запрос на обновление учетной записи
      *
      * @return  объект описания результата обращения к базе данных пользователей
      */
-    public UserDto update(UserDto request, String username) {
-        User user = find(username), updateUser;
+    public UserDto update(UserDto request) {
         String email = request.getEmail();
-        try {
-            find(email);
-            throw new EntityExistsException("Email = " + email + " уже зарегистрирован!");
-        } catch (EntityNotFoundException e) {
-            updateUser = new User(user.getId(), request.getEmail(), request.getPassword(),
-                    Optional.ofNullable(request.getRoles()).orElse(Collections.emptySet()));
-            Optional.of(updateUser.getRoles()).filter(Set::isEmpty).map(value -> value.addAll(user.getRoles()));
-            return userMapper.userToUserDto(userRepository.save(updateUser));
-        }
+        User user = find(email), updateUser = new User(user.getId(), request.getEmail(),
+                passwordEncoder.encode(request.getPassword()),
+                Optional.ofNullable(request.getRoles()).orElse(user.getRoles()),
+                null);
+        return userMapper.userToUserDto(userRepository.save(updateUser));
     }
 
     /**

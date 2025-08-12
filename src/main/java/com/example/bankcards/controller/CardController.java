@@ -77,7 +77,7 @@ public class CardController {
             description = "Формирует ограниченного перечня банковских карты.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     public Slice<CardDto> getUserCards(@RequestParam(value = "offset", required = false) Integer offset,
                                    @RequestParam(value = "limit", required = false) Integer limit,
                                    @AuthenticationPrincipal String email) {
@@ -89,15 +89,15 @@ public class CardController {
             description = "Формирует полный перечень банковских карты.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Slice<CardDto> getAllCards(@RequestParam(value = "offset", required = false) Integer offset,
                                    @RequestParam(value = "limit", required = false) Integer limit) {
         return cardService.getAll(PageRequest.of(Optional.ofNullable(offset).isPresent() ? offset : 0,
                 Optional.ofNullable(limit).isPresent() ? limit : properties.getPaginationLimit()));
     }
 
-    @Operation(summary = "Обновить статус/баланс/срок действия банковской карты",
-            description = "Обновляет реквизиты банковской карты.")
+    @Operation(summary = "Удалить запись банковской карты из базы банных",
+            description = "Удаляет банковскую карту.")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping
     @Transactional

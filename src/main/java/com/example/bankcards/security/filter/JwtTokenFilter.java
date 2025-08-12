@@ -1,7 +1,7 @@
-package com.example.bankcards.util.filter;
+package com.example.bankcards.security.filter;
 
 import com.example.bankcards.service.JwtService;
-import com.example.bankcards.service.UserService;
+import com.example.bankcards.security.UserService;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

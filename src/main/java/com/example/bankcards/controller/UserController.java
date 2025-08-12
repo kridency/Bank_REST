@@ -2,13 +2,12 @@ package com.example.bankcards.controller;
 
 import com.example.bankcards.dto.MessageDto;
 import com.example.bankcards.dto.UserDto;
-import com.example.bankcards.service.UserService;
+import com.example.bankcards.security.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ public class UserController {
 
     @Operation(summary = "Зарегистрировать пользователя",
             description = "Регистрирует нового пользователя.")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
@@ -35,13 +34,13 @@ public class UserController {
     @PutMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public UserDto updateUser(@RequestBody @Valid UserDto request, @AuthenticationPrincipal String username) {
-        return userService.update(request, username);
+    public UserDto updateUser(@RequestBody @Valid UserDto request) {
+        return userService.update(request);
     }
 
     @Operation(summary = "Удалить учетные данные пользователя",
             description = "Удаляет учетные данные пользователя.")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")

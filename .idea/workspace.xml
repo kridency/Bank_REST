@@ -4,21 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Crypt service added.">
+    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Money transfer added.">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/AbstractTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/CardControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/RefreshTokenControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/UserControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/AppConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/AppConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/README_Config.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/SecurityConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/CardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/README_Controller.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/RefreshTokenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/RefreshTokenController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/CardDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/CardDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/RegistrationDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/StatusType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/StatusType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/CardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/CardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/advice/WebAppExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/exception/WebAppExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/README_Dto.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/README_Entity.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/converter/PanMaskConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/converter/PanMaskConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/converter/YearMonthDateConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/converter/YearMonthDateConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/exception/README_Exception.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/mapper/CardMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/mapper/CardMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/mapper/RoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/mapper/RoleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/README_Repository.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/security/README_Security.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/filter/JwtLoginFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/filter/JwtLoginFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/createStatusType.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/createStatusType.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog2_data.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog2_data.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CryptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CryptService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/README_Service.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/RefreshTokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/RefreshTokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/security/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/JwtAuthEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/security/JwtAuthEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/README_Util.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/filter/JwtLoginFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/security/filter/JwtLoginFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/filter/JwtTokenFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/security/filter/JwtTokenFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,11 +88,17 @@
   "keyToString": {
     "Docker.docker-compose.yml.postgres: Compose Deployment.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.RefreshTokenControllerTest.givenExistingUser_whenTryToUpdateRefreshToken_thenReturnCorrectResult.executor": "Run",
+    "JUnit.UserControllerTest.executor": "Run",
+    "JUnit.UserControllerTest.givenExistingUserHash_whenTryToUpdate_thenReturnCorrectResult.executor": "Run",
+    "JUnit.UserControllerTest.givenExistingUser_whenTryToUpdate_thenReturnCorrectResult.executor": "Run",
+    "JUnit.UserControllerTest.givenTestUser_whenTryToDelete_thenReturnsCorrectResult.executor": "Run",
     "Maven.BankCards [clean].executor": "Run",
     "Maven.BankCards [compile].executor": "Run",
     "Maven.BankCards [org.codehaus.mojo:aspectj-maven-plugin:1.15.0:compile].executor": "Run",
     "Maven.BankCards [org.codehaus.mojo:aspectj-maven-plugin:1.15.0:test-compile].executor": "Run",
     "Maven.BankCards [package].executor": "Run",
+    "Maven.BankCards [test].executor": "Run",
     "Maven.BankCards [verify].executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -105,7 +135,70 @@
       <recent name="$PROJECT_DIR$/src/main/resources/db" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.BankCardsApplication">
+  <component name="RunManager" selected="JUnit.RefreshTokenControllerTest.givenExistingUser_whenTryToUpdateRefreshToken_thenReturnCorrectResult">
+    <configuration name="RefreshTokenControllerTest.givenExistingUser_whenTryToUpdateRefreshToken_thenReturnCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BankCards" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.bankcards.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.bankcards.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.controller.RefreshTokenControllerTest" />
+      <option name="METHOD_NAME" value="givenExistingUser_whenTryToUpdateRefreshToken_thenReturnCorrectResult" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BankCards" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.bankcards.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.bankcards.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.controller.UserControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserControllerTest.givenExistingUser_whenTryToUpdate_thenReturnCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BankCards" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.bankcards.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.bankcards.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.controller.UserControllerTest" />
+      <option name="METHOD_NAME" value="givenExistingUser_whenTryToUpdate_thenReturnCorrectResult" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserControllerTest.givenTestUser_whenTryToDelete_thenReturnsCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BankCards" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.bankcards.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.bankcards.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.controller.UserControllerTest" />
+      <option name="METHOD_NAME" value="givenTestUser_whenTryToDelete_thenReturnsCorrectResult" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Bank_REST" />
       <method v="2">
@@ -118,36 +211,6 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration name="BankCards [clean]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="cmdOptions" />
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list>
-                <option value="clean" />
-              </list>
-            </option>
-            <option name="multimoduleDir" />
-            <option name="pomFileName" value="pom.xml" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="projectsCmdOptionValues">
-              <list />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="$PROJECT_DIR$" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-      <method v="2" />
     </configuration>
     <configuration name="BankCardsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="BankCards" />
@@ -168,24 +231,13 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml.postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="services">
-            <list>
-              <option value="postgres" />
-            </list>
-          </option>
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RefreshTokenControllerTest.givenExistingUser_whenTryToUpdateRefreshToken_thenReturnCorrectResult" />
+        <item itemvalue="JUnit.UserControllerTest.givenExistingUser_whenTryToUpdate_thenReturnCorrectResult" />
         <item itemvalue="Spring Boot.BankCardsApplication" />
-        <item itemvalue="Maven.BankCards [clean]" />
-        <item itemvalue="Docker.docker-compose.yml.postgres: Compose Deployment" />
+        <item itemvalue="JUnit.UserControllerTest" />
+        <item itemvalue="JUnit.UserControllerTest.givenTestUser_whenTryToDelete_thenReturnsCorrectResult" />
       </list>
     </recent_temporary>
   </component>
@@ -212,7 +264,9 @@
       <workItem from="1754562979935" duration="33664000" />
       <workItem from="1754660341400" duration="13051000" />
       <workItem from="1754673502050" duration="2297000" />
-      <workItem from="1754677915662" duration="130671000" />
+      <workItem from="1754677915662" duration="133270000" />
+      <workItem from="1754925010997" duration="13722000" />
+      <workItem from="1754939176100" duration="12831000" />
     </task>
     <task id="LOCAL-00001" summary="Basic entities roll out.">
       <option name="closed" value="true" />
@@ -278,7 +332,23 @@
       <option name="project" value="LOCAL" />
       <updated>1754901570231</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Money transfer added.">
+      <option name="closed" value="true" />
+      <created>1754921797965</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1754921797965</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Money transfer added.">
+      <option name="closed" value="true" />
+      <created>1754921887800</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1754921887800</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -306,6 +376,7 @@
     <MESSAGE value="Authentication layer done." />
     <MESSAGE value="Cards service initial." />
     <MESSAGE value="Crypt service added." />
-    <option name="LAST_COMMIT_MESSAGE" value="Crypt service added." />
+    <MESSAGE value="Money transfer added." />
+    <option name="LAST_COMMIT_MESSAGE" value="Money transfer added." />
   </component>
 </project>

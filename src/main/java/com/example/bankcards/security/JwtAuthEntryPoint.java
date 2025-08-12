@@ -1,4 +1,4 @@
-package com.example.bankcards.util;
+package com.example.bankcards.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

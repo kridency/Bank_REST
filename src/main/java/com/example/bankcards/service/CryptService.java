@@ -21,10 +21,24 @@ public class CryptService {
         decCipher.init(Cipher.DECRYPT_MODE, key);
     }
 
+    /**
+     * Шифрует сообщение согласно ключу, указанному в настройках приложения.
+     * Основной метод для шифрования текстовых сообщений.
+     * @param message   сообщение, подлежащее шифровке
+     *
+     * @return  зашифрованное сообщение
+     */
     public String encrypt(String message) throws Throwable {
         return Base64.getEncoder().encodeToString(encCipher.doFinal(message.getBytes()));
     }
 
+    /**
+     * Дешифрует сообщение согласно ключу, указанному в настройках приложения.
+     * Основной метод для дешифрации текстовых сообщений.
+     * @param message   сообщение, подлежащее дешифровке
+     *
+     * @return  незашифрованное сообщение
+     */
     public String decrypt(String message) throws Throwable {
         return new String(decCipher.doFinal(Base64.getDecoder().decode(message)));
     }
