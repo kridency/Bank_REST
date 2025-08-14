@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 
 public record CardSpecification(Map<String, ? extends Comparable<?>> criteria) implements Specification<Card> {
-    static BiFunction<String, Path<?>, Path<?>> getPath = new BiFunction<>() {
+    private static final BiFunction<String, Path<?>, Path<?>> getPath = new BiFunction<>() {
         @Override
         public Path<?> apply(String s, Path<?> path) {
             var ind = s.indexOf('.');

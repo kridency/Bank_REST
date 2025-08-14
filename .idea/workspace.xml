@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="CardController tests added.">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/service/CryptServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/service/JwtServiceTest.java" afterDir="false" />
+    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Delete md files.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/AppConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/AppConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/CardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/bankcards/AbstractTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/AbstractTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/specification/CardSpecification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/specification/CardSpecification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/README_Migration.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog1_structure.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog1_structure.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog2_data.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog2_data.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/dbChangeLog.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/dbChangeLog.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +62,7 @@
     "JUnit.CardControllerTest.givenAdminUser_whenTryToGetAllCards_thenReturnCorrectResult.executor": "Run",
     "JUnit.CardControllerTest.givenExistingCard_whenTryToRequestBlock_thenReturnCorrectResult.executor": "Run",
     "JUnit.CardControllerTest.givenExistingCard_whenTryToSetStatusBLOCKED_thenReturnCorrectResult.executor": "Debug",
-    "JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult.executor": "Run",
+    "JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult.executor": "Debug",
     "JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult.executor": "Run",
     "JUnit.CardControllerTest.givenUser_whenTryToGetUserCards_thenReturnCorrectResult.executor": "Run",
     "JUnit.CryptServiceTest.testMessageEncryptDecrypt.executor": "Run",
@@ -93,7 +91,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.BankCardsApplication.executor": "Run",
+    "Spring Boot.BankCardsApplication.executor": "Debug",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/cupuyc/Downloads/liquibase.plugin-1.3-SNAPSHOT.jar",
@@ -119,7 +117,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources/db" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult">
+  <component name="RunManager" selected="Spring Boot.BankCardsApplication">
     <configuration name="CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BankCards" />
       <extension name="coverage">
@@ -218,11 +216,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.BankCardsApplication" />
         <item itemvalue="JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult" />
         <item itemvalue="JUnit.JwtServiceTest.testValidateToken" />
         <item itemvalue="JUnit.JwtServiceTest.testGenerateToken" />
         <item itemvalue="JUnit.CryptServiceTest.testMessageEncryptDecrypt" />
-        <item itemvalue="Spring Boot.BankCardsApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -251,7 +249,8 @@
       <workItem from="1754673502050" duration="2297000" />
       <workItem from="1754677915662" duration="133270000" />
       <workItem from="1754925010997" duration="13722000" />
-      <workItem from="1754939176100" duration="54831000" />
+      <workItem from="1754939176100" duration="55987000" />
+      <workItem from="1755200954166" duration="9460000" />
     </task>
     <task id="LOCAL-00001" summary="Basic entities roll out.">
       <option name="closed" value="true" />
@@ -365,7 +364,31 @@
       <option name="project" value="LOCAL" />
       <updated>1755022132792</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="JwtService and CryptService tests added.">
+      <option name="closed" value="true" />
+      <created>1755034230767</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1755034230767</updated>
+    </task>
+    <task id="LOCAL-00016" summary="JwtService and CryptService tests added.">
+      <option name="closed" value="true" />
+      <created>1755034258954</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1755034258954</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Delete md files.">
+      <option name="closed" value="true" />
+      <created>1755034607924</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1755034607924</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -396,6 +419,8 @@
     <MESSAGE value="Money transfer added." />
     <MESSAGE value="UserController and RefreshTokenController tests added." />
     <MESSAGE value="CardController tests added." />
-    <option name="LAST_COMMIT_MESSAGE" value="CardController tests added." />
+    <MESSAGE value="JwtService and CryptService tests added." />
+    <MESSAGE value="Delete md files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Delete md files." />
   </component>
 </project>

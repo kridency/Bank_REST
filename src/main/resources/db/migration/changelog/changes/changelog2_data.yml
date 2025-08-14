@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: fill-user-table
+      id: fill-data
       author: kridency
       changes:
         - insert:

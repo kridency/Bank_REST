@@ -2,6 +2,18 @@ databaseChangeLog:
   - changeSet:
       id: create-tables
       author: kridency
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            - indexExists:
+                tableName: user
+                indexName: idx_user_email
+            - indexExists:
+                tableName: card
+                indexName: idx_card_pan
+            - indexExists:
+                tableName: refresh_token
+                indexName: idx_token_issue_date
       changes:
         - createTable:
             tableName: user
@@ -20,6 +32,14 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: password
+                  type: varchar(255)
+
+        - createIndex:
+            tableName: user
+            indexName: idx_user_email
+            columns:
+              - column:
+                  name: email
                   type: varchar(255)
 
         - createTable:
@@ -77,6 +97,14 @@ databaseChangeLog:
                   name: balance
                   type: numeric(38,2)
 
+        - createIndex:
+            tableName: card
+            indexName: idx_card_pan
+            columns:
+              - column:
+                  name: pan
+                  type: varchar(255)
+
         - createTable:
             tableName: refresh_token
             columns:
@@ -103,3 +131,14 @@ databaseChangeLog:
                   defaultValueComputed: now() + interval '${refreshTokenLifetime} minute'
                   constraints:
                     nullable: false
+
+        - createIndex:
+            tableName: refresh_token
+            indexName: idx_token_issue_date
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+              - column:
+                  name: issue_date
+                  type: timestamp

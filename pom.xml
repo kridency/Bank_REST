@@ -11,42 +11,34 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.source-target.version>17</java.source-target.version>
-        <start-class>org.example.BankCardsApplication</start-class>
-        <mockito.version>5.16.0</mockito.version>
-        <aspectj.version>1.9.24</aspectj.version>
-        <assertj-core.version>3.27.3</assertj-core.version>
-        <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <maven.compiler.release>17</maven.compiler.release>
-        <spring.version>3.5.4</spring.version>
-        <spring-security-test.version>6.5.2</spring-security-test.version>
+        <start-class>org.example.BankCardsApplication</start-class>
+        <spring.version>6.2.9</spring.version>
+        <spring-boot.version>3.5.4</spring-boot.version>
+        <spring-security.version>6.5.2</spring-security.version>
+
+        <spring-aspects.version>6.2.5</spring-aspects.version>
         <springdoc.version>2.8.6</springdoc.version>
-        <spring-aop.version>5.3.4</spring-aop.version>
         <spring-instrument.version>6.1.9</spring-instrument.version>
+        <aspectj.version>1.9.24</aspectj.version>
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <testcontainers-bom.version>1.20.6</testcontainers-bom.version>
+        <mockito.version>5.16.0</mockito.version>
         <testcontainers.version>1.21.3</testcontainers.version>
         <commons-compress.version>1.28.0</commons-compress.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
-        <jakarta.ws.rs.version>4.0.0</jakarta.ws.rs.version>
         <jsonwebtoken.version>0.12.6</jsonwebtoken.version>
         <jackson.version>2.16.2</jackson.version>
-        <postgresql.version>42.7.7</postgresql.version>
-        <liquibase.version>4.31.1</liquibase.version>
-        <jakarta.servlet.version>6.1.0</jakarta.servlet.version>
-        <logback-classic.version>1.5.18</logback-classic.version>
-        <jakarta.mail.version>2.0.1</jakarta.mail.version>
-        <liquibase-maven-plugin.version>4.31.1</liquibase-maven-plugin.version>
+        <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
+        <lombok.version>1.18.38</lombok.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <jersey-core.version>3.1.10</jersey-core.version>
+        <hibernate-processor.version>7.1.0.Final</hibernate-processor.version>
+
         <aspect-maven-plugin.version>1.15.0</aspect-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
-        <lombok.version>1.18.38</lombok.version>
-        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <jersey-core.version>3.1.10</jersey-core.version>
-        <spring-kafka.version>3.3.1</spring-kafka.version>
-        <spring-aspects.version>6.2.5</spring-aspects.version>
-        <jetty.version>12.0.19</jetty.version>
-        <testcontainers-bom.version>1.20.6</testcontainers-bom.version>
-        <junit.version>5.13.4</junit.version>
-        <hibernate-processor.version>7.1.0.Final</hibernate-processor.version>
     </properties>
 
     <dependencyManagement>
@@ -66,25 +58,20 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring-boot.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-processor</artifactId>
-            <version>7.1.0.Final</version>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <dependency>
@@ -95,13 +82,13 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>${spring.version}</version>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
@@ -119,14 +106,8 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -143,9 +124,15 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <version>${spring-security-test.version}</version>
+            <version>${spring-security.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -153,12 +140,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
             <version>${spring-aspects.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback-classic.version}</version>
         </dependency>
 
         <dependency>
@@ -176,42 +157,15 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>jakarta.mail</artifactId>
-            <version>${jakarta.mail.version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta.annotation.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>${jsonwebtoken.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jsonwebtoken.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>${jsonwebtoken.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
         </dependency>
 
         <dependency>
@@ -228,30 +182,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
             <version>${testcontainers.version}</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
@@ -264,32 +198,6 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${org.mapstruct.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj-core.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.ws.rs</groupId>
-            <artifactId>jakarta.ws.rs-api</artifactId>
-            <version>${jakarta.ws.rs.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>${jakarta.servlet.version}</version>
         </dependency>
 
         <dependency>
@@ -306,15 +214,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-messaging</artifactId>
-            <version>6.2.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -412,6 +315,13 @@
                         -Dorg.aspectj.weaver.Dump.exception=false
                     </argLine>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
