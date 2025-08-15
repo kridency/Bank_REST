@@ -1,100 +1,81 @@
-<h1>🚀 Разработка Системы Управления Банковскими Картами</h1>
-
-<h2>📁 Стартовая структура</h2>
-  <p>
-    Проектная структура с директориями и описательными файлами (<code>README Controller.md</code>, <code>README Service.md</code> и т.д.) уже подготовлена.<br />
-    Все реализации нужно добавлять <strong>в соответствующие директории</strong>.
-  </p>
-  <p>
-    После завершения разработки <strong>временные README-файлы нужно удалить</strong>, чтобы они не попадали в итоговую сборку.
-  </p>
+<h1>🚀 Banking card management system</h1>
   
-<h2>📝 Описание задачи</h2>
-  <p>Разработать backend-приложение на Java (Spring Boot) для управления банковскими картами:</p>
+<h2>📝 Description</h2>
+  <p>Banking card Java (Spring Boot) backend-application with following capabilities:</p>
   <ul>
-    <li>Создание и управление картами</li>
-    <li>Просмотр карт</li>
-    <li>Переводы между своими картами</li>
+    <li>Banking card record creation and management</li>
+    <li>Card account status report</li>
+    <li>Transfer between your own card accounts</li>
   </ul>
 
-<h2>💳 Атрибуты карты</h2>
+<h2>💳 Banking card details</h2>
   <ul>
-    <li>Номер карты (зашифрован, отображается маской: <code>**** **** **** 1234</code>)</li>
-    <li>Владелец</li>
-    <li>Срок действия</li>
-    <li>Статус: Активна, Заблокирована, Истек срок</li>
-    <li>Баланс</li>
+    <li>Card number (displayed by the mask: <code>**** **** **** 1234</code>)</li>
+    <li>Owner</li>
+    <li>Validity period</li>
+    <li>Status: Active, Blocked, Expired</li>
+    <li>Balance</li>
   </ul>
 
-<h2>🧾 Требования</h2>
+<h2>🧾 Requirements</h2>
 
-<h3>✅ Аутентификация и авторизация</h3>
+<h3>✅ Authentication и authorization</h3>
   <ul>
     <li>Spring Security + JWT</li>
-    <li>Роли: <code>ADMIN</code> и <code>USER</code></li>
+    <li>User roles: <code>ADMIN</code> и <code>USER</code></li>
   </ul>
 
-<h3>✅ Возможности</h3>
-<strong>Администратор:</strong>
+<h3>✅ Permissions</h3>
+<strong>Administrator:</strong>
   <ul>
-    <li>Создаёт, блокирует, активирует, удаляет карты</li>
-    <li>Управляет пользователями</li>
-    <li>Видит все карты</li>
+    <li>Create, block, activate, delete card account</li>
+    <li>Manage users</li>
+    <li>Access all cards information</li>
   </ul>
 
-<strong>Пользователь:</strong>
+<strong>User:</strong>
   <ul>
-    <li>Просматривает свои карты (поиск + пагинация)</li>
-    <li>Запрашивает блокировку карты</li>
-    <li>Делает переводы между своими картами</li>
-    <li>Смотрит баланс</li>
+    <li>Browse personal cards (search + pagination)</li>
+    <li>Request account block</li>
+    <li>Cash transfer between owned cards</li>
+    <li>Balance report</li>
   </ul>
 
 <h3>✅ API</h3>
   <ul>
-    <li>CRUD для карт</li>
-    <li>Переводы между своими картами</li>
-    <li>Фильтрация и постраничная выдача</li>
-    <li>Валидация и сообщения об ошибках</li>
+    <li>CRUD for card records</li>
+    <li>Transfer between personal cards</li>
+    <li>Filter and pagination</li>
+    <li>Validation and error messaging</li>
   </ul>
 
-<h3>✅ Безопасность</h3>
+<h3>✅ Security</h3>
   <ul>
-    <li>Шифрование данных</li>
-    <li>Ролевой доступ</li>
-    <li>Маскирование номеров карт</li>
+    <li>Data Encryption</li>
+    <li>Role based authorization</li>
+    <li>Card number masking</li>
   </ul>
 
-<h3>✅ Работа с БД</h3>
+<h3>✅ Database integration</h3>
   <ul>
-    <li>PostgreSQL или MySQL</li>
-    <li>Миграции через Liquibase (<code>src/main/resources/db/migration</code>)</li>
+    <li>PostgreSQL</li>
+    <li>Liquibase migration (<code>src/main/resources/db/migration</code>)</li>
   </ul>
 
-<h3>✅ Документация</h3>
+<h3>✅ Documentation</h3>
   <ul>
     <li>Swagger UI / OpenAPI — <code>docs/openapi.yaml</code></li>
     <li><code>README.md</code> с инструкцией запуска</li>
   </ul>
 
-<h3>✅ Развёртывание и тестирование</h3>
+<h3>✅ Deployment and testing</h3>
   <ul>
-    <li>Docker Compose для dev-среды</li>
-    <li>Liquibase миграции</li>
-    <li>Юнит-тесты ключевой бизнес-логики</li>
+    <li>Docker Compose for dev-environment</li>
+    <li>Liquibase data migration</li>
+    <li>Unit-tests</li>
   </ul>
 
-<h2>📊 Оценка</h2>
-  <ul>
-    <li>Соответствие требованиям</li>
-    <li>Чистота архитектуры и кода</li>
-    <li>Безопасность</li>
-    <li>Обработка ошибок</li>
-    <li>Покрытие тестами</li>
-    <li>ООП и уровни абстракции</li>
-  </ul>
-
-<h2>💡 Технологии</h2>
+<h2>💡 Frameworks</h2>
   <p>
-    Java 17+, Spring Boot, Spring Security, Spring Data JPA, PostgreSQL/MySQL, Liquibase, Docker, JWT, Swagger (OpenAPI)
+    Java 17+, Spring Boot, Spring Security, Spring Data JPA, PostgreSQL, Liquibase, Docker, JWT, Swagger (OpenAPI)
   </p>

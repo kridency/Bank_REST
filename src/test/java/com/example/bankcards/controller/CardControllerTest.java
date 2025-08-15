@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @DisplayName("Тестирование ресурса управления банковскими картами.")
 public class CardControllerTest extends AbstractTest {
+    @Order(6)
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("Регистрация банковской карты.")
@@ -40,9 +42,10 @@ public class CardControllerTest extends AbstractTest {
 
     }
 
+    @Order(1)
     @Test
     @WithUserDetails(value = "admin@hostname")
-    @DisplayName("Получить информацию о всех барковских картах.")
+    @DisplayName("Получить информацию о всех банковских картах.")
     void givenAdminUser_whenTryToGetAllCards_thenReturnCorrectResult() throws Exception {
 
         var slice = objectMapper.readValue(mockMvc.perform(MockMvcRequestBuilders.get("/api/cards/admin")
@@ -55,9 +58,10 @@ public class CardControllerTest extends AbstractTest {
         Assertions.assertEquals(3, cardList.size());
     }
 
+    @Order(2)
     @Test
     @WithUserDetails(value = "user@hostname")
-    @DisplayName("Получить информацию о барковских картах отдельного пользователя.")
+    @DisplayName("Получить информацию о банковских картах отдельного пользователя.")
     void givenUser_whenTryToGetUserCards_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"user@hostname\", \"password\": \"user\" }";
         String token = objectMapper.readValue(
@@ -79,6 +83,7 @@ public class CardControllerTest extends AbstractTest {
         Assertions.assertEquals(2, cardList.size());
     }
 
+    @Order(3)
     @Test
     @WithUserDetails(value = "user@hostname")
     @DisplayName("Перевести денежные средства между банковскими картами.")
@@ -104,6 +109,7 @@ public class CardControllerTest extends AbstractTest {
 
     }
 
+    @Order(5)
     @Test
     @WithUserDetails(value = "user@hostname")
     @DisplayName("Запросить блокировку банковской карты.")
@@ -132,6 +138,7 @@ public class CardControllerTest extends AbstractTest {
 
     }
 
+    @Order(4)
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("Изменить текущий статус карты.")

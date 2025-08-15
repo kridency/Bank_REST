@@ -11,7 +11,6 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -92,7 +91,6 @@ public class CardService {
      *
      * @return  объект описания результата обращения к базе данных банковских карт
      */
-    @Synchronized
     public CardDto update(CardDto request, String email) throws InterruptedException {
         var card = find(request.getPan());
         try {
@@ -156,36 +154,37 @@ public class CardService {
         var debit = cardMapper.cardToCardDto(cardTo);
         debit.setPan(cardTo.getPan());
 
-
-        Runnable minus = () -> {
-            try {
-                credit.setBalance(amount.multiply(new BigDecimal(-1)));
-                update(credit, email);
-                queue.put(amount);
-            } catch (InterruptedException ex) {
-                result[0] = false;
-            }
-        };
-
-        Runnable plus = () -> {
-            try {
-                if (result[0]) {
-                    debit.setBalance(queue.take());
-                    update(debit, email);
-                }
-            } catch (InterruptedException ex) {
-                result[0] = false;
-                credit.setBalance(amount.multiply(new BigDecimal(-1)));
+        synchronized (cardFrom) {
+            Runnable minus = () -> {
                 try {
+                    credit.setBalance(amount.multiply(new BigDecimal(-1)));
                     update(credit, email);
-                } catch (InterruptedException e) {
-                    throw new DataIntegrityViolationException(e.getMessage());
+                    queue.put(amount);
+                } catch (InterruptedException ex) {
+                    result[0] = false;
                 }
-            }
-        };
+            };
 
-        executor.execute(minus);
-        executor.execute(plus);
+            Runnable plus = () -> {
+                try {
+                    if (result[0]) {
+                        debit.setBalance(queue.take());
+                        update(debit, email);
+                    }
+                } catch (InterruptedException ex) {
+                    result[0] = false;
+                    credit.setBalance(amount.multiply(new BigDecimal(-1)));
+                    try {
+                        update(credit, email);
+                    } catch (InterruptedException e) {
+                        throw new DataIntegrityViolationException(e.getMessage());
+                    }
+                }
+            };
+
+            executor.execute(minus);
+            executor.execute(plus);
+        }
 
         return result[0];
     }

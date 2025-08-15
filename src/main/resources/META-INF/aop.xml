@@ -1,0 +1,1 @@
+<aspectj> <weaver options="-verbose"> <dump within="com.example..*" /> </weaver> </aspectj>
