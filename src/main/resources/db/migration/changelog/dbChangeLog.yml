@@ -2,11 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: create-custom-schema
       author: kridency
-      preConditions:
-        - columnExist:
-          schemaName: custom
-          tableName: category
-          columnName: display_name
+      dbms: postgresql
       runOrder: first
       sqlFile:
         path: db/createCustomSchema.sql
@@ -15,6 +11,7 @@ databaseChangeLog:
   - changeSet:
       id: create-user-types
       author: kridency
+      dbms: postgresql
       changes:
         - sqlFile:
             path: db/createRoleType.sql
@@ -26,6 +23,7 @@ databaseChangeLog:
   - changeSet:
       id: create-extensions
       author: kridency
+      dbms: postgresql
       sqlFile:
         path: db/createOSSPExtension.sql
         stripComments: true

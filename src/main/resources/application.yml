@@ -20,7 +20,7 @@ spring:
     web-application-type: servlet
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/card_db
+    url: ${POSTGRES_DATASOURCE_URL:jdbc:postgresql://localhost:5432/card_db}
     username: intern
     password: 1gjAVnJ
     hikari:
@@ -68,6 +68,11 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: false
+
+logging:
+  level:
+    org.apache.catalina: OFF
+    org.hibernate: OFF
 
 springdoc:
   api-docs:

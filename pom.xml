@@ -4,9 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.4</version>
+        <relativePath/>
+    </parent>
     <groupId>org.example</groupId>
-    <artifactId>BankCards</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>cards-microservice</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>BankCards</name>
+    <description>Bank Cards</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,7 +35,6 @@
         <testcontainers.version>1.21.3</testcontainers.version>
         <commons-compress.version>1.28.0</commons-compress.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
-        <jsonwebtoken.version>0.12.6</jsonwebtoken.version>
         <jackson.version>2.16.2</jackson.version>
         <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
         <lombok.version>1.18.38</lombok.version>
@@ -39,6 +46,8 @@
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
+
+        <jjwt.version>0.12.6</jjwt.version>
     </properties>
 
     <dependencyManagement>
@@ -163,12 +172,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jsonwebtoken.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${testcontainers.version}</version>
@@ -218,6 +221,29 @@
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.7</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
 
     </dependencies>
@@ -331,7 +357,10 @@
                     <archive>
                         <manifest>
                             <mainClass>org.example.BankCardsApplication</mainClass>
+			    <addClasspath>true</addClasspath>
+			    <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
+			<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>

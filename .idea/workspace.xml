@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Delete md files.">
+    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Clean pom file. Set liquibase preconditions.">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/specification/CardSpecification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/specification/CardSpecification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/README_Migration.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/README_Resources.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog1_structure.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog1_structure.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog2_data.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/changelog2_data.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/dbChangeLog.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/dbChangeLog.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/bankcards/README_Bankcards.md" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +95,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.BankCardsApplication.executor": "Debug",
+    "Spring Boot.BankCardsApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/cupuyc/Downloads/liquibase.plugin-1.3-SNAPSHOT.jar",
@@ -250,7 +254,8 @@
       <workItem from="1754677915662" duration="133270000" />
       <workItem from="1754925010997" duration="13722000" />
       <workItem from="1754939176100" duration="55987000" />
-      <workItem from="1755200954166" duration="9460000" />
+      <workItem from="1755200954166" duration="15453000" />
+      <workItem from="1755235071948" duration="2991000" />
     </task>
     <task id="LOCAL-00001" summary="Basic entities roll out.">
       <option name="closed" value="true" />
@@ -388,7 +393,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755034607924</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Clean pom file. Set liquibase preconditions.">
+      <option name="closed" value="true" />
+      <created>1755210657214</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1755210657214</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -421,6 +434,7 @@
     <MESSAGE value="CardController tests added." />
     <MESSAGE value="JwtService and CryptService tests added." />
     <MESSAGE value="Delete md files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Delete md files." />
+    <MESSAGE value="Clean pom file. Set liquibase preconditions." />
+    <option name="LAST_COMMIT_MESSAGE" value="Clean pom file. Set liquibase preconditions." />
   </component>
 </project>

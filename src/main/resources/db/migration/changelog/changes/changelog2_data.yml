@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: fill-data
       author: kridency
+      dbms: postgresql
       changes:
         - insert:
             tableName: user
