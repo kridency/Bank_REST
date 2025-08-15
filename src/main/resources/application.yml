@@ -16,8 +16,15 @@ spring:
 
   application:
     name: Bank Cards
+  profiles:
+    active: production
   main:
     web-application-type: servlet
+
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
 
   datasource:
     url: ${POSTGRES_DATASOURCE_URL:jdbc:postgresql://localhost:5432/card_db}
