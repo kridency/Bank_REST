@@ -4,13 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Clean pom file. Set liquibase preconditions. Set docker.">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/aop.xml" afterDir="false" />
+    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Configure logging.">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/AppConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/AppConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/CardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/CardControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +73,7 @@
     "JUnit.RefreshTokenControllerTest.givenExistingUser_whenTryToUpdateRefreshToken_thenReturnCorrectResult.executor": "Run",
     "JUnit.UserControllerTest.executor": "Run",
     "JUnit.UserControllerTest.givenExistingUserHash_whenTryToUpdate_thenReturnCorrectResult.executor": "Run",
+    "JUnit.UserControllerTest.givenExistingUser_whenTryToDelete_thenReturnsCorrectResult.executor": "Run",
     "JUnit.UserControllerTest.givenExistingUser_whenTryToUpdate_thenReturnCorrectResult.executor": "Run",
     "JUnit.UserControllerTest.givenTestUser_whenTryToDelete_thenReturnsCorrectResult.executor": "Run",
     "Maven.BankCards [clean].executor": "Run",
@@ -82,6 +85,8 @@
     "Maven.BankCards [test].executor": "Run",
     "Maven.BankCards [verify].executor": "Run",
     "Maven.cards-microservice [clean].executor": "Run",
+    "Maven.cards-microservice [org.codehaus.mojo:exec-maven-plugin:3.5.1:exec].executor": "Run",
+    "Maven.cards-microservice [org.codehaus.mojo:exec-maven-plugin:3.5.1:java].executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -100,10 +105,10 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "configurable.group.editor",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -118,7 +123,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.BankCardsApplication">
-    <configuration name="CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CardControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BankCards" />
       <extension name="coverage">
         <pattern>
@@ -128,55 +133,53 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.example.bankcards.controller" />
       <option name="MAIN_CLASS_NAME" value="com.example.bankcards.controller.CardControllerTest" />
-      <option name="METHOD_NAME" value="givenExistingCard_whenTryToTransfer_thenReturnCorrectResult" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BankCards" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.bankcards.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.bankcards.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.controller.CardControllerTest" />
+      <option name="METHOD_NAME" value="givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CryptServiceTest.testMessageEncryptDecrypt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BankCards" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.bankcards.service.*" />
+          <option name="PATTERN" value="com.example.bankcards.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.bankcards.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.service.CryptServiceTest" />
-      <option name="METHOD_NAME" value="testMessageEncryptDecrypt" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.example.bankcards.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.controller.UserControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JwtServiceTest.testGenerateToken" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.givenExistingUser_whenTryToDelete_thenReturnsCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BankCards" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.bankcards.service.*" />
+          <option name="PATTERN" value="com.example.bankcards.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.bankcards.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.service.JwtServiceTest" />
-      <option name="METHOD_NAME" value="testGenerateToken" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JwtServiceTest.testValidateToken" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BankCards" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.bankcards.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.bankcards.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.service.JwtServiceTest" />
-      <option name="METHOD_NAME" value="testValidateToken" />
+      <option name="PACKAGE_NAME" value="com.example.bankcards.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.bankcards.controller.UserControllerTest" />
+      <option name="METHOD_NAME" value="givenExistingUser_whenTryToDelete_thenReturnsCorrectResult" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -198,6 +201,7 @@
     <configuration name="BankCardsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="BankCards" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.bankcards.BankCardsApplication" />
+      <option name="VM_PARAMETERS" value="-javaagent:${HOME}/.m2/repository/org/springframework/spring-instrument/6.1.9/spring-instrument-6.1.9.jar" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.bankcards.*" />
@@ -214,13 +218,20 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult" />
+      <item itemvalue="JUnit.CardControllerTest" />
+      <item itemvalue="JUnit.UserControllerTest.givenExistingUser_whenTryToDelete_thenReturnsCorrectResult" />
+      <item itemvalue="JUnit.UserControllerTest" />
+      <item itemvalue="Spring Boot.BankCardsApplication" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.BankCardsApplication" />
-        <item itemvalue="JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult" />
-        <item itemvalue="JUnit.JwtServiceTest.testValidateToken" />
-        <item itemvalue="JUnit.JwtServiceTest.testGenerateToken" />
-        <item itemvalue="JUnit.CryptServiceTest.testMessageEncryptDecrypt" />
+        <item itemvalue="JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult" />
+        <item itemvalue="JUnit.CardControllerTest" />
+        <item itemvalue="JUnit.UserControllerTest" />
+        <item itemvalue="JUnit.UserControllerTest.givenExistingUser_whenTryToDelete_thenReturnsCorrectResult" />
       </list>
     </recent_temporary>
   </component>
@@ -251,7 +262,8 @@
       <workItem from="1754925010997" duration="13722000" />
       <workItem from="1754939176100" duration="55987000" />
       <workItem from="1755200954166" duration="15453000" />
-      <workItem from="1755235071948" duration="6312000" />
+      <workItem from="1755235071948" duration="20641000" />
+      <workItem from="1755267066407" duration="12873000" />
     </task>
     <task id="LOCAL-00001" summary="Basic entities roll out.">
       <option name="closed" value="true" />
@@ -413,7 +425,23 @@
       <option name="project" value="LOCAL" />
       <updated>1755238349714</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Configure logging.">
+      <option name="closed" value="true" />
+      <created>1755252762097</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1755252762097</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Configure logging.">
+      <option name="closed" value="true" />
+      <created>1755252789262</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1755252789262</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -448,6 +476,7 @@
     <MESSAGE value="Delete md files." />
     <MESSAGE value="Clean pom file. Set liquibase preconditions." />
     <MESSAGE value="Clean pom file. Set liquibase preconditions. Set docker." />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean pom file. Set liquibase preconditions. Set docker." />
+    <MESSAGE value="Configure logging." />
+    <option name="LAST_COMMIT_MESSAGE" value="Configure logging." />
   </component>
 </project>

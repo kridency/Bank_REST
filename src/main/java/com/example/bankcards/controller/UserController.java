@@ -44,6 +44,7 @@ public class UserController {
             description = "Удаляет учетные данные пользователя.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto deleteUser(@RequestBody UserDto request) {
         return userService.delete(request) == 1
