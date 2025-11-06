@@ -4,6 +4,10 @@ import com.example.bankcards.security.filter.JwtLoginFilter;
 import com.example.bankcards.security.JwtAuthEntryPoint;
 import com.example.bankcards.security.filter.JwtTokenFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +36,13 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
+@OpenAPIDefinition(info = @Info(title = "Banking Card API", version = "v1"))
+@SecurityScheme(
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 public class SecurityConfiguration {
     private final ObjectMapper objectMapper;
 

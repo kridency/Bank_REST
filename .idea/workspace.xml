@@ -4,30 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="AspectJ configuration optimization.">
+    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="JavaDoc Translation.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/AppConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/AppConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/CardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/RefreshTokenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/RefreshTokenController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/CardDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/CardDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/MessageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/MessageDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/RefreshTokenDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/RefreshTokenDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/RefreshTokenRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/security/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/security/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CryptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CryptService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/RefreshTokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/RefreshTokenService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/converter/PanMaskConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/converter/PanMaskConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/aop.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/aop.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/createRoleType.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/createRoleType.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/db/createStatusType.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/createStatusType.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/CardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/CardControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/RefreshTokenControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/RefreshTokenControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +83,7 @@
     "Maven.cards-microservice [compile].executor": "Run",
     "Maven.cards-microservice [org.codehaus.mojo:exec-maven-plugin:3.5.1:exec].executor": "Run",
     "Maven.cards-microservice [org.codehaus.mojo:exec-maven-plugin:3.5.1:java].executor": "Run",
+    "Maven.cards-microservice [test].executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -471,7 +452,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755281186368</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="JavaDoc Translation.">
+      <option name="closed" value="true" />
+      <created>1762459108807</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1762459108807</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -508,6 +497,7 @@
     <MESSAGE value="Clean pom file. Set liquibase preconditions. Set docker." />
     <MESSAGE value="Configure logging." />
     <MESSAGE value="AspectJ configuration optimization." />
-    <option name="LAST_COMMIT_MESSAGE" value="AspectJ configuration optimization." />
+    <MESSAGE value="JavaDoc Translation." />
+    <option name="LAST_COMMIT_MESSAGE" value="JavaDoc Translation." />
   </component>
 </project>

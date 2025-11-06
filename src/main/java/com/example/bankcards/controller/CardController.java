@@ -38,7 +38,7 @@ public class CardController {
         return cardService.create(request);
     }
 
-    @Operation(summary = "Change current card status.",
+    @Operation(summary = "Change current card status",
             description = "Renew banking card status.")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
@@ -48,7 +48,7 @@ public class CardController {
         return cardService.update(request, email);
     }
 
-    @Operation(summary = "Request banking card block",
+    @Operation(summary = "Block banking card",
             description = "Sets status PENDING for banking card.")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/block")
@@ -59,7 +59,7 @@ public class CardController {
         return cardService.update(request, email);
     }
 
-    @Operation(summary = "Transfer cash from one banking card to another.",
+    @Operation(summary = "Transfer cash from one banking card to another",
             description = "Conduct cash withdrawal and deposit.")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/transfer")
