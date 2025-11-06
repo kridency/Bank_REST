@@ -34,7 +34,7 @@ public class Card {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @PrimaryKeyJoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", columnDefinition = "status_type", nullable = false)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private StatusType status;
     @Column(name = "balance")

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-@DisplayName("Тестирование ресурса управления JWT.")
+@DisplayName("Testing JWT token resource.")
 public class JwtServiceTest extends AbstractTest {
     @Mock
     private JwtService jwtService;
@@ -16,7 +16,7 @@ public class JwtServiceTest extends AbstractTest {
     private UserService userService;
 
     @Test
-    @DisplayName("Проверка корректного формирования JWT для зарегистрированного пользователя.")
+    @DisplayName("JWT token generation test.")
     public void testGenerateToken() {
         String email = "user@hostname";
 
@@ -25,7 +25,7 @@ public class JwtServiceTest extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Проверка валидности сформированного JWT.")
+    @DisplayName("JWT token validity testing.")
     public void testValidateToken() {
         String email = "user@hostname";
 

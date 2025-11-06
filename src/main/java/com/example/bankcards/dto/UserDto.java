@@ -15,15 +15,15 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(description = "Запрос/ответ на создание/обновление учетных данных пользователя.")
+@Schema(description = "Request/feedback for user create/refresh details.")
 public class UserDto {
-    @NotNull(message = "Не указано значение для поля email.")
-    @Email(message = "Недопустимое значение для адреса электронной почты.")
-    @Schema(description = "Адрес электронной почты пользователя.")
+    @NotNull(message = "No value specified for the field email.")
+    @Email(message = "Invalid value for email.")
+    @Schema(description = "User email.")
     private String email;
-    @NotNull(message = "Не указано значение для поля password.")
-    @Schema(description = "Кодовая последовательность символов пользователя.")
+    @NotNull(message = "No value specified for the filed password.")
+    @Schema(description = "User password.")
     private String password;
-    @Schema(description = "Перечень ролей пользователя.")
+    @Schema(description = "User roles list.")
     private Set<RoleType> roles;
 }

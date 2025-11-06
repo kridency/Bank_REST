@@ -29,11 +29,11 @@ public class RefreshTokenService {
     private final TokenRepository tokenRepository;
 
     /**
-     * Запускает обращение к базе данных электронных пропусков для создания новой записи.
-     * Основной метод для создания записи электронного пропуска в базе данных.
-     * @param username   адрес электронной почты пользователя, отправившего запрос на аутентификацию
+     * Request JWT token database to create new record.
+     * Main JWT token database record creation method.
+     * @param username   email address of a user requested authentication
      *
-     * @return  объект описания результата обращения к базе данных электронных пропусков
+     * @return  JWT token database record representation object
      */
     public RefreshTokenDto create(String username) {
         User user = userService.find(username);
@@ -46,11 +46,11 @@ public class RefreshTokenService {
     }
 
     /**
-     * Запускает обращение к базе данных электронных пропусков для обновления записи.
-     * Основной метод для обновления записи электронного пропуска в базе данных.
-     * @param username   адрес электронной почты пользователя, отправившего запрос на обновление электронного пропуска
+     * Requests JWT token database record update.
+     * Main JWT token database record update method.
+     * @param username   email address of a user requested JWT token update
      *
-     * @return  объект описания результата обращения к базе данных электронных пропусков
+     * @return  JWT token database record representation object
      */
     public RefreshTokenDto update(String username) {
         User user = userService.find(username);
@@ -59,9 +59,9 @@ public class RefreshTokenService {
     }
 
     /**
-     * Запускает обращение к базе данных электронных пропусков для удаления записи.
-     * Основной метод для удаления записи электронного пропуска в базе данных.
-     * @param accessToken   электронный пропуск пользователя, отправившего запрос на завершение активной сессии
+     * Requests JWT token database record deletion.
+     * Main JWT token database record delete method.
+     * @param accessToken   JWT token of a user requested active session completion
      *
      */
     public void delete(String accessToken) {
@@ -69,11 +69,11 @@ public class RefreshTokenService {
     }
 
     /**
-     * Проверяет электронный пропуск пользователя на валидность.
-     * Вспомогательный метод для проверки валидности электронного пропуска пользователя.
-     * @param token   объект отображающий запись базы данных электронных пропусков
+     * Validates user JWT token.
+     * Supporting user JWT token validation method.
+     * @param token   JWT token database record
      *
-     * @return  объект описания результата обращения к базе данных электронных пропусков
+     * @return  JWT token database record
      */
     public RefreshToken validate(RefreshToken token) {
         String username = jwtService.find(token.getToken()).getUsername();
@@ -92,11 +92,11 @@ public class RefreshTokenService {
     }
 
     /**
-     * Проверяет электронный пропуск пользователя на валидность.
-     * Вспомогательный метод для получения записи базы данных электронных пропусков.
+     * Requests JWT token database record matching refresh token id.
+     * Supporting JWT token database record find method.
      * @param refreshTokenId   идентификатор записи базы данных электронных пропусков
      *
-     * @return  объект описания результата обращения к базе данных электронных пропусков
+     * @return  JWT token database record
      */
     private RefreshToken find(UUID refreshTokenId) {
         return tokenRepository.findById(refreshTokenId)

@@ -10,11 +10,11 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@DisplayName("Тестирование ресурса управления электронными пропусками.")
+@DisplayName("Testing refresh token management resource.")
 public class RefreshTokenControllerTest extends AbstractTest {
     @Test
     @WithUserDetails(value = "user@hostname")
-    @DisplayName("Обновление электронного пропуска.")
+    @DisplayName("Refresh user token.")
     void givenExistingUser_whenTryToUpdateRefreshToken_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"user@hostname\", \"password\": \"user\" }";
         String token = objectMapper.readValue(

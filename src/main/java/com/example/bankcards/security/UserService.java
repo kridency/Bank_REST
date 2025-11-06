@@ -24,17 +24,17 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * Запускает обращение к базе данных пользователей для создания новой записи.
-     * Основной метод для создания записи пользователя в базе данных.
-     * @param request   объект описания аттрибутов создаваемой учетной записи пользователя
+     * Requests user account database for new record creation.
+     * Main user account database record creation.
+     * @param request   user account database record description object
      *
-     * @return  объект описания результата обращения к базе данных пользователей
+     * @return  user account database record description object
      */
     public UserDto create(UserDto request) {
         String email = request.getEmail();
         try {
             find(email);
-            throw new EntityExistsException("Email = " + email + " уже зарегистрирован!");
+            throw new EntityExistsException("Email = " + email + " already exists!");
         } catch (EntityNotFoundException e) {
             User newUser = new User(null, request.getEmail(),
                     passwordEncoder.encode(request.getPassword()), request.getRoles(), new HashSet<>());
@@ -44,11 +44,11 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Запускает обращение к базе данных пользователей для обновления существующей записи.
-     * Основной метод для обновления записи пользователя в базе данных.
-     * @param request   объект описания аттрибутов создаваемой учетной записи пользователя
+     * Requests user account database to update existing record.
+     * Main user account database record update method.
+     * @param request   new user account database record description object
      *
-     * @return  объект описания результата обращения к базе данных пользователей
+     * @return  user account database record description object
      */
     public UserDto update(UserDto request) {
         String email = request.getEmail();
@@ -60,24 +60,24 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Запускает обращение к базе данных пользователей для удаления существующей записи.
-     * Основной метод для удаления записи пользователя в базе данных.
-     * @param request  объект описания аттрибутов удаляемой учетной записи пользователя
+     * Requests user account database to delete existing record.
+     * Main user account database record delete method.
+     * @param request  user account database record description object
      *
-     * @return  объект описания результата обращения к базе данных пользователей
+     * @return  number of deleted rows in the user account database
      */
     public int delete(UserDto request) {
         var email = request.getEmail();
-        Optional.ofNullable(email).orElseThrow(() -> new BadRequestException("Не указан email пользователя."));
+        Optional.ofNullable(email).orElseThrow(() -> new BadRequestException("User email not specified."));
         return userRepository.deleteByEmail(email);
     }
 
     /**
-     * Преобразует объект отображения записи базы данных в объект используемый spring security.
-     * Перегрузка метода для получения объекта spring security.
-     * @param username  адрес электронной почты пользователя, отправившего запрос на аутентификацию
+     * Converts user account database record description object to spring security object.
+     * Overloaded method for receiving spring security object.
+     * @param username  email address of the user requested for authentication
      *
-     * @return  объект описания пользователя используемый spring security
+     * @return  spring security user account description object
      */
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -86,14 +86,14 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Запускает обращение к базе данных пользователей для получения объекта записи согласно указанному адресу электронной почты.
-     * Вспомогательный метод для получения записи пользователя из базы данных.
-     * @param email  адрес электронной почты искомого пользователя
+     * Requests user account database for the record matching specified email address.
+     * Supplementary user account database record receiving method.
+     * @param email  sought user account email address
      *
-     * @return  объект отображения записи базы данных пользователей
+     * @return  user account database record
      */
     public User find(String email) {
         return userRepository.getByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("Пользователь с Email = " + email + " не найден."));
+                .orElseThrow(() -> new EntityNotFoundException("User = " + email + " not found."));
     }
 }

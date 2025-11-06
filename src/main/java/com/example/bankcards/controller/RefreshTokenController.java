@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class RefreshTokenController {
     private final RefreshTokenService tokenService;
 
-    @Operation(summary = "Обновить электронный пропуск аутентифицированного пользователя",
-            description = "Обновляет электронный пропуск аутентифицированного пользователя.")
+    @Operation(summary = "Refresh access token for a user previously authenticated",
+            description = "Refreshes previously authenticated user access token.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     @Transactional

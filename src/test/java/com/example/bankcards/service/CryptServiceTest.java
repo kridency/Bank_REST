@@ -8,14 +8,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-@DisplayName("Тестирование ресурса шифровки/дешифровки сообщений.")
+@DisplayName("Testing message encrypt/decrypt resource.")
 public class CryptServiceTest extends AbstractTest {
     @Mock
     private CryptService cryptService;
 
     @Test
     @MockitoSettings(strictness = Strictness.LENIENT)
-    @DisplayName("Проверка шифровки дешифровки сообщения.")
+    @DisplayName("Encrypt/decrypt text message.")
     public void testMessageEncryptDecrypt() throws Throwable {
         String message = "Hello World!";
         Mockito.when(cryptService.decrypt(cryptService.encrypt(message))).thenReturn(message);

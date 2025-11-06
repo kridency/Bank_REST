@@ -17,12 +17,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 import java.util.Map;
 
-@DisplayName("Тестирование ресурса управления банковскими картами.")
+@DisplayName("Testing banking card managing resourcce.")
 public class CardControllerTest extends AbstractTest {
     @Order(6)
     @Test
     @WithUserDetails(value = "admin@hostname")
-    @DisplayName("Регистрация банковской карты.")
+    @DisplayName("Register banking card.")
     void givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult() throws Exception {
         String newCard = "{ \"pan\": \"4276 1234 5088 9012\", " +
                 "\"expire_date\": \"2027-02\", " +
@@ -45,7 +45,7 @@ public class CardControllerTest extends AbstractTest {
     @Order(1)
     @Test
     @WithUserDetails(value = "admin@hostname")
-    @DisplayName("Получить информацию о всех банковских картах.")
+    @DisplayName("Banking cards complete list.")
     void givenAdminUser_whenTryToGetAllCards_thenReturnCorrectResult() throws Exception {
 
         var slice = objectMapper.readValue(mockMvc.perform(MockMvcRequestBuilders.get("/api/cards/admin")
@@ -61,7 +61,7 @@ public class CardControllerTest extends AbstractTest {
     @Order(2)
     @Test
     @WithUserDetails(value = "user@hostname")
-    @DisplayName("Получить информацию о банковских картах отдельного пользователя.")
+    @DisplayName("Receive banking card list for the specific user.")
     void givenUser_whenTryToGetUserCards_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"user@hostname\", \"password\": \"user\" }";
         String token = objectMapper.readValue(
@@ -86,7 +86,7 @@ public class CardControllerTest extends AbstractTest {
     @Order(3)
     @Test
     @WithUserDetails(value = "user@hostname")
-    @DisplayName("Перевести денежные средства между банковскими картами.")
+    @DisplayName("Transfer cash between banking cards.")
     void givenExistingCard_whenTryToTransfer_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"user@hostname\", \"password\": \"user\" }";
         String token = objectMapper.readValue(
@@ -104,15 +104,15 @@ public class CardControllerTest extends AbstractTest {
                         .header("Authorization", "Bearer " + token)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Перевод денежных средств успешно выполнен!"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Ожидаемое завершение операции."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Cash transferred successfully!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Operation expected completion."));
 
     }
 
     @Order(5)
     @Test
     @WithUserDetails(value = "user@hostname")
-    @DisplayName("Запросить блокировку банковской карты.")
+    @DisplayName("Request banking card block.")
     void givenExistingCard_whenTryToRequestBlock_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"user@hostname\", \"password\": \"user\" }";
         String token = objectMapper.readValue(
@@ -141,7 +141,7 @@ public class CardControllerTest extends AbstractTest {
     @Order(4)
     @Test
     @WithUserDetails(value = "admin@hostname")
-    @DisplayName("Изменить текущий статус карты.")
+    @DisplayName("Update banking card status.")
     void givenExistingCard_whenTryToSetStatusBLOCKED_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"admin@hostname\", \"password\": \"admin\" }";
         String token = objectMapper.readValue(

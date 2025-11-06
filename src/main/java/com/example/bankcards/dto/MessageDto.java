@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Schema(description = "Сообщение о завершенной операции.")
+@Schema(description = "Operation completion message.")
 public class MessageDto {
-    @Schema(description = "Текст сообщения.")
+    @Schema(description = "Message text.")
     private String message;
     private String description;
 }

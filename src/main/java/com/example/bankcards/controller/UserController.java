@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @Operation(summary = "Зарегистрировать пользователя",
-            description = "Регистрирует нового пользователя.")
+    @Operation(summary = "Register user",
+            description = "Register new user.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto registerUser(@RequestBody @Valid UserDto request) {
         userService.create(request);
-        return new MessageDto("Пользователь успешно зарегистрирован!", request.getEmail());
+        return new MessageDto("User successfully created!", request.getEmail());
     }
 
-    @Operation(summary = "Обновить учетные дынные пользователя",
-            description = "Обновляет адрес электронной почты, пароль и перечень ролей пользователя.")
+    @Operation(summary = "Update user credentials",
+            description = "Updates e-mail address, password and roles.")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
@@ -40,15 +40,15 @@ public class UserController {
         return userService.update(request);
     }
 
-    @Operation(summary = "Удалить учетные данные пользователя",
-            description = "Удаляет учетные данные пользователя.")
+    @Operation(summary = "Delete user credentials",
+            description = "Deletes user credentials.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto deleteUser(@RequestBody UserDto request) {
         return userService.delete(request) == 1
-                ? new MessageDto("Учетная запись пользователя успешно удалена!", "Ожидаемое завершение операции")
-                : new MessageDto("Учетная запись пользователя не найдена!", "Непредвиденное завершение операции.");
+                ? new MessageDto("User record deleted successfully!", "Operation expected completion.")
+                : new MessageDto("User record not found!", "Operation interrupted abnormally.");
     }
 }

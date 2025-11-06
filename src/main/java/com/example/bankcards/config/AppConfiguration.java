@@ -25,8 +25,6 @@ import static org.springframework.context.annotation.AdviceMode.ASPECTJ;
 @EnableSpringConfigured
 @RequiredArgsConstructor
 public class AppConfiguration implements LoadTimeWeavingConfigurer {
-    private final ApplicationContext applicationContext;
-
     @Override
     @Nonnull
     public LoadTimeWeaver getLoadTimeWeaver() {
@@ -34,7 +32,7 @@ public class AppConfiguration implements LoadTimeWeavingConfigurer {
     }
 
     @Bean
-    public InstrumentationLoadTimeWeaver instrumentationLoadTimeWeaver() {
+    public InstrumentationLoadTimeWeaver instrumentationLoadTimeWeaver(ApplicationContext applicationContext) {
         return new InstrumentationLoadTimeWeaver(applicationContext.getClassLoader());
     }
 

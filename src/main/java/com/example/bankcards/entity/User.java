@@ -32,7 +32,7 @@ public class User implements UserDetails {
     @ElementCollection(targetClass = RoleType.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @JdbcType(PostgreSQLEnumJdbcType.class)
-    @Column(name = "roles", nullable = false)
+    @Column(name = "roles", columnDefinition = "role_type", nullable = false)
     private Set<RoleType> roles;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner", orphanRemoval = true, cascade = CascadeType.REMOVE)
     private Set<Card> cards;

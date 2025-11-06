@@ -27,11 +27,11 @@ public class JwtService {
     private final AppProperties.JwtProperties properties;
 
     /**
-     * Формирует текстовую последовательность электронного пропуска JWT.
-     * Основной метод генерации JWT пропуска.
-     * @param username   имя пользователя для формирования электронного пропуска
+     * Forms JWT token character sequence.
+     * Main JWT token generation method.
+     * @param username   user name for JWT token
      *
-     * @return  текстовая последовательность электронного пропуска
+     * @return  JWT token
      */
     public String create(String username) {
         var user = userService.loadUserByUsername(username);
@@ -50,11 +50,11 @@ public class JwtService {
     }
 
     /**
-     * Находит учетную запись пользователя по его электронному пропуску.
-     * Основной метод сопоставления пользователей с их электронными пропусками.
-     * @param token   текстовая последовательность электронного пропуска
+     * Parses user credentials according to JWT token.
+     * Main user record and JWT token matching method.
+     * @param token   JWT token
      *
-     * @return  объект отображения учетной записи пользователя из базы данных
+     * @return  Database user record representation object
      */
     public User find(String token) {
         try {
@@ -68,11 +68,11 @@ public class JwtService {
     }
 
     /**
-     * Устанавливает достоверность электронного пропуска пользователя.
-     * Основной метод для сверки действительности электронного пропуска.
-     * @param token   текстовая последовательность электронного пропуска
+     * Validate user JWT token.
+     * Main JWT token validation method.
+     * @param token   JWT token
      *
-     * @return  признак действия электронного пропуска
+     * @return  JWT token validity indicator
      */
     @Cacheable(value = "isValid", key = "{ #token }", sync = true)
     public boolean validate(String token) {

@@ -9,11 +9,11 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@DisplayName("Тестирование ресурса управления учетными записями пользователей.")
+@DisplayName("Testing user account management resource.")
 public class UserControllerTest extends AbstractTest {
     @Test
     @WithUserDetails(value = "admin@hostname")
-    @DisplayName("Создание учетной записи пользователя.")
+    @DisplayName("User account creation.")
     void givenNewUserCredentials_whenTryToCreate_thenReturnCorrectResult() throws Exception {
         String newUser = "{ \"email\": \"test@hostname\", \"password\": \"test\" }";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
@@ -21,7 +21,7 @@ public class UserControllerTest extends AbstractTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Пользователь успешно зарегистрирован!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User registered successfully!"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("test@hostname"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
@@ -33,7 +33,7 @@ public class UserControllerTest extends AbstractTest {
 
     @Test
     @WithUserDetails(value = "admin@hostname")
-    @DisplayName("Изменение учетной записи пользователя.")
+    @DisplayName("User account update.")
     void givenExistingUser_whenTryToUpdate_thenReturnCorrectResult() throws Exception {
         String updateUser = "{ \"email\": \"user@hostname\", \"password\": \"test\" }";
         mockMvc.perform(MockMvcRequestBuilders.put("/api/users")
@@ -53,7 +53,7 @@ public class UserControllerTest extends AbstractTest {
 
     @Test
     @WithUserDetails(value = "admin@hostname")
-    @DisplayName("Удаление учетной записи пользователя.")
+    @DisplayName("User account delete.")
     void givenExistingUser_whenTryToDelete_thenReturnsCorrectResult() throws Exception {
         String deleteUser = "{ \"email\": \"user@hostname\"}";
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/users")
@@ -61,7 +61,7 @@ public class UserControllerTest extends AbstractTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Учетная запись пользователя успешно удалена!"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Ожидаемое завершение операции"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User account record successfully deleted!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Operation expected completion."));
     }
 }

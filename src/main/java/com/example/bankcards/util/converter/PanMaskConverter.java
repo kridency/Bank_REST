@@ -28,7 +28,7 @@ public class PanMaskConverter implements AttributeConverter<String, String> {
                         throw new RuntimeException(e.getMessage());
                     }
                 })
-                .orElseGet(() -> { log.error("Номер карты не валиден!"); return attribute; });
+                .orElseGet(() -> { log.error("Non valid card number!"); return attribute; });
     }
 
     @SneakyThrows

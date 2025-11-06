@@ -22,22 +22,22 @@ public class CryptService {
     }
 
     /**
-     * Шифрует сообщение согласно ключу, указанному в настройках приложения.
-     * Основной метод для шифрования текстовых сообщений.
-     * @param message   сообщение, подлежащее шифровке
+     * Encrypts message according to the key from application properties.
+     * Main text message encryption method.
+     * @param message   message to encrypt
      *
-     * @return  зашифрованное сообщение
+     * @return  encrypted message
      */
     public String encrypt(String message) throws Throwable {
         return Base64.getEncoder().encodeToString(encCipher.doFinal(message.getBytes()));
     }
 
     /**
-     * Дешифрует сообщение согласно ключу, указанному в настройках приложения.
-     * Основной метод для дешифрации текстовых сообщений.
-     * @param message   сообщение, подлежащее дешифровке
+     * Decrypts message according to the key from application properties.
+     * Main text message decrypting method.
+     * @param message   method to decrypt
      *
-     * @return  незашифрованное сообщение
+     * @return  decrypted message
      */
     public String decrypt(String message) throws Throwable {
         return new String(decCipher.doFinal(Base64.getDecoder().decode(message)));

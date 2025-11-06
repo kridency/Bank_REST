@@ -28,8 +28,8 @@ public class CardController {
     private final AppProperties properties;
     private final CardService cardService;
 
-    @Operation(summary = "Зарегистрировать банковскую карту",
-            description = "Регистрирует нового банковскую карту.")
+    @Operation(summary = "Register banking card",
+            description = "Register new banking card.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -38,8 +38,8 @@ public class CardController {
         return cardService.create(request);
     }
 
-    @Operation(summary = "Изменить текущий статус карты.",
-            description = "Обновляет статус банковской карты.")
+    @Operation(summary = "Change current card status.",
+            description = "Renew banking card status.")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -48,8 +48,8 @@ public class CardController {
         return cardService.update(request, email);
     }
 
-    @Operation(summary = "Запросить блокировку банковской карты",
-            description = "Устанавливает для банковской карты статус PENDING.")
+    @Operation(summary = "Request banking card block",
+            description = "Sets status PENDING for banking card.")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/block")
     @PreAuthorize("hasRole('USER')")
@@ -59,8 +59,8 @@ public class CardController {
         return cardService.update(request, email);
     }
 
-    @Operation(summary = "Перевести денежные средства с одной банковской карты на другую.",
-            description = "Производит списание и зачисление денежных средств.")
+    @Operation(summary = "Transfer cash from one banking card to another.",
+            description = "Conduct cash withdrawal and deposit.")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/transfer")
     @PreAuthorize("hasRole('USER')")
@@ -70,12 +70,12 @@ public class CardController {
                                @RequestParam(name = "amount") BigDecimal amount,
                                @AuthenticationPrincipal String email) {
         return cardService.transfer(origin, destination, amount, email)
-                ? new MessageDto("Перевод денежных средств успешно выполнен!", "Ожидаемое завершение операции.")
-                : new MessageDto("Перевод денежных средств не выполнен!", "Непредвиденное завершение операции.");
+                ? new MessageDto("Cash transferred successfully!", "Operation expected completion.")
+                : new MessageDto("Cash transfer aborted!", "Operation interrupted abnormally.");
     }
 
-    @Operation(summary = "Получить перечень банковских карт согласно критериям фильтра",
-            description = "Формирует ограниченного перечня банковских карты.")
+    @Operation(summary = "List banking cards according to filter criteria",
+            description = "Forms constrained list of banking cards.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     @PreAuthorize("hasRole('USER')")
@@ -86,8 +86,8 @@ public class CardController {
                 Optional.ofNullable(limit).isPresent() ? limit : properties.getPaginationLimit()));
     }
 
-    @Operation(summary = "Получить перечень всех банковских карт",
-            description = "Формирует полный перечень банковских карты.")
+    @Operation(summary = "List all banking cards",
+            description = "Forms complete list of banking cards.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
@@ -97,15 +97,15 @@ public class CardController {
                 Optional.ofNullable(limit).isPresent() ? limit : properties.getPaginationLimit()));
     }
 
-    @Operation(summary = "Удалить запись банковской карты из базы банных",
-            description = "Удаляет банковскую карту.")
+    @Operation(summary = "Delete banking card record from database",
+            description = "Deletes banking card.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public MessageDto deleteCard(@RequestBody CardDto request) {
         return cardService.delete(request) == 1
-                ? new MessageDto("Запись банковской карты успешно удалена!", "Ожидаемое завершение операции.")
-                : new MessageDto("Запись банковской карты не найдена!", "Непредвиденное завершение операции.");
+                ? new MessageDto("Banking card record successfully deleted!", "Operation expected completion.")
+                : new MessageDto("Запись банковской карты не найдена!", "Operation interrupted abnormally.");
     }
 }

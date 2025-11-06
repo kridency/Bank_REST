@@ -19,23 +19,23 @@ import java.time.YearMonth;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Объект обмена данными о реквизитах банковской карты.")
+@Schema(description = "Data transfer object with banking card details.")
 public class CardDto {
-    @Pattern(regexp = "^([\\d]{4}( |$)){4}$", message = "Недопустимый номер банковской карты.")
-    @NotNull(message = "Не указано значение для поля pan.")
-    @Schema(description = "Номер банковской карты.")
+        @Pattern(regexp = "^([\\d]{4}( |$)){4}$", message = "Invalid banking card number.")
+    @NotNull(message = "No value specified for the field PAN.")
+    @Schema(description = "Primary Account Number.")
     private String pan;
     @Future
-    @NotNull(message = "Не указано значение для поля expire_date.")
-    @Schema(description = "Месяц истечения срока действия банковской карты.")
+    @NotNull(message = "No value specified for the field expire_date.")
+    @Schema(description = "Banking card expiration date.")
     @JsonProperty("expire_date")
     private YearMonth expireDate;
-    @NotNull(message = "Не указано значение для поля email.")
-    @Email(message = "Недопустимое значение для адреса электронной почты.")
-    @Schema(description = "Адрес электронной почты держателя банковской карты.")
+    @NotNull(message = "No value specified for the field email.")
+    @Email(message = "Invalid value for the filed email.")
+    @Schema(description = "Email of banking card holder.")
     private String email;
-    @Schema(description = "Текущий статус банковской карты.")
+    @Schema(description = "Banking card current state.")
     private StatusType status;
-    @Schema(description = "Текущий остаток денежных средств на банковском счете.")
+    @Schema(description = "Banking card balance.")
     private BigDecimal balance;
 }

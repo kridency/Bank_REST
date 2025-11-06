@@ -37,12 +37,12 @@ public class CardService {
     private final SynchronousQueue<BigDecimal> queue = new SynchronousQueue<>();
 
     /**
-     * Запускает обращение к базе данных банковских карт для получения отфильтрованного перечня.
-     * Основной метод для получения ограниченной выборки из базы данных банковских карт.
-     * @param email   адрес электронной почты пользователя текущей сессии
-     * @param pageable  объект описания критериев пагинации перечня банковски карт
+     * Requests banking card database for a filtered list.
+     * Main banking cards database constrained sample list method.
+     * @param email   current session user email address
+     * @param pageable  banking card list pagination criteria object
      *
-     * @return  объект описания результата обращения к базе данных банковских карт
+     * @return  set of banking card database record representation objects
      */
     public Slice<CardDto> getFiltered(String email, Pageable pageable) {
         List<CardDto> result = cardRepository.findAll(new CardSpecification(new HashMap<>() {{
@@ -53,11 +53,11 @@ public class CardService {
     }
 
     /**
-     * Запускает обращение к базе данных банковских карт для получения полного перечня.
-     * Основной метод для получения полной выборки из базы данных банковских карт.
-     * @param pageable  объект описания критериев пагинации перечня банковски карт
+     * Requests banking card database for a complete list.
+     * Main banking card database complete list forming method.
+     * @param pageable  banking card list pagination criteria object
      *
-     * @return  объект описания результата обращения к базе данных банковских карт
+     * @return  set of banking card database record representation objects
      */
     public Slice<CardDto> getAll(Pageable pageable) {
         List<CardDto> result = cardRepository.findAll(new CardSpecification(Collections.emptyMap()),
@@ -67,11 +67,11 @@ public class CardService {
     }
 
     /**
-     * Запускает обращение к базе данных банковских карт для создания новой записи.
-     * Основной метод для внесения в базу данных банковских карт новой записи.
-     * @param request   объект описания аттрибутов создаваемой записи банковской карты
+     * Requests banking card database to create new record.
+     * Main banking card database record creation method.
+     * @param request   new banking card data description object
      *
-     * @return  объект описания результата обращения к базе данных банковских карт
+     * @return  banking card database record representation object
      */
     public CardDto create(CardDto request) {
         return cardMapper.cardToCardDto(cardRepository.save(new Card(
@@ -85,11 +85,11 @@ public class CardService {
     }
 
     /**
-     * Запускает обращение к базе данных банковских карт для обновления записи.
-     * Основной метод для внесения изменений в базу данных банковских карт.
-     * @param request   объект описания аттрибутов обновляемой записи банковской карты
+     * Requests banking card database to update existing record.
+     * Main banking card database record update method.
+     * @param request   existing banking card data description object
      *
-     * @return  объект описания результата обращения к базе данных банковских карт
+     * @return  banking card database record representation object
      */
     public CardDto update(CardDto request, String email) throws InterruptedException {
         var card = find(request.getPan());
@@ -105,13 +105,13 @@ public class CardService {
                             .filter(value -> {
                                 if (!card.getStatus().equals(StatusType.ACTIVE) &&
                                         !card.getStatus().equals(StatusType.PENDING)) {
-                                    throw new NullPointerException("Карта неактивна!");
+                                    throw new NullPointerException("Banking card is not active!");
                                 }
                                 return true;
                             })
                             .map(value -> {
                                 if (new BigDecimal(card.getBalance().toString()).add(value).compareTo(BigDecimal.ZERO) < 0) {
-                                    throw new NullPointerException("На карте недостаточно средств!");
+                                    throw new NullPointerException("Insufficient cash amount!");
                                 }
                                 return card.getBalance().add(value);
                             })
@@ -123,14 +123,14 @@ public class CardService {
     }
 
     /**
-     * Запускает обращение к базе данных банковских карт для перевода денежных средств.
-     * Основной метод для перевода денежных средств между банковскими картами.
-     * @param origin    номер банковской карты для списания денежных средств
-     * @param destination   номер банковской карты для зачисления денежных средств
-     * @param amount    количество денежных средств для перевода
-     * @param email адрес электронной почты держателя банковских карт
+     * Requests banking card database for cash transfer between user owned accounts.
+     * Main banking card cash transfer.
+     * @param origin    cash source banking card number
+     * @param destination   transfer destination banking card number
+     * @param amount    cash transfer amount
+     * @param email banking cards owner email address
      *
-     * @return  признак успешного завершение перевода денежных средств
+     * @return  successful cash transfer indicator
      */
     public boolean transfer(String origin, String destination, BigDecimal amount, String email) {
         final boolean[] result = new boolean[1];
@@ -138,15 +138,15 @@ public class CardService {
         var cardFrom = find(origin);
         var cardTo = find(destination);
         if (!email.equals(cardFrom.getOwner().getEmail())) {
-            throw new EntityExistsException("Карта с номером " + origin + " не найдена!");
+            throw new EntityExistsException("Banking card " + origin + " not found!");
         } else if (!email.equals(cardTo.getOwner().getEmail())) {
-            throw new EntityExistsException("Карта с номером " + destination + " не найдена!");
+            throw new EntityExistsException("Banking card " + destination + " not found!");
         } else if (!cardFrom.getStatus().equals(StatusType.ACTIVE)) {
-            throw new BadRequestException("Перевод средств с карты с номером " + origin + " недоступен!");
+            throw new BadRequestException("Cash transfer from " + origin + " unavailable!");
         } else if (!cardTo.getStatus().equals(StatusType.ACTIVE)) {
-            throw new BadRequestException("Перевод средств на карту с номером " + destination + " недоступен!");
+            throw new BadRequestException("Cash transfer to " + destination + " unavailable!");
         } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new BadRequestException("Недопустимое величина денежных средств средств!");
+            throw new BadRequestException("Wrong value for cash amount!");
         }
 
         var credit = cardMapper.cardToCardDto(cardFrom);
@@ -190,9 +190,9 @@ public class CardService {
     }
 
     /**
-     * Запускает обращение к базе данных банковских карт для удаления записи.
-     * Основной метод для удаления из базы данных записей банковских карт.
-     * @param request   объект описания аттрибутов удаляемой записи банковской карты
+     * Requests banking card database to delete existing record.
+     * Main banking card database record delete method.
+     * @param request   existing banking card data description object
      *
      */
     public int delete(CardDto request) {
@@ -200,15 +200,14 @@ public class CardService {
     }
 
     /**
-     * Запускает обращение к базе данных банковских карт для получения записи.
-     * Вспомогательный метод для получения объекта отображения записи из базы данных
-     * банковских карт.
-     * @param pan   номе банковской карты (Primary Account Number)
+     * Requests banking card database for the record matching specified PAN.
+     * Supplementary banking card database record receive method.
+     * @param pan   Primary Account Number
      *
-     * @return  объект отображения записи в базе данных банковских карт
+     * @return  banking card database record representation object
      */
     private Card find(String pan) {
         return cardRepository.findByPan(pan)
-                .orElseThrow(() -> new EntityNotFoundException("Банковская карта с номером = " + pan + " не найдена."));
+                .orElseThrow(() -> new EntityNotFoundException("Banking card = " + pan + " not found."));
     }
 }

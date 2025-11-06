@@ -1,5 +1,5 @@
 #
-# application.yml — главный конфигурационный файл Spring Boot.
+# application.yml — main Spring Boot configuration file.
 
 app:
   pan-key: bnZnx0ltm9Y=
@@ -40,6 +40,8 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     generate-ddl: true
     show-sql: true
     properties:
@@ -55,6 +57,7 @@ spring:
           jta:
             platform: com.atomikos.icatch.jta.hibernate4.AtomikosPlatform
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
 
   liquibase:
     change-log: db/migration/changelog/dbChangeLog.yml
@@ -80,6 +83,8 @@ logging:
   level:
     org.apache.catalina: OFF
     org.hibernate: OFF
+    org.springframework: ERROR
+    liquibase: OFF
 
 springdoc:
   api-docs:

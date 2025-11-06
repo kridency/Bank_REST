@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(description = "Ответ по запросу на аутентификацию/обновление электронного пропуска.")
+@Schema(description = "Feedback for authentication/token refresh request.")
 public class RefreshTokenDto {
     @JsonProperty("access_token")
-    @Schema(description = "Символьная последовательность электронного пропуска.")
+    @Schema(description = "Token characters sequence.")
     private String accessToken;
 }
