@@ -1,10 +1,10 @@
 # Базовый образ, содержащий Java 21
-FROM openjdk:17-oracle
+FROM openjdk:25-ea-17-oracle
 
 #Директория приложения внутри контейнера
 WORKDIR /app
 
-ENV POSTGRES_DATASOURCE_URL=jdbc:postgresql://localhost:5432/card_db
+ENV POSTGRES_DATASOURCE_URL=jdbc:postgresql://postgres-container.docker_default:5432/card_db
 ENV JAVA_TOOL_OPTIONS=-javaagent:/app/lib/spring-instrument-6.1.9.jar
 
 EXPOSE 8080

@@ -19,7 +19,7 @@ import java.util.UUID;
 @NamedEntityGraph(name = "user", attributeNodes = {@NamedAttributeNode("owner")})
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Getter
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

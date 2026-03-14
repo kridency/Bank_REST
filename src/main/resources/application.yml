@@ -64,7 +64,7 @@ spring:
     default-schema: custom
     liquibase-schema: public
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/card_db
+    url: ${POSTGRES_DATASOURCE_URL:jdbc:postgresql://localhost:5432/card_db}
     user: intern
     password: 1gjAVnJ
     contexts: production, test

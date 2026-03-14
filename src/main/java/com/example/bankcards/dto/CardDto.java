@@ -21,7 +21,7 @@ import java.time.YearMonth;
 @AllArgsConstructor
 @Schema(description = "Data transfer object with banking card details.")
 public class CardDto {
-        @Pattern(regexp = "^([\\d]{4}( |$)){4}$", message = "Invalid banking card number.")
+    @Pattern(regexp = "^([\\d]{4}( |$)){4}$", message = "Invalid banking card number.")
     @NotNull(message = "No value specified for the field PAN.")
     @Schema(description = "Primary Account Number.")
     private String pan;

@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 import java.util.Map;
 
-@DisplayName("Testing banking card managing resourcce.")
+@DisplayName("Testing banking card managing resource.")
 public class CardControllerTest extends AbstractTest {
     @Order(6)
     @Test

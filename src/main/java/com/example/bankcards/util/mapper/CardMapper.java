@@ -17,10 +17,12 @@ public interface CardMapper {
             @Mapping(source = "status", target = "status"),
             @Mapping(source = "balance", target = "balance")
     })
-    CardDto cardToCardDto(Card card);
+    CardDto cardToCardDto (Card card);
+
+    Card update (CardDto dto, Card card);
 
     @Named("maskPan")
-    default String maskPan(String pan) {
+    default String maskPan (String pan) {
         return Optional.ofNullable(pan)
                 .map(value ->
                         value.substring(0, value.length() - 4).replaceAll("\\d", "*")

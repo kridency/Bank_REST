@@ -4,10 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="JavaDoc Translation.">
+    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="JavaDoc Translation update.">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/TransactionDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Transaction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/TransactionRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/TransactionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/mapper/TransactionMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/docker-java.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/CardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/RefreshTokenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/controller/RefreshTokenController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/CardDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/dto/CardDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/mapper/CardMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/mapper/CardMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/CardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/bankcards/controller/CardControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +75,9 @@
     "JUnit.CardControllerTest.givenAdminUser_whenTryToGetAllCards_thenReturnCorrectResult.executor": "Run",
     "JUnit.CardControllerTest.givenExistingCard_whenTryToRequestBlock_thenReturnCorrectResult.executor": "Run",
     "JUnit.CardControllerTest.givenExistingCard_whenTryToSetStatusBLOCKED_thenReturnCorrectResult.executor": "Debug",
+    "JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult (1).executor": "Debug",
     "JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult.executor": "Run",
+    "JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult (1).executor": "Run",
     "JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult.executor": "Run",
     "JUnit.CardControllerTest.givenUser_whenTryToGetUserCards_thenReturnCorrectResult.executor": "Run",
     "JUnit.CryptServiceTest.testMessageEncryptDecrypt.executor": "Run",
@@ -92,8 +111,10 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.BankCardsApplication.executor": "Run",
+    "Spring Boot.BankCardsApplication.executor": "Debug",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/cupuyc/Downloads/liquibase.plugin-1.3-SNAPSHOT.jar",
@@ -102,10 +123,10 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "jvm.logging",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -119,9 +140,9 @@
       <recent name="$PROJECT_DIR$/src/main/resources/db" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.BankCardsApplication">
+  <component name="RunManager" selected="JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult (1)">
     <configuration name="CardControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BankCards" />
+      <module name="cards-microservice" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.bankcards.controller.*" />
@@ -151,8 +172,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BankCards" />
+    <configuration name="CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cards-microservice" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.bankcards.controller.*" />
@@ -167,8 +188,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BankCards" />
+    <configuration name="CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cards-microservice" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.bankcards.controller.*" />
@@ -197,7 +218,7 @@
       </method>
     </configuration>
     <configuration name="BankCardsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="BankCards" />
+      <module name="cards-microservice" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.bankcards.BankCardsApplication" />
       <option name="VM_PARAMETERS" value="-javaagent:${HOME}/.m2/repository/org/springframework/spring-instrument/6.1.9/spring-instrument-6.1.9.jar" />
       <extension name="coverage">
@@ -217,27 +238,27 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="JUnit.CardControllerTest.givenAdminUser_whenTryToGetAllCards_thenReturnCorrectResult" />
-      <item itemvalue="JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult" />
-      <item itemvalue="JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult" />
+      <item itemvalue="JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult (1)" />
       <item itemvalue="JUnit.CardControllerTest" />
+      <item itemvalue="JUnit.CardControllerTest.givenAdminUser_whenTryToGetAllCards_thenReturnCorrectResult" />
+      <item itemvalue="JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult (1)" />
       <item itemvalue="Spring Boot.BankCardsApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult (1)" />
+        <item itemvalue="JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult (1)" />
+        <item itemvalue="JUnit.CardControllerTest" />
         <item itemvalue="Spring Boot.BankCardsApplication" />
         <item itemvalue="JUnit.CardControllerTest.givenAdminUser_whenTryToGetAllCards_thenReturnCorrectResult" />
-        <item itemvalue="JUnit.CardControllerTest.givenExistingCard_whenTryToTransfer_thenReturnCorrectResult" />
-        <item itemvalue="JUnit.CardControllerTest.givenExistingUser_whenTryToRegisterCard_thenReturnCorrectResult" />
-        <item itemvalue="JUnit.CardControllerTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
+        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28294.334" />
       </set>
     </attachedChunks>
   </component>
@@ -267,6 +288,30 @@
       <workItem from="1758288267019" duration="15000" />
       <workItem from="1762355561418" duration="50000" />
       <workItem from="1762356052713" duration="6743000" />
+      <workItem from="1762624865913" duration="40000" />
+      <workItem from="1762632991572" duration="6000" />
+      <workItem from="1762633075061" duration="3000" />
+      <workItem from="1762633719986" duration="27000" />
+      <workItem from="1764936647107" duration="700000" />
+      <workItem from="1764938125216" duration="1406000" />
+      <workItem from="1765296907407" duration="200000" />
+      <workItem from="1765310592779" duration="197000" />
+      <workItem from="1765310876273" duration="13000" />
+      <workItem from="1767908786501" duration="170000" />
+      <workItem from="1767910038847" duration="7000" />
+      <workItem from="1768409019612" duration="18000" />
+      <workItem from="1768492873363" duration="8000" />
+      <workItem from="1768493553839" duration="39000" />
+      <workItem from="1768506037430" duration="611000" />
+      <workItem from="1769440541934" duration="52000" />
+      <workItem from="1769440803071" duration="156000" />
+      <workItem from="1769788551885" duration="3000" />
+      <workItem from="1769788676769" duration="6000" />
+      <workItem from="1769803325530" duration="12081000" />
+      <workItem from="1770116472174" duration="11475000" />
+      <workItem from="1770641758936" duration="20496000" />
+      <workItem from="1773319300056" duration="818000" />
+      <workItem from="1773422462813" duration="15803000" />
     </task>
     <task id="LOCAL-00001" summary="Basic entities roll out.">
       <option name="closed" value="true" />
@@ -460,7 +505,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762459108807</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="JavaDoc Translation update.">
+      <option name="closed" value="true" />
+      <created>1762460487966</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1762460487966</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -498,6 +551,18 @@
     <MESSAGE value="Configure logging." />
     <MESSAGE value="AspectJ configuration optimization." />
     <MESSAGE value="JavaDoc Translation." />
-    <option name="LAST_COMMIT_MESSAGE" value="JavaDoc Translation." />
+    <MESSAGE value="JavaDoc Translation update." />
+    <option name="LAST_COMMIT_MESSAGE" value="JavaDoc Translation update." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/bankcards/service/TransactionService.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
