@@ -104,8 +104,7 @@ public class CardControllerTest extends AbstractTest {
                         .header("Authorization", "Bearer " + token)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Cash transferred successfully!"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Operation expected completion."));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value("30.0"));
 
     }
 

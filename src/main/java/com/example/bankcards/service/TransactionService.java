@@ -2,25 +2,18 @@ package com.example.bankcards.service;
 
 import com.example.bankcards.dto.TransactionDto;
 import com.example.bankcards.entity.StatusType;
-import com.example.bankcards.entity.Transaction;
 import com.example.bankcards.repository.CardRepository;
 import com.example.bankcards.repository.TransactionRepository;
 import com.example.bankcards.util.mapper.CardMapper;
 import com.example.bankcards.util.mapper.TransactionMapper;
-import jakarta.persistence.EntityExistsException;
 import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.SynchronousQueue;
 
 @Service
 @RequiredArgsConstructor
@@ -60,12 +53,19 @@ public class TransactionService {
         debit.setPan(cardTo.getPan());
 
         credit.setBalance (credit.getBalance().subtract(amount));
-        cardFrom = cardRepository.save (cardMapper.update(credit, cardFrom));
+        var fromBuilder = cardFrom.toBuilder();
+        cardMapper.updateEntityFromDto (credit, fromBuilder);
+        cardRepository.save (fromBuilder.build());
 
         debit.setBalance (debit.getBalance().add(amount));
-        cardTo = cardRepository.save (cardMapper.update(debit, cardTo));
+        var toBuilder = cardTo.toBuilder();
+        cardMapper.updateEntityFromDto (debit, toBuilder);
+        cardRepository.save (toBuilder.build());
 
-        return transactionMapper.transactionToTransactionDto (
-                transactionRepository.save (new Transaction(null, cardFrom, cardTo, amount, Instant.now())));
+        var transactionDto = new TransactionDto(origin, destination, amount, null);
+        ;
+        var transaction = transactionRepository.save (transactionMapper.transactionDtoToTransaction (transactionDto, cardFrom, cardTo));
+
+        return transactionMapper.transactionToTransactionDto (transaction);
     }
 }

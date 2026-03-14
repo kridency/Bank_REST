@@ -107,6 +107,50 @@ databaseChangeLog:
                   type: varchar(255)
 
         - createTable:
+            tableName: transaction
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: from_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_transaction_from_card
+                    references: card(id)
+                    nullable: false
+              - column:
+                  name: to_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_transaction_to_card
+                    references: card(id)
+                    nullable: false
+              - column:
+                  name: amount
+                  type: numeric(38,2)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: transaction
+            indexName: idx_transaction_created_at
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+              - column:
+                  name: created_at
+                  type: timestamp
+
+        - createTable:
             tableName: refresh_token
             columns:
               - column:

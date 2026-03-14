@@ -2,6 +2,7 @@ package com.example.bankcards.util.mapper;
 
 import com.example.bankcards.dto.CardDto;
 import com.example.bankcards.entity.Card;
+import com.example.bankcards.entity.User;
 import org.mapstruct.*;
 
 import java.util.Optional;
@@ -19,7 +20,17 @@ public interface CardMapper {
     })
     CardDto cardToCardDto (Card card);
 
-    Card update (CardDto dto, Card card);
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(source = "dto.pan", target = "pan"),
+            @Mapping(source = "dto.expireDate", target = "expireDate"),
+            @Mapping(source = "owner", target = "owner"),
+            @Mapping(source = "dto.status", target = "status"),
+            @Mapping(source = "dto.balance", target = "balance")
+    })
+    Card cardDtoToCard (CardDto dto, User owner);
+
+    void updateEntityFromDto (CardDto dto, @MappingTarget Card.CardBuilder card);
 
     @Named("maskPan")
     default String maskPan (String pan) {

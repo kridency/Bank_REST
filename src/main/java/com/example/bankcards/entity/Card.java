@@ -3,10 +3,7 @@ package com.example.bankcards.entity;
 import com.example.bankcards.util.converter.PanMaskConverter;
 import com.example.bankcards.util.converter.YearMonthDateConverter;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
@@ -17,9 +14,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "card")
 @NamedEntityGraph(name = "user", attributeNodes = {@NamedAttributeNode("owner")})
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Builder(toBuilder = true)
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -37,6 +35,7 @@ public class Card {
     @Column(name = "status", columnDefinition = "status_type", nullable = false)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private StatusType status;
+    @Setter
     @Column(name = "balance")
     private BigDecimal balance;
 }

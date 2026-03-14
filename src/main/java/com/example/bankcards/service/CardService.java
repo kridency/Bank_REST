@@ -1,17 +1,14 @@
 package com.example.bankcards.service;
 
 import com.example.bankcards.dto.CardDto;
-import com.example.bankcards.entity.Card;
 import com.example.bankcards.entity.StatusType;
+import com.example.bankcards.repository.UserRepository;
 import com.example.bankcards.util.mapper.CardMapper;
 import com.example.bankcards.repository.CardRepository;
-import com.example.bankcards.security.UserService;
 import com.example.bankcards.util.specification.CardSpecification;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -25,19 +22,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.SynchronousQueue;
 
 @Service
 @RequiredArgsConstructor
 public class CardService {
     private final CardRepository cardRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final CardMapper cardMapper;
-
-    private final ExecutorService executor = Executors.newFixedThreadPool(2);
-    private final SynchronousQueue<BigDecimal> queue = new SynchronousQueue<>();
 
     /**
      * Requests banking card database for a filtered list.
@@ -76,16 +67,13 @@ public class CardService {
      *
      * @return  banking card database record representation object
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public CardDto create(CardDto request) {
-        return cardMapper.cardToCardDto(cardRepository.save(new Card(
-                null,
-                request.getPan(),
-                request.getExpireDate(),
-                userService.find(request.getEmail()),
-                StatusType.ACTIVE,
-                Optional.ofNullable(request.getBalance()).orElse(BigDecimal.ZERO)
-        )));
+        var owner = userRepository.getByEmail (request.getEmail())
+                .orElseThrow(() -> new EntityNotFoundException("User = " + request.getEmail() + " not found."));
+        request.setStatus(Optional.ofNullable(request.getStatus()).orElse(StatusType.ACTIVE));
+        request.setBalance(Optional.ofNullable(request.getBalance()).orElse(BigDecimal.ZERO));
+        return cardMapper.cardToCardDto(cardRepository.save(cardMapper.cardDtoToCard(request, owner)));
     }
 
     /**
@@ -95,27 +83,23 @@ public class CardService {
      *
      * @return  banking card database record representation object
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public CardDto update(CardDto request) {
         var pan = Optional.ofNullable(request.getPan())
                 .orElseThrow(() -> new BadRequestException("No value specified for the field PAN"));
 
         var card = cardRepository.findByPan(pan)
-                .filter(entity -> !entity.getStatus().equals(StatusType.ACTIVE) &&
-                        !entity.getStatus().equals(StatusType.PENDING))
+                .filter(entity -> entity.getStatus().equals(StatusType.ACTIVE) ||
+                        entity.getStatus().equals(StatusType.PENDING))
                 .orElseThrow(() -> new EntityNotFoundException("Banking card = " + pan + " not found."));
 
-        return cardMapper.cardToCardDto(cardRepository.save(new Card(
-                card.getId(),
-                card.getPan(),
-                card.getExpireDate(),
-                card.getOwner(),
-                Optional.ofNullable(request.getStatus()).orElse(card.getStatus()),
-                Optional.ofNullable(request.getBalance()).filter(value ->
-                                new BigDecimal(card.getBalance().toString()).add(value).compareTo(BigDecimal.ZERO) < 0)
-                        .map(value -> card.getBalance().add(value))
-                        .orElseThrow(() -> new NullPointerException("Insufficient cash amount!"))
-        )));
+        request.setExpireDate(Optional.ofNullable(request.getExpireDate()).orElse(card.getExpireDate()));
+        request.setStatus(Optional.ofNullable(request.getStatus()).orElse(card.getStatus()));
+        request.setBalance(Optional.ofNullable(request.getBalance()).orElse(card.getBalance()));
+
+        var cardBuilder = card.toBuilder();
+        cardMapper.updateEntityFromDto(request, cardBuilder);
+        return cardMapper.cardToCardDto(cardRepository.save(cardBuilder.build()));
     }
 
     /**
@@ -124,7 +108,7 @@ public class CardService {
      * @param request   existing banking card data description object
      *
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public int delete(CardDto request) {
         return cardRepository.deleteByPan(request.getPan());
     }

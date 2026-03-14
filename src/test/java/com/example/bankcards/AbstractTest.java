@@ -14,6 +14,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -21,6 +22,7 @@ import org.testcontainers.utility.DockerImageName;
 
 @ExtendWith({SpringExtension.class})
 @SpringBootTest(classes = { BankCardsApplication.class })
+@Transactional
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Testcontainers

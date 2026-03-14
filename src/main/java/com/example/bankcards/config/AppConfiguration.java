@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
@@ -22,6 +23,7 @@ import static org.springframework.context.annotation.AdviceMode.ASPECTJ;
 @EnableTransactionManagement(mode=ASPECTJ)
 @ConfigurationPropertiesScan
 @EnableJpaRepositories("com.example.bankcards.repository")
+@EnableJpaAuditing
 @EnableSpringConfigured
 @RequiredArgsConstructor
 public class AppConfiguration implements LoadTimeWeavingConfigurer {
