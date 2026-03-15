@@ -37,10 +37,12 @@ public class TransactionService {
     public TransactionDto create(String origin, String destination, BigDecimal amount, String email) {
         var cardFrom = cardRepository.findByPan(origin)
                 .filter(entity -> entity.getStatus().equals(StatusType.ACTIVE))
+                .filter(entity -> entity.getOwner().getEmail().equals(email))
                 .orElseThrow(() -> new BadRequestException("Banking card " + origin + " not found or not active!"));
 
         var cardTo = cardRepository.findByPan(destination)
                 .filter(entity -> entity.getStatus().equals(StatusType.ACTIVE))
+                .filter(entity -> entity.getOwner().getEmail().equals(email))
                 .orElseThrow(() -> new BadRequestException("Banking card " + destination + " not found or not active!"));
 
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
@@ -63,7 +65,6 @@ public class TransactionService {
         cardRepository.save (toBuilder.build());
 
         var transactionDto = new TransactionDto(origin, destination, amount, null);
-        ;
         var transaction = transactionRepository.save (transactionMapper.transactionDtoToTransaction (transactionDto, cardFrom, cardTo));
 
         return transactionMapper.transactionToTransactionDto (transaction);

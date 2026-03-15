@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Isolate Transaction class.">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/CardService.java" afterDir="false" />
+    <list default="true" id="2d0161a1-e6d6-4825-b1f2-68cbb3f5366b" name="Changes" comment="Refactor tests and card service.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/config/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/entity/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/service/TransactionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/mapper/TransactionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/util/mapper/TransactionMapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +88,7 @@
     "Maven.cards-microservice [compile].executor": "Run",
     "Maven.cards-microservice [org.codehaus.mojo:exec-maven-plugin:3.5.1:exec].executor": "Run",
     "Maven.cards-microservice [org.codehaus.mojo:exec-maven-plugin:3.5.1:java].executor": "Run",
+    "Maven.cards-microservice [package].executor": "Run",
     "Maven.cards-microservice [test].executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -104,7 +110,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Facets",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "jvm.logging",
@@ -502,7 +508,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773475921247</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Refactor tests and card service.">
+      <option name="closed" value="true" />
+      <created>1773533205242</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1773533205242</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -542,6 +556,8 @@
     <MESSAGE value="JavaDoc Translation." />
     <MESSAGE value="JavaDoc Translation update." />
     <MESSAGE value="Isolate Transaction class." />
-    <option name="LAST_COMMIT_MESSAGE" value="Isolate Transaction class." />
+    <MESSAGE value="Refactor tests." />
+    <MESSAGE value="Refactor tests and card service." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor tests and card service." />
   </component>
 </project>

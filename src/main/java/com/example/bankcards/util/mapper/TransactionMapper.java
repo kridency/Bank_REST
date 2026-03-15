@@ -1,10 +1,8 @@
 package com.example.bankcards.util.mapper;
 
-import com.example.bankcards.dto.CardDto;
 import com.example.bankcards.dto.TransactionDto;
 import com.example.bankcards.entity.Card;
 import com.example.bankcards.entity.Transaction;
-import com.example.bankcards.entity.User;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring",
