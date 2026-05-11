@@ -4,9 +4,10 @@ databaseChangeLog:
       author: kridency
       dbms: postgresql
       runOrder: first
-      sqlFile:
-        path: db/createCustomSchema.sql
-        stripComments: true
+      changes:
+        - sqlFile:
+            path: db/createCustomSchema.sql
+            stripComments: true
 
   - changeSet:
       id: create-user-types
@@ -24,9 +25,10 @@ databaseChangeLog:
       id: create-extensions
       author: kridency
       dbms: postgresql
-      sqlFile:
-        path: db/createOSSPExtension.sql
-        stripComments: true
+      changes:
+        - sqlFile:
+            path: db/createOSSPExtension.sql
+            stripComments: true
 
   - includeAll:
-      path: db/migration/changelog/changes/
+      path: db/changelog/changes/

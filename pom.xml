@@ -18,8 +18,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.source-target.version>17</java.source-target.version>
-        <maven.compiler.release>17</maven.compiler.release>
+        <java.source-target.version>21</java.source-target.version>
+        <maven.compiler.release>21</maven.compiler.release>
         <start-class>com.example.bankcards.BankCardsApplication</start-class>
         <spring.version>6.2.9</spring.version>
         <spring-boot.version>3.5.4</spring-boot.version>

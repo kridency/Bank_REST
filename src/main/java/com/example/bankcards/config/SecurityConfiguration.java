@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,11 +44,6 @@ import java.util.List;
         scheme = "bearer"
 )
 public class SecurityConfiguration {
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
-
     @Bean
     public JwtAuthEntryPoint jwtAuthEntryPoint(ObjectMapper objectMapper) {
         return new JwtAuthEntryPoint(objectMapper);

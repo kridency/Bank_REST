@@ -60,7 +60,7 @@ spring:
 
 
   liquibase:
-    change-log: db/migration/changelog/dbChangeLog.yml
+    change-log: db/changelog/db.changelog-master.yaml
     default-schema: custom
     liquibase-schema: public
     driver-class-name: org.postgresql.Driver

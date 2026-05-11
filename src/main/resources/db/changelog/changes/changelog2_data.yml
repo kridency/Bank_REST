@@ -70,7 +70,7 @@ databaseChangeLog:
                   value: ACTIVE
               - column:
                   name: balance
-                  value: 100.00
+                  valueNumeric: 100.00
 
         - insert:
             tableName: card
@@ -92,7 +92,7 @@ databaseChangeLog:
                   value: ACTIVE
               - column:
                   name: balance
-                  value: 50.00
+                  valueNumeric: 50.00
 
         - insert:
             tableName: card
@@ -114,6 +114,6 @@ databaseChangeLog:
                   value: ACTIVE
               - column:
                   name: balance
-                  value: 20.00
+                  valueNumeric: 20.00
 
 

@@ -12,12 +12,10 @@ services:
       - POSTGRES_SCHEMA=custom
     expose:
       - 5432
-    network_mode: host
-    volumes:
-      - ./data:/var/lib/postgresql/data
+    network_mode: docker_default
     restart: unless-stopped
 
 networks:
   default:
-    name: host
+    name: docker_default
     external: true
