@@ -16,7 +16,7 @@ public class CryptServiceTest extends AbstractTest {
     @Test
     @MockitoSettings(strictness = Strictness.LENIENT)
     @DisplayName("Encrypt/decrypt text message.")
-    public void testMessageEncryptDecrypt() throws Throwable {
+    public void testMessageEncryptDecrypt() {
         String message = "Hello World!";
         Mockito.when(cryptService.decrypt(cryptService.encrypt(message))).thenReturn(message);
     }

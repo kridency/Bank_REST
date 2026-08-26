@@ -8,9 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,7 +20,6 @@ public class UserController {
             description = "Register new user.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto registerUser(@RequestBody @Valid UserDto request) {
         userService.create(request);
@@ -34,7 +30,6 @@ public class UserController {
             description = "Updates e-mail address, password and roles.")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @PreAuthorize("hasRole('ADMIN')")
     public UserDto updateUser(@RequestBody @Valid UserDto request) {
         return userService.update(request);
@@ -44,7 +39,6 @@ public class UserController {
             description = "Deletes user credentials.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto deleteUser(@RequestBody UserDto request) {
         return userService.delete(request) == 1

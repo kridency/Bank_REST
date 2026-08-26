@@ -6,25 +6,33 @@ import com.example.bankcards.security.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 
 import io.jsonwebtoken.Jwts;
 
+import javax.crypto.SecretKey;
 import javax.management.timer.Timer;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtService {
     private final UserService userService;
     private final AppProperties.JwtProperties properties;
+    private final SecretKey secretKey;
+
+    public JwtService(@Qualifier("jwtSigningKey") SecretKey secretKey,
+                      UserService userService,
+                      AppProperties.JwtProperties properties) {
+        this.userService = userService;
+        this.properties = properties;
+        this.secretKey = secretKey;
+    }
 
     /**
      * Forms JWT token character sequence.
@@ -45,7 +53,7 @@ public class JwtService {
                 }})
                 .issuedAt(moment)
                 .expiration(new Date(moment.getTime() + properties.tokenExpiration().toMillis() * Timer.ONE_MINUTE))
-                .signWith(Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8)))
+                .signWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))
                 .compact();
     }
 
@@ -59,7 +67,7 @@ public class JwtService {
     public User find(String token) {
         try {
             String email = Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8)))
+                    .verifyWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))
                     .build().parseSignedClaims(token).getPayload().get("email").toString();
             return userService.find(email);
         } catch(ExpiredJwtException e) {
@@ -78,7 +86,7 @@ public class JwtService {
     public boolean validate(String token) {
         try {
             var  email  = Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8)))
+                    .verifyWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))
                     .build().parseSignedClaims(token).getPayload().get("email").toString();
             return userService.find(email).isEnabled();
         } catch (JwtException | IllegalArgumentException e) {

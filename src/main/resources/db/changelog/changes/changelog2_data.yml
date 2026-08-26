@@ -58,7 +58,7 @@ databaseChangeLog:
                   valueComputed: uuid_generate_v4()
               - column:
                   name: pan
-                  value: 902HS/z/OWowY5EIcwMdVNKNZKbOFBqe
+                  value: uF2lpLnTtrrHsTykrKVjW1B9irh8bCV2k0jOPNvfyMk=
               - column:
                   name: expire_date
                   value: 2026-11-01
@@ -70,7 +70,7 @@ databaseChangeLog:
                   value: ACTIVE
               - column:
                   name: balance
-                  valueNumeric: 100.00
+                  value: "100.00"
 
         - insert:
             tableName: card
@@ -80,7 +80,7 @@ databaseChangeLog:
                   valueComputed: uuid_generate_v4()
               - column:
                   name: pan
-                  value: 902HS/z/OWpcr2ho8Eevk9KNZKbOFBqe
+                  value: MAciKXExF/EwfLbEeKCTyZj/pbujshgSbfplSx3+FCw=
               - column:
                   name: expire_date
                   value: 2026-11-01
@@ -92,7 +92,7 @@ databaseChangeLog:
                   value: ACTIVE
               - column:
                   name: balance
-                  valueNumeric: 50.00
+                  value: "50.00"
 
         - insert:
             tableName: card
@@ -102,7 +102,7 @@ databaseChangeLog:
                   valueComputed: uuid_generate_v4()
               - column:
                   name: pan
-                  value: 902HS/z/OWq5HFbvYdSkzNKNZKbOFBqe
+                  value: 5j8j8FQ5bvqWe8x4C2kfGjOvthBSdo7IvilKFA+ZD9A=
               - column:
                   name: expire_date
                   value: 2026-11-01
@@ -114,6 +114,6 @@ databaseChangeLog:
                   value: ACTIVE
               - column:
                   name: balance
-                  valueNumeric: 20.00
+                  value: "20.00"
 
 

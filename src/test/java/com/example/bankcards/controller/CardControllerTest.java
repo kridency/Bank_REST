@@ -19,7 +19,6 @@ import java.util.Map;
 
 @DisplayName("Testing banking card managing resource.")
 public class CardControllerTest extends AbstractTest {
-    @Order(6)
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("Register banking card.")
@@ -42,7 +41,6 @@ public class CardControllerTest extends AbstractTest {
 
     }
 
-    @Order(1)
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("Banking cards complete list.")
@@ -83,7 +81,6 @@ public class CardControllerTest extends AbstractTest {
         Assertions.assertEquals(2, cardList.size());
     }
 
-    @Order(3)
     @Test
     @WithUserDetails(value = "user@hostname")
     @DisplayName("Transfer cash between banking cards.")
@@ -108,7 +105,6 @@ public class CardControllerTest extends AbstractTest {
 
     }
 
-    @Order(5)
     @Test
     @WithUserDetails(value = "user@hostname")
     @DisplayName("Request banking card block.")
@@ -137,7 +133,6 @@ public class CardControllerTest extends AbstractTest {
 
     }
 
-    @Order(4)
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("Update banking card status.")
@@ -151,7 +146,7 @@ public class CardControllerTest extends AbstractTest {
                         .andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse()
                         .getContentAsByteArray(), RefreshTokenDto.class).getAccessToken();
 
-        String updateCard = "{ \"pan\": \"4276 1234 5078 9012\", " +
+        String updateCard = "{ \"pan\": \"4276 1234 5008 9012\", " +
                 "\"expire_date\": \"2026-11\", " +
                 "\"email\": \"user@hostname\", " +
                 "\"status\": \"BLOCKED\" }";

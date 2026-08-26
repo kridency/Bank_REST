@@ -5,7 +5,6 @@ import com.example.bankcards.dto.CardDto;
 import com.example.bankcards.dto.MessageDto;
 import com.example.bankcards.dto.TransactionDto;
 import com.example.bankcards.entity.StatusType;
-import com.example.bankcards.entity.Transaction;
 import com.example.bankcards.service.CardService;
 import com.example.bankcards.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +42,7 @@ public class CardController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public CardDto updateCard(@RequestBody CardDto request) throws Exception {
+    public CardDto updateCard(@RequestBody CardDto request) {
         request.setBalance(null);
         return cardService.update(request);
     }
@@ -53,7 +52,7 @@ public class CardController {
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/block")
     @PreAuthorize("hasRole('USER')")
-    public CardDto requestBlock(@RequestBody CardDto request) throws Exception {
+    public CardDto requestBlock(@RequestBody CardDto request) {
         request.setStatus(StatusType.PENDING);
         request.setBalance(null);
         return cardService.update(request);

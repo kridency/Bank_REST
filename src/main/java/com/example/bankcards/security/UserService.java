@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -30,6 +33,7 @@ public class UserService implements UserDetailsService {
      *
      * @return  user account database record description object
      */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     public UserDto create(UserDto request) {
         String email = request.getEmail();
         try {
@@ -37,8 +41,9 @@ public class UserService implements UserDetailsService {
             throw new EntityExistsException("Email = " + email + " already exists!");
         } catch (EntityNotFoundException e) {
             User newUser = new User(null, request.getEmail(),
-                    passwordEncoder.encode(request.getPassword()), request.getRoles(), new HashSet<>());
-            Optional.ofNullable(newUser.getRoles()).filter(Set::isEmpty).map(value -> value.add(RoleType.ROLE_USER));
+                    passwordEncoder.encode(request.getPassword()),
+                    Optional.ofNullable(request.getRoles()).orElse(Set.of(RoleType.ROLE_USER)),
+                    new HashSet<>());
             return userMapper.userToUserDto(userRepository.save(newUser));
         }
     }
@@ -50,6 +55,7 @@ public class UserService implements UserDetailsService {
      *
      * @return  user account database record description object
      */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     public UserDto update(UserDto request) {
         String email = request.getEmail();
         User user = find(email), updateUser = new User(user.getId(), request.getEmail(),
@@ -66,6 +72,7 @@ public class UserService implements UserDetailsService {
      *
      * @return  number of deleted rows in the user account database
      */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     public int delete(UserDto request) {
         var email = request.getEmail();
         Optional.ofNullable(email).orElseThrow(() -> new BadRequestException("User email not specified."));

@@ -2,15 +2,23 @@
 # application.yml — main Spring Boot configuration file.
 
 app:
-  pan-key: bnZnx0ltm9Y=
   pagination-limit: 20
-  jwt:
-    secret: "9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9"
+  security:
+    data-keystore:
+      location: "${DATA_KEYSTORE_PATH:file:./docker/data-secret.p12}"
+      key-alias: "data-encrypt-key"
+      password: ${KEYSTORE_PASSWORD:1gjAVnJ}
+      type: PKCS12
+    jwt-keystore:
+      location: "${JWT_KEYSTORE_PATH:file:./docker/jwt-secret.p12}"
+      key-alias: "jwt-sign-key"
+      password: ${KEYSTORE_PASSWORD:1gjAVnJ}
+      type: PKCS12
     tokenExpiration: 15
     refreshTokenExpiration: 30
 
 server:
-  port: 8080
+  port: ${APP_PORT:8081}
 
 spring:
 
@@ -55,9 +63,8 @@ spring:
         default_schema: custom
         transaction:
           jta:
-            platform: com.atomikos.icatch.jta.hibernate4.AtomikosPlatform
+            platform: org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
 
   liquibase:
     change-log: db/changelog/db.changelog-master.yaml
@@ -71,8 +78,8 @@ spring:
     parameters:
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       schemaName: custom
-      tokenLifetime: ${app.jwt.tokenExpiration}
-      refreshTokenLifetime: ${app.jwt.refreshTokenExpiration}
+      tokenLifetime: ${app.security.tokenExpiration}
+      refreshTokenLifetime: ${app.security.refreshTokenExpiration}
     drop-first: true
 
   jackson:

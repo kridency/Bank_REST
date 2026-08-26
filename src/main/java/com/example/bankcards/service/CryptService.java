@@ -1,24 +1,24 @@
 package com.example.bankcards.service;
 
-import com.example.bankcards.config.property.AppProperties;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.*;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.spec.IvParameterSpec;
 import java.util.Base64;
 
 @Component
 public class CryptService {
-    private final Cipher encCipher;
-    private final Cipher decCipher;
+    private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
+    private static final byte[] STATIC_IV = {
+            0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+            0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
+    };
 
-    public CryptService(AppProperties properties) throws Exception {
-        byte[] panKey = Base64.getDecoder().decode(properties.getPanKey());
-        SecretKey key = new SecretKeySpec(panKey, 0,panKey.length, "DES");
-        encCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-        decCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-        encCipher.init(Cipher.ENCRYPT_MODE, key);
-        decCipher.init(Cipher.DECRYPT_MODE, key);
+    private final SecretKey secretKey;
+
+    public CryptService(@Qualifier("dataEncryptionKey") SecretKey secretKey) {
+        this.secretKey = secretKey;
     }
 
     /**
@@ -28,18 +28,40 @@ public class CryptService {
      *
      * @return  encrypted message
      */
-    public String encrypt(String message) throws Throwable {
-        return Base64.getEncoder().encodeToString(encCipher.doFinal(message.getBytes()));
+    public String encrypt(String message) {
+        if (message == null || secretKey == null) return null;
+        try {
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            IvParameterSpec ivSpec = new IvParameterSpec(STATIC_IV);
+
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
+            byte[] cipherText = cipher.doFinal(message.getBytes());
+
+            return Base64.getEncoder().encodeToString(cipherText);
+        } catch (Exception e) {
+            throw new RuntimeException("Deterministic encryption failed", e);
+        }
     }
 
     /**
      * Decrypts message according to the key from application properties.
      * Main text message decrypting method.
-     * @param message   method to decrypt
+     * @param cipherTextBase64   method to decrypt
      *
      * @return  decrypted message
      */
-    public String decrypt(String message) throws Throwable {
-        return new String(decCipher.doFinal(Base64.getDecoder().decode(message)));
+    public String decrypt(String cipherTextBase64) {
+        if (cipherTextBase64 == null || secretKey == null) return null;
+        try {
+            byte[] cipherText = Base64.getDecoder().decode(cipherTextBase64);
+
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            IvParameterSpec ivSpec = new IvParameterSpec(STATIC_IV);
+
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec);
+            return new String(cipher.doFinal(cipherText));
+        } catch (Exception e) {
+            throw new RuntimeException("Deterministic decryption failed", e);
+        }
     }
 }

@@ -9,7 +9,7 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.Optional;
 
-@Converter(autoApply = true)
+@Converter
 public class YearMonthDateConverter implements AttributeConverter<YearMonth, Date> {
     @Override
     public Date convertToDatabaseColumn(YearMonth attribute) {

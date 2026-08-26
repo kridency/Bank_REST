@@ -1,18 +1,19 @@
 # Базовый образ, содержащий Java 21
-FROM openjdk:25-ea-17-oracle
+FROM alpine/java:21
 
-#Директория приложения внутри контейнера
+# Директория приложения внутри контейнера
 WORKDIR /app
 
-ENV POSTGRES_DATASOURCE_URL=jdbc:postgresql://postgres-container.docker_default:5432/card_db
-ENV JAVA_TOOL_OPTIONS=-javaagent:/app/lib/spring-instrument-6.1.9.jar
+# Определяем переменную сборки со значением по умолчанию
+ARG SPRING_VERSION=6.2.9
 
-EXPOSE 8080
-
-#Копирование JAP-файла приложения в контейнер
+# Копирование JAR-файла приложения в контейнер
 COPY ./target/cards-microservice-1.0.0-SNAPSHOT.jar cards_microservice.jar
+
 RUN mkdir -p /app/lib
 COPY ./target/lib/ /app/lib/
 
-#Команда для запуска приложения
+ENV JAVA_TOOL_OPTIONS=-javaagent:/app/lib/spring-instrument-${SPRING_VERSION}.jar
+
+# Команда для запуска приложения
 ENTRYPOINT ["java", "-jar", "cards_microservice.jar"]

@@ -21,7 +21,7 @@ public class UserControllerTest extends AbstractTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User registered successfully!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User successfully created!"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("test@hostname"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
@@ -61,7 +61,7 @@ public class UserControllerTest extends AbstractTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User account record successfully deleted!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User record deleted successfully!"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Operation expected completion."));
     }
 }

@@ -47,6 +47,8 @@ public abstract class AbstractTest {
         registry.add("spring.liquibase.user", postgreSQLContainer::getUsername);
         registry.add("spring.liquibase.password", postgreSQLContainer::getPassword);
         registry.add("spring.liquibase.url", postgreSQLContainer::getJdbcUrl);
+
+        registry.add("KEYSTORE_PASSWORD", () -> "1gjAVnJ");
     }
 
     @BeforeAll

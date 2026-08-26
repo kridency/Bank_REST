@@ -3,23 +3,17 @@ package com.example.bankcards.util.converter;
 import com.example.bankcards.service.CryptService;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Slf4j
-@Component
 @Converter
-@NoArgsConstructor
 public class PanMaskConverter implements AttributeConverter<String, String> {
-    private CryptService cryptService;
+    private final CryptService cryptService;
 
-    @Autowired
-    public void setCryptService(CryptService cryptService) {
+    public PanMaskConverter(CryptService cryptService) {
         this.cryptService = cryptService;
     }
 
@@ -41,5 +35,7 @@ public class PanMaskConverter implements AttributeConverter<String, String> {
 
     @SneakyThrows
     @Override
-    public String convertToEntityAttribute(String data) { return cryptService.decrypt(data); }
+    public String convertToEntityAttribute(String data) {
+        return cryptService.decrypt(data);
+    }
 }

@@ -9,8 +9,11 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -30,6 +33,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.crypto.SecretKey;
+import java.io.InputStream;
+import java.security.KeyStore;
 import java.util.List;
 
 @Configuration
@@ -95,5 +101,42 @@ public class SecurityConfiguration {
                 .addFilterAfter(jwtLoginFilter, SecurityContextHolderAwareRequestFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    @Qualifier("dataEncryptionKey")
+    public SecretKey dataEncryptionKey(
+            @Value("${app.security.data-keystore.location}") Resource keystoreLocation,
+            @Value("${app.security.data-keystore.password}") String keystorePassword,
+            @Value("${app.security.data-keystore.key-alias}") String keyAlias,
+            @Value("${app.security.data-keystore.type}") String storeType) throws Exception {
+        return loadSecretKey(keystoreLocation, keystorePassword, keyAlias, storeType);
+    }
+
+    @Bean
+    @Qualifier("jwtSigningKey")
+    public SecretKey jwtSigningKey(
+            @Value("${app.security.jwt-keystore.location}") Resource keystoreLocation,
+            @Value("${app.security.jwt-keystore.password}") String keystorePassword,
+            @Value("${app.security.jwt-keystore.key-alias}") String keyAlias,
+            @Value("${app.security.jwt-keystore.type}") String storeType) throws Exception {
+        return loadSecretKey(keystoreLocation, keystorePassword, keyAlias, storeType);
+    }
+
+    private SecretKey loadSecretKey(Resource location, String password, String alias, String storeType) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance(storeType);
+
+        try (InputStream stream = location.getInputStream()) {
+            keyStore.load(stream, password.toCharArray());
+        }
+
+        KeyStore.ProtectionParameter protectionParam = new KeyStore.PasswordProtection(password.toCharArray());
+        KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry) keyStore.getEntry(alias, protectionParam);
+
+        if (secretKeyEntry == null) {
+            throw new IllegalArgumentException(String.format("Key alias '%s' not found in keystore at %s", alias, location.getDescription()));
+        }
+
+        return secretKeyEntry.getSecretKey();
     }
 }

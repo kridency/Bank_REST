@@ -24,10 +24,8 @@
         <spring.version>6.2.9</spring.version>
         <spring-boot.version>3.5.4</spring-boot.version>
         <spring-security.version>6.5.2</spring-security.version>
-
-        <spring-aspects.version>6.2.5</spring-aspects.version>
         <springdoc.version>2.8.6</springdoc.version>
-        <spring-instrument.version>6.1.9</spring-instrument.version>
+
         <aspectj.version>1.9.24</aspectj.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <testcontainers-bom.version>1.20.6</testcontainers-bom.version>
@@ -56,6 +54,20 @@
         <liquibase.version>4.33.0</liquibase.version>
         <querydsl.version>5.1.0</querydsl.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>use-env-vars</id>
+            <activation>
+                <property>
+                    <name>env.SPRING_VERSION</name>
+                </property>
+            </activation>
+            <properties>
+                <spring.version>${env.SPRING_VERSION}</spring.version>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
 
@@ -161,7 +173,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
-            <version>${spring-aspects.version}</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
@@ -296,7 +308,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-instrument</artifactId>
-            <version>${spring-instrument.version}</version>
+            <version>${spring.version}</version>
         </dependency>
 
     </dependencies>
@@ -408,7 +420,7 @@
                     </includes>
                     <argLine>
                         -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
-                        -javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring-instrument.version}/spring-instrument-${spring-instrument.version}.jar
+                        -javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar
                         -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
                         -Xshare:off
                         -Daj.weaving.verbose=false
