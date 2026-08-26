@@ -46,6 +46,6 @@ public abstract class BaseTest {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        postgreSQLContainer.start();
+        postgreSQLContainer.withReuse(true).start();
     }
 }

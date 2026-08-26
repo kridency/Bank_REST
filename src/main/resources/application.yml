@@ -90,10 +90,6 @@ logging:
     org.hibernate: OFF
     org.springframework: ERROR
     liquibase: OFF
-    com:
-      zaxxer:
-        hikari:
-          HikariConfig: DEBUG
 
 springdoc:
   api-docs:
