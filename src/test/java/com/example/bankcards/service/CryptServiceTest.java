@@ -1,6 +1,6 @@
 package com.example.bankcards.service;
 
-import com.example.bankcards.AbstractTest;
+import com.example.bankcards.BaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
 @DisplayName("Testing message encrypt/decrypt resource.")
-public class CryptServiceTest extends AbstractTest {
+public class CryptServiceTest extends BaseTest {
     @Mock
     private CryptService cryptService;
 

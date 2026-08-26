@@ -1,6 +1,6 @@
 package com.example.bankcards.controller;
 
-import com.example.bankcards.AbstractTest;
+import com.example.bankcards.BaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @DisplayName("Testing user account management resource.")
-public class UserControllerTest extends AbstractTest {
+public class UserControllerTest extends BaseTest {
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("User account creation.")

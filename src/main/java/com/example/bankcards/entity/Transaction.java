@@ -23,10 +23,10 @@ public class Transaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @ManyToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn(name = "from_pan", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn(name = "from_id", referencedColumnName = "id")
     private Card from;
     @ManyToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn(name = "to_pan", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn(name = "to_id", referencedColumnName = "id")
     private Card to;
     @Column(name = "amount", columnDefinition = "decimal")
     private BigDecimal amount;

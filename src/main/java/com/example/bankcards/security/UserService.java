@@ -61,7 +61,7 @@ public class UserService implements UserDetailsService {
         User user = find(email), updateUser = new User(user.getId(), request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
                 Optional.ofNullable(request.getRoles()).orElse(user.getRoles()),
-                null);
+                user.getCards());
         return userMapper.userToUserDto(userRepository.save(updateUser));
     }
 

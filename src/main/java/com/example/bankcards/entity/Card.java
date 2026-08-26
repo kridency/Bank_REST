@@ -35,7 +35,6 @@ public class Card {
     @Column(name = "status", columnDefinition = "status_type", nullable = false)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private StatusType status;
-    @Setter
     @Column(name = "balance")
     private BigDecimal balance;
 }

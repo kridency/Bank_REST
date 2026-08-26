@@ -1,1 +1,5 @@
-<aspectj> <weaver options=""> <dump within="com.example..*" /> </weaver> </aspectj>
+<aspectj>
+    <weaver options="-verbose:false -showWeaveInfo:false -warn:none -Xlint:ignore -Xlint:cantFindType=ignore -Xset:overWeaving=false">
+        <dump within="com.example..*" />
+    </weaver>
+</aspectj>

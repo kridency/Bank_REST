@@ -1,6 +1,6 @@
 package com.example.bankcards.service;
 
-import com.example.bankcards.AbstractTest;
+import com.example.bankcards.BaseTest;
 import com.example.bankcards.security.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 @DisplayName("Testing JWT token resource.")
-public class JwtServiceTest extends AbstractTest {
+public class JwtServiceTest extends BaseTest {
     @Mock
     private JwtService jwtService;
 

@@ -1,6 +1,6 @@
 package com.example.bankcards.controller;
 
-import com.example.bankcards.AbstractTest;
+import com.example.bankcards.BaseTest;
 import com.example.bankcards.dto.RefreshTokenDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @DisplayName("Testing refresh token management resource.")
-public class RefreshTokenControllerTest extends AbstractTest {
+public class RefreshTokenControllerTest extends BaseTest {
     @Test
     @WithUserDetails(value = "user@hostname")
     @DisplayName("Refresh user token.")

@@ -36,13 +36,11 @@ spring:
 
   datasource:
     url: ${POSTGRES_DATASOURCE_URL:jdbc:postgresql://localhost:5432/card_db}
-    username: intern
-    password: 1gjAVnJ
+    username: ${POSTGRES_USER:intern}
+    password: ${POSTGRES_PASSWORD:1gjAVnJ}
     hikari:
       schema: custom
       driver-class-name: org.postgresql.Driver
-      data-source-properties:
-        rewrite-batched-statement: true
 
   jpa:
     open-in-view: false
@@ -92,6 +90,10 @@ logging:
     org.hibernate: OFF
     org.springframework: ERROR
     liquibase: OFF
+    com:
+      zaxxer:
+        hikari:
+          HikariConfig: DEBUG
 
 springdoc:
   api-docs:

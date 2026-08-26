@@ -1,6 +1,6 @@
 package com.example.bankcards.controller;
 
-import com.example.bankcards.AbstractTest;
+import com.example.bankcards.BaseTest;
 import com.example.bankcards.dto.CardDto;
 import com.example.bankcards.dto.RefreshTokenDto;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @DisplayName("Testing banking card managing resource.")
-public class CardControllerTest extends AbstractTest {
+public class CardControllerTest extends BaseTest {
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("Register banking card.")
