@@ -20,7 +20,7 @@ public class TransactionController {
     @Operation(summary = "Transfer cash from one banking card to another",
             description = "Conduct cash withdrawal and deposit.")
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping
+    @PostMapping
     @PreAuthorize("hasRole('USER')")
     public TransactionDto transfer(@RequestParam(name = "origin") String origin,
                                    @RequestParam(name = "destination") String destination,

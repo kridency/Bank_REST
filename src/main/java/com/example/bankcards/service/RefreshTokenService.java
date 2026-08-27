@@ -4,13 +4,17 @@ import com.example.bankcards.dto.RefreshTokenDto;
 import com.example.bankcards.entity.RefreshToken;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.repository.TokenRepository;
-import com.example.bankcards.security.UserService;
+import com.example.bankcards.security.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.timer.Timer;
 import java.time.Duration;
@@ -31,18 +35,17 @@ public class RefreshTokenService {
     /**
      * Request JWT token database to create new record.
      * Main JWT token database record creation method.
-     * @param username   email address of a user requested authentication
+     * @param refreshTokenId   token database record id
      *
      * @return  JWT token database record representation object
      */
-    public RefreshTokenDto create(String username) {
-        User user = userService.find(username);
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
+    public RefreshTokenDto create(UUID refreshTokenId) {
         Instant issueDate = Instant.now();
         Instant expireDate = issueDate.plusMillis(refreshTokenExpiration.toMillis() * Timer.ONE_MINUTE);
-        String accessToken = jwtService.create(username);
-        RefreshToken token = new RefreshToken(user.getId(), accessToken, issueDate, expireDate);
-        tokenRepository.save(token);
-        return RefreshTokenDto.builder().accessToken(accessToken).build();
+        String accessToken = jwtService.create(refreshTokenId);
+        RefreshToken refreshToken = tokenRepository.save(new RefreshToken(refreshTokenId, accessToken, issueDate, expireDate));
+        return RefreshTokenDto.builder().accessToken(refreshToken.getToken()).build();
     }
 
     /**
@@ -52,29 +55,40 @@ public class RefreshTokenService {
      *
      * @return  JWT token database record representation object
      */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     public RefreshTokenDto update(String username) {
-        User user = userService.find(username);
-        String accessToken = validate(find(user.getId())).getToken();
-        return create(jwtService.find(accessToken).getUsername());
+        User user = userService.loadUserByUsername(username);
+        return create(UUID.fromString(validate(find(user.getId()))));
     }
 
     /**
      * Requests JWT token database record deletion.
      * Main JWT token database record delete method.
-     * @param accessToken   JWT token of a user requested active session completion
+     * @param refreshTokenId   token database record id
      *
      */
-    public void delete(String accessToken) {
-        tokenRepository.deleteByToken(accessToken);
+    public void delete(UUID refreshTokenId) {
+        tokenRepository.deleteById(refreshTokenId);
+    }
+
+    /**
+     * Removes expired records from the token database.
+     * Main user JWT token clean up method.
+     *
+     */
+    @Scheduled(fixedRate = 300_000)
+    public void purgeExpiredTokens() {
+        tokenRepository.deleteExpiredTokens(Instant.now());
     }
 
     /**
      * Requests JWT token database record matching refresh token id.
      * Supporting JWT token database record find method.
-     * @param refreshTokenId   идентификатор записи базы данных электронных пропусков
+     * @param refreshTokenId   token database record id
      *
      * @return  JWT token database record
      */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     private RefreshToken find(UUID refreshTokenId) {
         return tokenRepository.findById(refreshTokenId)
                 .orElseThrow(() -> new EntityNotFoundException(" Refresh token " + refreshTokenId + " not found "));
@@ -87,19 +101,18 @@ public class RefreshTokenService {
      *
      * @return  JWT token database record
      */
-    public RefreshToken validate(RefreshToken token) {
-        String username = jwtService.find(token.getToken()).getUsername();
+    private String validate(RefreshToken token) throws ExpiredJwtException {
+        String refreshTokenId = jwtService.find(token.getToken()).getSubject();
         if(token.getExpireDate().compareTo(Instant.now()) < 0) {
-            delete(token.getToken());
+            delete(UUID.fromString(refreshTokenId));
             throw new ExpiredJwtException(Jwts.header()
                     .add("Authorization", "Bearer " + token.getToken())
                     .build(), Jwts.claims()
-                    .id(String.valueOf(token.getId()))
-                    .subject(username)
+                    .id(UUID.randomUUID().toString())
+                    .subject(token.getId().toString())
                     .expiration(Date.from(token.getExpireDate()))
                     .issuedAt(Date.from(token.getIssueDate())).build(), "Refresh token was expired. Repeat login procedure!");
         }
-
-        return token;
+        return refreshTokenId;
     }
 }

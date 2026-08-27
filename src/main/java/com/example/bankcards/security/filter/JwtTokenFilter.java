@@ -1,7 +1,7 @@
 package com.example.bankcards.security.filter;
 
-import com.example.bankcards.service.JwtService;
-import com.example.bankcards.security.UserService;
+import com.example.bankcards.security.JwtService;
+import com.example.bankcards.service.UserService;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -35,11 +35,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             var jwtToken = getToken(request);
 
             if(jwtService.validate(jwtToken)) {
-                var username = jwtService.find(jwtToken).getUsername();
-                var userDetails = userService.loadUserByUsername(username);
+                var claims = jwtService.find(jwtToken);
+                var userDetails = userService.loadUserByUsername(claims.get("email").toString());
 
                 var authToken = new UsernamePasswordAuthenticationToken(
-                        username, userDetails.getPassword(), userDetails.getAuthorities());
+                        userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);

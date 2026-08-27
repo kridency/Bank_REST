@@ -5,7 +5,7 @@ import com.example.bankcards.entity.StatusType;
 import com.example.bankcards.repository.UserRepository;
 import com.example.bankcards.util.mapper.CardMapper;
 import com.example.bankcards.repository.CardRepository;
-import com.example.bankcards.util.specification.CardSpecification;
+import com.example.bankcards.util.specification.GetSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CardService {
+public class CardService implements CRUDService<CardDto> {
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
     private final CardMapper cardMapper;
@@ -32,16 +32,14 @@ public class CardService {
     /**
      * Requests banking card database for a filtered list.
      * Main banking cards database constrained sample list method.
-     * @param email   current session user email address
+     * @param criteria   set of sought values for filter attributes
      * @param pageable  banking card list pagination criteria object
      *
      * @return  set of banking card database record representation objects
      */
-    public Slice<CardDto> get(String email, Pageable pageable) {
-        List<CardDto> result = cardRepository.findAll(new CardSpecification(new HashMap<>() {{
-                put("owner.email", email);
-        }}), pageable).stream()
-                .map(cardMapper::cardToCardDto).toList();
+    public Slice<CardDto> get(Map<String, ? extends Comparable<?>> criteria, Pageable pageable) {
+        List<CardDto> result = cardRepository.findAll(new GetSpecification<>(criteria),
+                pageable).stream().map(cardMapper::cardToCardDto).toList();
         return new SliceImpl<>(result, pageable, result.iterator().hasNext());
     }
 

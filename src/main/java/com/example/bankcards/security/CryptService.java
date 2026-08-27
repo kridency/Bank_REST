@@ -1,4 +1,4 @@
-package com.example.bankcards.service;
+package com.example.bankcards.security;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

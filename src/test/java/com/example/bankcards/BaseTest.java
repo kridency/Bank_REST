@@ -1,10 +1,12 @@
 package com.example.bankcards;
 
+import com.example.bankcards.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-@ExtendWith({SpringExtension.class})
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
 @SpringBootTest(classes = { BankCardsApplication.class })
 @Transactional
 @ActiveProfiles("test")
@@ -26,6 +28,9 @@ public abstract class BaseTest {
     @Autowired
     protected MockMvc mockMvc;
     protected static ObjectMapper objectMapper;
+
+    @Autowired
+    protected UserService userService;
 
     protected static final PostgreSQLContainer<?> postgreSQLContainer =
             new PostgreSQLContainer<>(DockerImageName.parse("postgres:12.20"));

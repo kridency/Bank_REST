@@ -24,7 +24,7 @@ public class TransactionControllerTest extends BaseTest {
                         .andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse()
                         .getContentAsByteArray(), RefreshTokenDto.class).getAccessToken();
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/transfers")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/transfers")
                         .param("origin", "4276 1234 5078 9012")
                         .param("destination", "4276 1234 5008 9012")
                         .param("amount", "30.0")

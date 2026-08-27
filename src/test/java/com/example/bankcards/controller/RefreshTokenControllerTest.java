@@ -25,7 +25,7 @@ public class RefreshTokenControllerTest extends BaseTest {
                         .andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse()
                         .getContentAsByteArray(), RefreshTokenDto.class).getAccessToken();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/tokens")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/tokens")
                         .header("Authorization", "Bearer " + token)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk());

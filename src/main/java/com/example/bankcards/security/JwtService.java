@@ -1,8 +1,9 @@
-package com.example.bankcards.service;
+package com.example.bankcards.security;
 
 import com.example.bankcards.config.property.AppProperties;
 import com.example.bankcards.entity.User;
-import com.example.bankcards.security.UserService;
+import com.example.bankcards.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.Keys;
@@ -11,8 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 import io.jsonwebtoken.Jwts;
 
@@ -22,14 +22,14 @@ import javax.management.timer.Timer;
 @Slf4j
 @Component
 public class JwtService {
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final AppProperties.JwtProperties properties;
     private final SecretKey secretKey;
 
     public JwtService(@Qualifier("jwtSigningKey") SecretKey secretKey,
-                      UserService userService,
+                      UserRepository userRepository,
                       AppProperties.JwtProperties properties) {
-        this.userService = userService;
+        this.userRepository = userRepository;
         this.properties = properties;
         this.secretKey = secretKey;
     }
@@ -37,19 +37,19 @@ public class JwtService {
     /**
      * Forms JWT token character sequence.
      * Main JWT token generation method.
-     * @param username   user name for JWT token
+     * @param refreshTokenId   refresh token id for JWT token
      *
      * @return  JWT token
      */
-    public String create(String username) {
-        var user = userService.loadUserByUsername(username);
+    public String create(UUID refreshTokenId) {
+        var user = userRepository.findById(refreshTokenId);
         var moment = new Date();
         return Jwts.builder()
                 .header().type("JWT").and()
-                .subject(user.getId().toString())
+                .subject(user.map(User::getId).map(UUID::toString).orElse(""))
                 .claims(new HashMap<>() {{
-                    put("email", user.getUsername());
-                    put("roles", user.getAuthorities());
+                    put("email", user.map(User::getUsername).orElse(""));
+                    put("roles", user.map(User::getAuthorities).orElse(List.of()));
                 }})
                 .issuedAt(moment)
                 .expiration(new Date(moment.getTime() + properties.tokenExpiration().toMillis() * Timer.ONE_MINUTE))
@@ -64,14 +64,13 @@ public class JwtService {
      *
      * @return  Database user record representation object
      */
-    public User find(String token) {
+    public Claims find(String token) {
         try {
-            String email = Jwts.parser()
+            return Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))
-                    .build().parseSignedClaims(token).getPayload().get("email").toString();
-            return userService.find(email);
+                    .build().parseSignedClaims(token).getPayload();
         } catch(ExpiredJwtException e) {
-            return userService.find(e.getClaims().get("email").toString());
+            return e.getClaims();
         }
     }
 
@@ -85,12 +84,12 @@ public class JwtService {
     @Cacheable(value = "isValid", key = "{ #token }", sync = true)
     public boolean validate(String token) {
         try {
-            var  email  = Jwts.parser()
+            var userId = Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))
-                    .build().parseSignedClaims(token).getPayload().get("email").toString();
-            return userService.find(email).isEnabled();
+                    .build().parseSignedClaims(token).getPayload().getSubject();
+            return userRepository.findById(UUID.fromString(userId)).isPresent();
         } catch (JwtException | IllegalArgumentException e) {
-            log.error("Claims string is empty: {}", e.getMessage());
+            log.info("Claims string is empty: {}", e.getMessage());
             return false;
         }
     }

@@ -1,6 +1,5 @@
 package com.example.bankcards.util.specification;
 
-import com.example.bankcards.entity.Card;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
-public record CardSpecification(Map<String, ? extends Comparable<?>> criteria) implements Specification<Card> {
+public record GetSpecification<T>(Map<String, ? extends Comparable<?>> criteria) implements Specification<T> {
     private static final BiFunction<String, Path<?>, Path<?>> getPath = new BiFunction<>() {
         @Override
         public Path<?> apply(String s, Path<?> path) {
@@ -21,7 +20,7 @@ public record CardSpecification(Map<String, ? extends Comparable<?>> criteria) i
     };
 
     @Override
-    public Predicate toPredicate(@Nullable Root<Card> root,
+    public Predicate toPredicate(@Nullable Root<T> root,
                                  @Nullable CriteriaQuery<?> query,
                                  CriteriaBuilder builder) {
         return criteria.entrySet().stream()

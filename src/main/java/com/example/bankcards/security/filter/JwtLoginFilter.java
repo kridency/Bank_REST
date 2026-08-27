@@ -1,7 +1,6 @@
 package com.example.bankcards.security.filter;
 
 import com.example.bankcards.dto.UserDto;
-import com.example.bankcards.dto.RefreshTokenDto;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.service.RefreshTokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,12 +53,9 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException {
         var user = (User) authResult.getPrincipal();
-        var refreshToken = refreshTokenService.create(user.getUsername());
-        var responseModel = RefreshTokenDto.builder()
-                .accessToken(refreshToken.getAccessToken())
-                .build();
-        response.addHeader("X-Custom-Security-Header", String.format("Bearer %s", refreshToken.getAccessToken()));
+        var dto = refreshTokenService.create(user.getId());
+        response.addHeader("X-Custom-Security-Header", String.format("Bearer %s", dto.getAccessToken()));
         response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        response.getOutputStream().write(mapper.writeValueAsBytes(responseModel));
+        response.getOutputStream().write(mapper.writeValueAsBytes(dto));
     }
 }

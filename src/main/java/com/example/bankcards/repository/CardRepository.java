@@ -19,6 +19,7 @@ import java.util.UUID;
 public interface CardRepository extends PagingAndSortingRepository<Card, UUID>, JpaRepository<Card, UUID>, JpaSpecificationExecutor<Card> {
     Optional<Card> findByPan(String pan);
     @EntityGraph(attributePaths = {"owner"})
-    @Nonnull Page<Card> findAll(@Nullable Specification<Card> spec, @Nullable Pageable pageable);
+    @Nonnull
+    Page<Card> findAll(@Nullable Specification<Card> spec, @Nullable Pageable pageable);
     int deleteByPan(String pan);
 }

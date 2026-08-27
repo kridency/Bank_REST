@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Feedback for authentication/token refresh request.")
 public class RefreshTokenDto {
     @JsonProperty("access_token")
-    @Schema(description = "Token characters sequence.")
+    @Schema(description = "Access token characters sequence.")
     private String accessToken;
 }

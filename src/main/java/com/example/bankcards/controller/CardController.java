@@ -4,7 +4,7 @@ import com.example.bankcards.config.property.AppProperties;
 import com.example.bankcards.dto.CardDto;
 import com.example.bankcards.dto.MessageDto;
 import com.example.bankcards.entity.StatusType;
-import com.example.bankcards.service.CardService;
+import com.example.bankcards.service.CRUDService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
@@ -25,7 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CardController {
     private final AppProperties properties;
-    private final CardService cardService;
+    private final CRUDService<CardDto> service;
 
     @Operation(summary = "Register banking card",
             description = "Register new banking card.")
@@ -33,7 +34,7 @@ public class CardController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public CardDto registerCard(@RequestBody @Valid CardDto request) {
-        return cardService.create(request);
+        return service.create(request);
     }
 
     @Operation(summary = "Change current card status",
@@ -43,7 +44,7 @@ public class CardController {
     @PreAuthorize("hasRole('ADMIN')")
     public CardDto updateCard(@RequestBody CardDto request) {
         request.setBalance(null);
-        return cardService.update(request);
+        return service.update(request);
     }
 
     @Operation(summary = "Request to block a credit card",
@@ -54,7 +55,7 @@ public class CardController {
     public CardDto blockCard(@RequestBody CardDto request) {
         request.setStatus(StatusType.PENDING);
         request.setBalance(null);
-        return cardService.update(request);
+        return service.update(request);
     }
 
     @Operation(summary = "List banking cards according to filter criteria",
@@ -67,7 +68,10 @@ public class CardController {
                                    @CurrentSecurityContext(expression = "authentication.authorities")
                                    Collection<? extends GrantedAuthority> authorities) {
         var isAdmin = authorities.stream().anyMatch(x -> x.getAuthority().equals("ROLE_ADMIN"));
-        return cardService.get(!isAdmin?email:null, PageRequest.of(Optional.ofNullable(offset).orElse(0),
+        var criteria = new HashMap<String, String>(){{
+            put("owner.email", !isAdmin ? email : null);
+        }};
+        return service.get(criteria, PageRequest.of(Optional.ofNullable(offset).orElse(0),
                 Optional.ofNullable(limit).orElse(properties.getPaginationLimit())));
     }
 
@@ -77,8 +81,8 @@ public class CardController {
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
     public MessageDto deleteCard(@RequestBody CardDto request) {
-        return cardService.delete(request) == 1
+        return service.delete(request) == 1
                 ? new MessageDto("Banking card record successfully deleted!", "Operation expected completion.")
-                : new MessageDto("Запись банковской карты не найдена!", "Operation interrupted abnormally.");
+                : new MessageDto("Banking card record not found!", "Operation interrupted abnormally.");
     }
 }

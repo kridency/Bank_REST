@@ -1,9 +1,8 @@
 package com.example.bankcards.util.converter;
 
-import com.example.bankcards.service.CryptService;
+import com.example.bankcards.security.CryptService;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -17,7 +16,6 @@ public class PanMaskConverter implements AttributeConverter<String, String> {
         this.cryptService = cryptService;
     }
 
-    @SneakyThrows
     @Override
     public String convertToDatabaseColumn(String attribute) {
         return Optional.ofNullable(attribute).filter(value ->
@@ -33,7 +31,6 @@ public class PanMaskConverter implements AttributeConverter<String, String> {
                 .orElseGet(() -> { log.error("Non valid card number!"); return attribute; });
     }
 
-    @SneakyThrows
     @Override
     public String convertToEntityAttribute(String data) {
         return cryptService.decrypt(data);

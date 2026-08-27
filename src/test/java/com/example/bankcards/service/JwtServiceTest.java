@@ -1,27 +1,28 @@
 package com.example.bankcards.service;
 
 import com.example.bankcards.BaseTest;
-import com.example.bankcards.security.UserService;
+import com.example.bankcards.security.JwtService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 @DisplayName("Testing JWT token resource.")
 public class JwtServiceTest extends BaseTest {
-    @Mock
+    @MockitoSpyBean
     private JwtService jwtService;
-
-    @Mock
-    private UserService userService;
 
     @Test
     @DisplayName("JWT token generation test.")
     public void testGenerateToken() {
         String email = "user@hostname";
 
-        var user = userService.find(email);
-        Mockito.when(jwtService.find(jwtService.create(email))).thenReturn(user);
+        var user = userService.loadUserByUsername(email);
+
+        String accessToken = jwtService.create(user.getId());
+        String subject = jwtService.find(accessToken).getSubject();
+
+        Assertions.assertEquals(user.getId().toString(), subject);
     }
 
     @Test
@@ -29,6 +30,11 @@ public class JwtServiceTest extends BaseTest {
     public void testValidateToken() {
         String email = "user@hostname";
 
-        Mockito.when(jwtService.validate(jwtService.create(email))).thenReturn(true);
+        var user = userService.loadUserByUsername(email);
+
+        String accessToken = jwtService.create(user.getId());
+        boolean isValid = jwtService.validate(accessToken);
+
+        Assertions.assertTrue(isValid);
     }
 }

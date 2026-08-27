@@ -1,6 +1,9 @@
 package com.example.bankcards.controller;
 
 import com.example.bankcards.BaseTest;
+import com.example.bankcards.dto.UserDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -9,8 +12,25 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
+import java.util.Map;
+
 @DisplayName("Testing user account management resource.")
 public class UserControllerTest extends BaseTest {
+    @Test
+    @WithUserDetails(value = "admin@hostname")
+    @DisplayName("User records complete list.")
+    void givenAdminUser_whenTryToGetAllUsers_thenReturnCorrectResult() throws Exception {
+        var slice = objectMapper.readValue(mockMvc.perform(MockMvcRequestBuilders.get("/api/users")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse()
+                .getContentAsByteArray(), new TypeReference<Map<String, Object>>() {});
+
+        var userList = objectMapper.convertValue(slice.get("content"), new TypeReference<List<UserDto>>() {});
+
+        Assertions.assertEquals(2, userList.size());
+    }
+
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("User account creation.")

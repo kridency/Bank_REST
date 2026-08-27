@@ -1,16 +1,19 @@
-package com.example.bankcards.security;
+package com.example.bankcards.service;
 
 import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.entity.RoleType;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.util.mapper.UserMapper;
 import com.example.bankcards.repository.UserRepository;
+import com.example.bankcards.util.specification.GetSpecification;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -21,10 +24,24 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+public class UserService implements UserDetailsService, CRUDService<UserDto> {
+    private final UserRepository repository;
+    private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
+
+    /**
+     * Requests user database for a filtered list.
+     * Main user database constrained sample list method.
+     * @param criteria   set of sought values for filter attributes
+     * @param pageable  user list pagination criteria object
+     *
+     * @return  set of user database record representation objects
+     */
+    public Slice<UserDto> get(Map<String, ? extends Comparable<?>> criteria, Pageable pageable) {
+        List<UserDto> result = repository.findAll(new GetSpecification<>(criteria),
+                pageable).stream().map(mapper::userToUserDto).toList();
+        return new SliceImpl<>(result, pageable, result.iterator().hasNext());
+    }
 
     /**
      * Requests user account database for new record creation.
@@ -37,14 +54,14 @@ public class UserService implements UserDetailsService {
     public UserDto create(UserDto request) {
         String email = request.getEmail();
         try {
-            find(email);
+            loadUserByUsername(email);
             throw new EntityExistsException("Email = " + email + " already exists!");
         } catch (EntityNotFoundException e) {
             User newUser = new User(null, request.getEmail(),
                     passwordEncoder.encode(request.getPassword()),
                     Optional.ofNullable(request.getRoles()).orElse(Set.of(RoleType.ROLE_USER)),
                     new HashSet<>());
-            return userMapper.userToUserDto(userRepository.save(newUser));
+            return mapper.userToUserDto(repository.save(newUser));
         }
     }
 
@@ -58,11 +75,11 @@ public class UserService implements UserDetailsService {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     public UserDto update(UserDto request) {
         String email = request.getEmail();
-        User user = find(email), updateUser = new User(user.getId(), request.getEmail(),
+        User user = loadUserByUsername(email), updateUser = new User(user.getId(), request.getEmail(),
                 passwordEncoder.encode(request.getPassword()),
                 Optional.ofNullable(request.getRoles()).orElse(user.getRoles()),
                 user.getCards());
-        return userMapper.userToUserDto(userRepository.save(updateUser));
+        return mapper.userToUserDto(repository.save(updateUser));
     }
 
     /**
@@ -76,7 +93,7 @@ public class UserService implements UserDetailsService {
     public int delete(UserDto request) {
         var email = request.getEmail();
         Optional.ofNullable(email).orElseThrow(() -> new BadRequestException("User email not specified."));
-        return userRepository.deleteByEmail(email);
+        return repository.deleteByEmail(email);
     }
 
     /**
@@ -87,20 +104,8 @@ public class UserService implements UserDetailsService {
      * @return  spring security user account description object
      */
     @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.getByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found. Email is: " + username));
-    }
-
-    /**
-     * Requests user account database for the record matching specified email address.
-     * Supplementary user account database record receiving method.
-     * @param email  sought user account email address
-     *
-     * @return  user account database record
-     */
-    public User find(String email) {
-        return userRepository.getByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User = " + email + " not found."));
+    public User loadUserByUsername(String username) throws EntityNotFoundException {
+        return repository.getByEmail(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found. Email is: " + username));
     }
 }

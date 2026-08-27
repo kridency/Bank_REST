@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,10 +18,9 @@ public class RefreshTokenController {
     @Operation(summary = "Refresh access token for an authenticated user",
             description = "Refreshes previously authenticated user access token.")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    @Transactional
+    @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public RefreshTokenDto updateToken(@AuthenticationPrincipal String username) {
+    public RefreshTokenDto reissueToken(@AuthenticationPrincipal String username) {
         return tokenService.update(username);
     }
 }

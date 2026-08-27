@@ -1,23 +1,25 @@
 package com.example.bankcards.service;
 
 import com.example.bankcards.BaseTest;
+import com.example.bankcards.security.CryptService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 @DisplayName("Testing message encrypt/decrypt resource.")
 public class CryptServiceTest extends BaseTest {
-    @Mock
+    @MockitoSpyBean
     private CryptService cryptService;
 
     @Test
-    @MockitoSettings(strictness = Strictness.LENIENT)
     @DisplayName("Encrypt/decrypt text message.")
     public void testMessageEncryptDecrypt() {
         String message = "Hello World!";
-        Mockito.when(cryptService.decrypt(cryptService.encrypt(message))).thenReturn(message);
+
+        String encryptedMessage = cryptService.encrypt(message);
+        String decryptedMessage = cryptService.decrypt(encryptedMessage);
+
+        Assertions.assertEquals(message, decryptedMessage);
     }
 }
