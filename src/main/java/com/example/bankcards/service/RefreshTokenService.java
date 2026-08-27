@@ -69,6 +69,18 @@ public class RefreshTokenService {
     }
 
     /**
+     * Requests JWT token database record matching refresh token id.
+     * Supporting JWT token database record find method.
+     * @param refreshTokenId   идентификатор записи базы данных электронных пропусков
+     *
+     * @return  JWT token database record
+     */
+    private RefreshToken find(UUID refreshTokenId) {
+        return tokenRepository.findById(refreshTokenId)
+                .orElseThrow(() -> new EntityNotFoundException(" Refresh token " + refreshTokenId + " not found "));
+    }
+
+    /**
      * Validates user JWT token.
      * Supporting user JWT token validation method.
      * @param token   JWT token database record
@@ -89,17 +101,5 @@ public class RefreshTokenService {
         }
 
         return token;
-    }
-
-    /**
-     * Requests JWT token database record matching refresh token id.
-     * Supporting JWT token database record find method.
-     * @param refreshTokenId   идентификатор записи базы данных электронных пропусков
-     *
-     * @return  JWT token database record
-     */
-    private RefreshToken find(UUID refreshTokenId) {
-        return tokenRepository.findById(refreshTokenId)
-                .orElseThrow(() -> new EntityNotFoundException(" Refresh token " + refreshTokenId + " not found "));
     }
 }

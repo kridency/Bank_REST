@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -38,24 +37,10 @@ public class CardService {
      *
      * @return  set of banking card database record representation objects
      */
-    public Slice<CardDto> getFiltered(String email, Pageable pageable) {
+    public Slice<CardDto> get(String email, Pageable pageable) {
         List<CardDto> result = cardRepository.findAll(new CardSpecification(new HashMap<>() {{
                 put("owner.email", email);
         }}), pageable).stream()
-                .map(cardMapper::cardToCardDto).toList();
-        return new SliceImpl<>(result, pageable, result.iterator().hasNext());
-    }
-
-    /**
-     * Requests banking card database for a complete list.
-     * Main banking card database complete list forming method.
-     * @param pageable  banking card list pagination criteria object
-     *
-     * @return  set of banking card database record representation objects
-     */
-    public Slice<CardDto> getAll(Pageable pageable) {
-        List<CardDto> result = cardRepository.findAll(new CardSpecification(Collections.emptyMap()),
-                        pageable).stream()
                 .map(cardMapper::cardToCardDto).toList();
         return new SliceImpl<>(result, pageable, result.iterator().hasNext());
     }

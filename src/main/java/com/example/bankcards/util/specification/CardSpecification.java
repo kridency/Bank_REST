@@ -26,10 +26,8 @@ public record CardSpecification(Map<String, ? extends Comparable<?>> criteria) i
                                  CriteriaBuilder builder) {
         return criteria.entrySet().stream()
                 .filter(entry -> Optional.ofNullable(entry.getValue()).isPresent())
-                .map(entry ->
-                        builder.equal(Optional.ofNullable(root)
-                                        .map(x -> getPath.apply(entry.getKey(), x)).orElse(null),
-                                entry.getValue()))
-                .reduce(builder::and).orElse(null);
+                .map(entry -> builder.equal(Optional.ofNullable(root).map(x ->
+                                        getPath.apply(entry.getKey(), x)).orElse(null), entry.getValue()))
+                .reduce(builder::and).orElse(builder.conjunction());
     }
 }

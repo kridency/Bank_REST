@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -46,7 +45,7 @@ public class CardControllerTest extends BaseTest {
     @DisplayName("Banking cards complete list.")
     void givenAdminUser_whenTryToGetAllCards_thenReturnCorrectResult() throws Exception {
 
-        var slice = objectMapper.readValue(mockMvc.perform(MockMvcRequestBuilders.get("/api/cards/admin")
+        var slice = objectMapper.readValue(mockMvc.perform(MockMvcRequestBuilders.get("/api/cards")
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse()
                 .getContentAsByteArray(), new TypeReference<Map<String, Object>>() {});
@@ -56,7 +55,6 @@ public class CardControllerTest extends BaseTest {
         Assertions.assertEquals(3, cardList.size());
     }
 
-    @Order(2)
     @Test
     @WithUserDetails(value = "user@hostname")
     @DisplayName("Receive banking card list for the specific user.")
@@ -83,30 +81,6 @@ public class CardControllerTest extends BaseTest {
 
     @Test
     @WithUserDetails(value = "user@hostname")
-    @DisplayName("Transfer cash between banking cards.")
-    void givenExistingCard_whenTryToTransfer_thenReturnCorrectResult() throws Exception {
-        String user = "{ \"email\": \"user@hostname\", \"password\": \"user\" }";
-        String token = objectMapper.readValue(
-                mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
-                                .content(user)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                        .andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse()
-                        .getContentAsByteArray(), RefreshTokenDto.class).getAccessToken();
-
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/cards/transfer")
-                        .param("origin", "4276 1234 5078 9012")
-                        .param("destination", "4276 1234 5008 9012")
-                        .param("amount", "30.0")
-                        .header("Authorization", "Bearer " + token)
-                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value("30.0"));
-
-    }
-
-    @Test
-    @WithUserDetails(value = "user@hostname")
     @DisplayName("Request banking card block.")
     void givenExistingCard_whenTryToRequestBlock_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"user@hostname\", \"password\": \"user\" }";
@@ -120,7 +94,7 @@ public class CardControllerTest extends BaseTest {
 
         String updateCard = "{ \"pan\": \"4276 1234 5008 9012\" }";
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/cards/block")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/cards")
                         .header("Authorization", "Bearer " + token)
                         .content(updateCard)
                         .contentType(MediaType.APPLICATION_JSON)

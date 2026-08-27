@@ -34,11 +34,8 @@ public interface CardMapper {
 
     @Named("maskPan")
     default String maskPan (String pan) {
-        return Optional.ofNullable(pan)
-                .map(value ->
+        return Optional.ofNullable(pan).filter(x -> x.length() > 4).map(value ->
                         value.substring(0, value.length() - 4).replaceAll("\\d", "*")
-                                + value.substring(value.length() - 4)
-                )
-                .orElse(null);
+                                + value.substring(value.length() - 4)).orElse(pan);
     }
 }
