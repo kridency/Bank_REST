@@ -20,7 +20,7 @@ public class JwtServiceTest extends BaseTest {
         var user = userService.loadUserByUsername(email);
 
         String accessToken = jwtService.create(user.getId());
-        String subject = jwtService.find(accessToken).getSubject();
+        String subject = jwtService.getClaims(accessToken).getSubject();
 
         Assertions.assertEquals(user.getId().toString(), subject);
     }

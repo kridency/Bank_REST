@@ -34,8 +34,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             assert request != null;
             var jwtToken = getToken(request);
 
-            if(jwtService.validate(jwtToken)) {
-                var claims = jwtService.find(jwtToken);
+            if(!jwtToken.isEmpty() && jwtService.validate(jwtToken)) {
+                var claims = jwtService.getClaims(jwtToken);
                 var userDetails = userService.loadUserByUsername(claims.get("email").toString());
 
                 var authToken = new UsernamePasswordAuthenticationToken(
@@ -58,6 +58,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
-        return null;
+        return "";
     }
 }

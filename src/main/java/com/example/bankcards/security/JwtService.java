@@ -64,7 +64,7 @@ public class JwtService {
      *
      * @return  Database user record representation object
      */
-    public Claims find(String token) {
+    public Claims getClaims(String token) {
         try {
             return Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))

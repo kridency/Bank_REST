@@ -102,7 +102,7 @@ public class RefreshTokenService {
      * @return  JWT token database record
      */
     private String validate(RefreshToken token) throws ExpiredJwtException {
-        String refreshTokenId = jwtService.find(token.getToken()).getSubject();
+        String refreshTokenId = jwtService.getClaims(token.getToken()).getSubject();
         if(token.getExpireDate().compareTo(Instant.now()) < 0) {
             delete(UUID.fromString(refreshTokenId));
             throw new ExpiredJwtException(Jwts.header()
