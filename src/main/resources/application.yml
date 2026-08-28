@@ -65,7 +65,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   liquibase:
-    change-log: db/changelog/db.changelog-master.yaml
+    change-log: classpath:db/migration/db.changelog-master.yaml
     default-schema: custom
     liquibase-schema: public
     driver-class-name: org.postgresql.Driver

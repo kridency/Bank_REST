@@ -31,4 +31,4 @@ databaseChangeLog:
             stripComments: true
 
   - includeAll:
-      path: db/changelog/changes/
+      path: db/migration/changes/
