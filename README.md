@@ -1,81 +1,121 @@
-<h1>🚀 Banking card management system</h1>
-  
-<h2>📝 Description</h2>
-  <p>Banking card Java (Spring Boot) backend-application with following capabilities:</p>
-  <ul>
-    <li>Banking card record creation and management</li>
-    <li>Card account status report</li>
-    <li>Transfer between your own card accounts</li>
-  </ul>
+# Система управления банковскими картами
 
-<h2>💳 Banking card details</h2>
-  <ul>
-    <li>Card number (displayed by the mask: <code>**** **** **** 1234</code>)</li>
-    <li>Owner</li>
-    <li>Validity period</li>
-    <li>Status: Active, Blocked, Expired</li>
-    <li>Balance</li>
-  </ul>
+## Описание
 
-<h2>🧾 Requirements</h2>
+Серверная часть приложения управления банковскими картами.
 
-<h3>✅ Authentication и authorization</h3>
-  <ul>
-    <li>Spring Security + JWT</li>
-    <li>User roles: <code>ADMIN</code> и <code>USER</code></li>
-  </ul>
+## Предварительные условия
 
-<h3>✅ Permissions</h3>
-<strong>Administrator:</strong>
-  <ul>
-    <li>Create, block, activate, delete card account</li>
-    <li>Manage users</li>
-    <li>Access all cards information</li>
-  </ul>
+Среда выполнения содержит пакеты:
 
-<strong>User:</strong>
-  <ul>
-    <li>Browse personal cards (search + pagination)</li>
-    <li>Request account block</li>
-    <li>Cash transfer between owned cards</li>
-    <li>Balance report</li>
-  </ul>
+- Java SE 21;
+- сборщик пакетов Apache Maven.
 
-<h3>✅ API</h3>
-  <ul>
-    <li>CRUD for card records</li>
-    <li>Transfer between personal cards</li>
-    <li>Filter and pagination</li>
-    <li>Validation and error messaging</li>
-  </ul>
+Все команды запускаются в консоли из папки проекта ``Bank_REST/``.
 
-<h3>✅ Security</h3>
-  <ul>
-    <li>Data Encryption</li>
-    <li>Role based authorization</li>
-    <li>Card number masking</li>
-  </ul>
+Первоначальные настройки отсутствуют.
 
-<h3>✅ Database integration</h3>
-  <ul>
-    <li>PostgreSQL</li>
-    <li>Liquibase migration (<code>src/main/resources/db/migration</code>)</li>
-  </ul>
+## Сборка
 
-<h3>✅ Documentation</h3>
-  <ul>
-    <li>Swagger UI / OpenAPI — <code>docs/openapi.yaml</code></li>
-    <li><code>README.md</code> с инструкцией запуска</li>
-  </ul>
+Сборка проекта производится командой:
+```
+mvn clean package
+```
+При успешном завершении сборки результаты будут расположены в папке ``target/``
 
-<h3>✅ Deployment and testing</h3>
-  <ul>
-    <li>Docker Compose for dev-environment</li>
-    <li>Liquibase data migration</li>
-    <li>Unit-tests</li>
-  </ul>
+## Запуск
 
-<h2>💡 Frameworks</h2>
-  <p>
-    Java 17+, Spring Boot, Spring Security, Spring Data JPA, PostgreSQL, Liquibase, Docker, JWT, Swagger (OpenAPI)
-  </p>
+Для запуска приложения в папке проекта необходимо выполнить команды
+```
+docker compose --project-directory ./docker/ up --detach
+```
+При успешном запуске приложения `docker` будет содержать 2 контейнера `cards-microservice, postgres-container` в статусе `Up`.
+
+## Инструкции по использованию
+
+Использование функциональности приложения производится посредством перехода по сетевой ссылке `http://localhost:8081/api/<endpoint>`, где `<endpoint>` представляет отдельный API ресурс.
+
+Подробное описание API доступно по ссылке `http://localhost:8081/swagger-ui/index.html`.
+
+Приложение использует базовую аутентификацию на основе `JWT` жетонов. Для получения жетона необходимо перейти по сетевой ссылке `http://localhost:8081/api/login`. Данный ресурс аутентификации ожидает входные данные в виде объекта в следующей `JSON` нотации:
+```
+  { 
+    "email": <адрес электронной почты>, 
+    "password": <пароль> 
+  }
+ ``` 
+При успешной аутентификации в теле ответа на запрос будет возращен `access_token`. Используя данный жетон и учитывая присвоенные при регистрации роли пользователю будут доступны ресурсы `users` и `cards`.
+
+### Команды ресурса <span style="color: lightgreen">${users}$</span>
+
+ - Вызов команды регистрации нового пользователя производится с помощью HTTP метода `POST`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+```
+  { 
+    "email": <адрес электронной почты>, 
+    "password": <пароль> 
+  }
+ ```
+Результатом успешного выполнения данной команды является создание учетной записи;
+ 
+ - Вызов команды удаления пользователя производится с помощью HTTP метода `DELETE`. Результатом успешного выполнения данной команды является отсутствие учетной записи пользователя;
+ 
+ - Вызов команды изменения записи пользователя производится с помощью HTTP метода `PUT`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+```
+  { 
+    "email": <адрес электронной почты>,
+    "password": <пароль>,
+    "roles": [роль1,...]
+  }
+ ```
+ Результатом успешного выполнения данной команды является обновление учетной записи;
+ 
+ - Вызов команды получения перечня пользователей производится с помощью HTTP метода `GET`. Команда ожидает входные данные в виде объекта в `JSON` нотации `{ "email": <адрес электронной почты> }`. Результатом успешного выполнения данной команды является возврат перечня пользователей, удовлетворяющего критериям указанным в виде `JSON` нотации;
+
+### Команды ресурса <span style="color: lightgreen">${cards}$</span>
+
+ - Вызов команды создания банковской карты производится с помощью HTTP метода `POST`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации 
+```
+ {
+   "pan": <#### #### ##### ####>,
+   "expire_date": [yyyy-MM-dd],
+   "email": <адрес электронной почты>,
+   "status": [статус карты], 
+   "balance": [остаток средств]
+ }
+```
+Результатом успешного выполнения данной команды является создание записи банковской карты;
+
+ - Вызов команды получения перечня банковских карт производится с помощью HTTP метода `GET`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+```
+ { 
+   "email": <адрес электронной почты>
+ }
+```
+Результатом успешного выполнения данной команды является возврат перечня банковских карт, удовлетворяющих шаблону указанному в теле запроса.
+
+ - Вызов команды обновления реквизитов банковской карты производится с помощью HTTP метода `PUT`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+```
+ {
+   "pan": <#### #### ##### ####>,
+   "expire_date": [yyyy-MM-dd],
+   "status": [статус карты],
+   "balance": [остаток средств]
+ }
+```
+ Результатом успешного выполнения данной команды является обновление записи банковской карты, исходя из существующего `Primary Account Number`;
+
+- Вызов команды блокировки банковской карты производится с помощью HTTP метода `PATCH`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+```
+ {
+   "pan": <#### #### ##### ####>
+ }
+ ```
+Результатом успешного выполнения данной команды является изменение статуса банковской карты, исходя из существующего `Primary Account Number`;
+
+ - Вызов команды удаления банковской карты производится с помощью HTTP метода `DELETE`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+```
+ {
+   "pan": <#### #### ##### ####>
+ }
+ ```
+ Результатом успешного выполнения данной команды является удаление записи банковской карты, исходя из существующего `Primary Account Number`;
