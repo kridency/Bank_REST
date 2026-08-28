@@ -25,6 +25,6 @@ public interface CardRepository extends PagingAndSortingRepository<Card, UUID>, 
     int deleteByPan(String pan);
     @Modifying
     @Transactional
-    @Query("UPDATE Card t SET t.status = 'EXPIRED' WHERE t.expireDate < :now")
+    @Query("UPDATE Card t SET t.status = 'EXPIRED' WHERE t.expireDate < :now AND t.status = 'ACTIVE'")
     void updateExpiredCards(@Param("now") Instant now);
 }
