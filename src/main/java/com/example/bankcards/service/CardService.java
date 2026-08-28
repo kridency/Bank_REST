@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,6 +55,7 @@ public class CardService implements CRUDService<CardDto> {
     public CardDto create(CardDto request) {
         var owner = userRepository.getByEmail (request.getEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User = " + request.getEmail() + " not found."));
+        request.setExpireDate(Optional.ofNullable(request.getExpireDate()).orElse(YearMonth.now().plusYears(3)));
         request.setStatus(Optional.ofNullable(request.getStatus()).orElse(StatusType.ACTIVE));
         request.setBalance(Optional.ofNullable(request.getBalance()).orElse(BigDecimal.ZERO));
         return cardMapper.cardToCardDto(cardRepository.save(cardMapper.cardDtoToCard(request, owner)));

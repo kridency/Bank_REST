@@ -111,7 +111,7 @@ public class RefreshTokenService {
                     .id(UUID.randomUUID().toString())
                     .subject(token.getId().toString())
                     .expiration(Date.from(token.getExpireDate()))
-                    .issuedAt(Date.from(token.getIssueDate())).build(), "Refresh token was expired. Repeat login procedure!");
+                    .issuedAt(Date.from(token.getIssueDate())).build(), "Refresh token expired. Re-authentication required!");
         }
         return refreshTokenId;
     }

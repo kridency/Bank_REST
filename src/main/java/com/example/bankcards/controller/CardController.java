@@ -53,6 +53,7 @@ public class CardController {
     @PatchMapping
     @PreAuthorize("hasRole('USER')")
     public CardDto blockCard(@RequestBody CardDto request) {
+        request.setExpireDate(null);
         request.setStatus(StatusType.PENDING);
         request.setBalance(null);
         return service.update(request);
