@@ -6,12 +6,13 @@ import jakarta.annotation.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,4 +23,8 @@ public interface CardRepository extends PagingAndSortingRepository<Card, UUID>, 
     @Nonnull
     Page<Card> findAll(@Nullable Specification<Card> spec, @Nullable Pageable pageable);
     int deleteByPan(String pan);
+    @Modifying
+    @Transactional
+    @Query("UPDATE Card t SET t.status = 'EXPIRED' WHERE t.expireDate < :now")
+    void updateExpiredCards(@Param("now") Instant now);
 }

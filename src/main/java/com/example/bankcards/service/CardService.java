@@ -12,12 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +88,14 @@ public class CardService implements CRUDService<CardDto> {
         cardMapper.updateEntityFromDto(request, cardBuilder);
         return cardMapper.cardToCardDto(cardRepository.save(cardBuilder.build()));
     }
+
+    /**
+     * Removes expired records from the token database.
+     * Main user JWT token clean up method.
+     *
+     */
+    @Scheduled(fixedRate = 300_000)
+    public void expireCards() { cardRepository.updateExpiredCards(Instant.now()); }
 
     /**
      * Requests banking card database to delete existing record.
