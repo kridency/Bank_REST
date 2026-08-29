@@ -182,12 +182,13 @@ paths:
     delete:
       description: Deletes banking card.
       operationId: deleteCard
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CardDto'
+      parameters:
+      - in: query
+        name: pan
         required: true
+        schema:
+          pattern: ^\d{4} \d{4} \d{4} \d{4}$
+          type: string
       responses:
         '204':
           content:
@@ -336,12 +337,12 @@ paths:
     delete:
       description: Deletes user credentials.
       operationId: deleteUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserDto'
+      parameters:
+      - in: query
+        name: email
         required: true
+        schema:
+          type: string
       responses:
         '204':
           content:
@@ -357,6 +358,11 @@ paths:
       operationId: getUsers
       parameters:
       - in: query
+        name: email
+        required: false
+        schema:
+          type: string
+      - in: query
         name: offset
         required: false
         schema:
@@ -368,11 +374,6 @@ paths:
         schema:
           format: int32
           type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserDto'
       responses:
         '200':
           content:

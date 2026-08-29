@@ -110,7 +110,7 @@ public class CardControllerTest extends BaseTest {
     @Test
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("Update banking card status.")
-    void givenExistingCard_whenTryToSetStatusBLOCKED_thenReturnCorrectResult() throws Exception {
+    void givenExistingCard_whenTryToUpdate_thenReturnCorrectResult() throws Exception {
         String user = "{ \"email\": \"admin@hostname\", \"password\": \"admin\" }";
         String token = objectMapper.readValue(
                 mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
@@ -136,5 +136,18 @@ public class CardControllerTest extends BaseTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@hostname"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("BLOCKED"));
 
+    }
+
+    @Test
+    @WithUserDetails(value = "admin@hostname")
+    @DisplayName("Banking card delete.")
+    void givenExistingCard_whenTryToDelete_thenReturnsCorrectResult() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/cards")
+                        .param("pan", "4276 1234 5008 9012")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Banking card record successfully deleted!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Operation expected completion."));
     }
 }
