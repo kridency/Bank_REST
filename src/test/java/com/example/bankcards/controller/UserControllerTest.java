@@ -75,9 +75,8 @@ public class UserControllerTest extends BaseTest {
     @WithUserDetails(value = "admin@hostname")
     @DisplayName("User account delete.")
     void givenExistingUser_whenTryToDelete_thenReturnsCorrectResult() throws Exception {
-        String deleteUser = "{ \"email\": \"user@hostname\"}";
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/users")
-                        .content(deleteUser)
+                        .param("email", "user@hostname")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isNoContent())

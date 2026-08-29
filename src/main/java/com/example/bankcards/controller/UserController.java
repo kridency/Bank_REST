@@ -6,6 +6,7 @@ import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.service.CRUDService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -28,12 +29,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Slice<UserDto> getUsers(@RequestBody(required = false) UserDto request,
+    public Slice<UserDto> getUsers(@RequestParam(required = false) @Email String email,
                                    @RequestParam(value = "offset", required = false) Integer offset,
                                    @RequestParam(value = "limit", required = false) Integer limit) {
-        var criteria = new HashMap<String, String>(){{
-            put("email", Optional.ofNullable(request).map(UserDto::getEmail).orElse(null));
-        }};
+        var criteria = new HashMap<String, String>(){{ put("email", email); }};
         return service.get(criteria, PageRequest.of(Optional.ofNullable(offset).orElse(0),
                 Optional.ofNullable(limit).orElse(properties.getPaginationLimit())));
     }
@@ -62,8 +61,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public MessageDto deleteUser(@RequestBody UserDto request) {
-        return service.delete(request) == 1
+    public MessageDto deleteUser(@RequestParam @Email String email) {
+        return service.delete(new UserDto(email, null, null)) == 1
                 ? new MessageDto("User record deleted successfully!", "Operation expected completion.")
                 : new MessageDto("User record not found!", "Operation interrupted abnormally.");
     }

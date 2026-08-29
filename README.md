@@ -38,18 +38,21 @@ The package functionality is accessed via the URL `http://localhost:8081/api/<en
 
 A detailed API description is available at `http://localhost:8081/swagger-ui/index.html`.
 
-The package uses `JWT`-based authentication. To obtain a token, send a request to `http://localhost:8081/api/login`. This authentication endpoint expects input data as a `JSON` object in the following format:
+The package uses `JWT`-based authentication. To obtain a token, send a request to `http://localhost:8081/api/login`. 
+This authentication endpoint expects input data as a `JSON` object in the following format:
 ```
   { 
     "email": <email address>, 
     "password": <password> 
   }
  ``` 
-Upon successful authentication, the `access_token` will be returned in the response body. Using this token, and based on the roles assigned during registration, the user will have access to the `users`, `cards`, and `transfers` resources.
+Upon successful authentication, the `access_token` will be returned in the response body. 
+Using this token, and based on the roles assigned during registration, the user will have access to the `users`, `cards`, and `transfers` resources.
 
 ### <span style="color: lightgreen">${users}$</span> resource commands
 
- - The command to register a new user is invoked using the HTTP `POST` method. The command expects input data as an object in the following `JSON` notation:
+ - The command to register a new user is invoked using the HTTP `POST` method. 
+The command expects input data as an object in the following `JSON` notation:
 ```
   { 
     "email": <email address>, 
@@ -59,15 +62,15 @@ Upon successful authentication, the `access_token` will be returned in the respo
  ```
 Successful execution of this command results in the creation of a user account.
 
-The command to delete a user is invoked using the HTTP `DELETE` method. The command expects input data as an object in the following `JSON` notation:
+- The command to delete a user is invoked using the HTTP `DELETE` method.
+The command expects input data as the following request parameters:
 ```
- { 
-   "email": <email address>
- }
+   email = <email address>
 ```
 Successful execution of this command ensures that the user account no longer exists.
  
- - The command to update a user record is invoked using the HTTP `PUT` method. The command expects input data as an object in the following `JSON` notation:
+ - The command to update a user record is invoked using the HTTP `PUT` method. 
+The command expects input data as an object in the following `JSON` notation:
 ```
   { 
     "email": <адрес электронной почты>,
@@ -77,17 +80,19 @@ Successful execution of this command ensures that the user account no longer exi
  ```
 Successful execution of this command results in the update of the user account.
  
- - The command to retrieve a list of users is invoked using the HTTP `GET` method. The command expects input data as an object in the following `JSON` notation:
+ - The command to retrieve a list of users is invoked using the HTTP `GET` method.
+The command expects input data as the following request parameters:
 ```
-  {
-    "email": [email address]
-  }
- ```
+   email = [email address]
+   offset = [search result offset]
+   limit = [search result page size]
+```
 Successful execution of this command returns a list of users that matches the criteria specified in the request body.
 
 ### <span style="color: lightgreen">${cards}$</span> resource commands
 
- - The command to create a bank card is invoked using the HTTP `POST` method. The command expects input data as an object in the following `JSON` notation: 
+ - The command to create a bank card is invoked using the HTTP `POST` method.
+The command expects input data as an object in the following `JSON` notation: 
 ```
  {
    "pan": <#### #### ##### ####>,
@@ -99,15 +104,16 @@ Successful execution of this command returns a list of users that matches the cr
 ```
 Successful execution of this command results in the creation of a bank card record.
 
- - The command to retrieve a list of bank cards is invoked using the HTTP `GET` method. The command expects input data as an object in the following `JSON` notation:
+ - The command to retrieve a list of bank cards is invoked using the HTTP `GET` method.
+The command expects input data as the following request parameters:
 ```
- { 
-   "email": <email address>
- }
+   offset = [search result offset]
+   limit = [search result page size]
 ```
-Successful execution of this command returns a list of bank cards that matches the template specified in the request body.
+Successful execution of this command returns a list of session user banking cards.
 
- - The command to update bank card details is invoked using the HTTP `PUT` method. The command expects input data as an object in the following `JSON` notation:
+ - The command to update bank card details is invoked using the HTTP `PUT` method.
+The command expects input data as an object in the following `JSON` notation:
 ```
  {
    "pan": <#### #### ##### ####>,
@@ -118,29 +124,36 @@ Successful execution of this command returns a list of bank cards that matches t
 ```
 Successful execution of this command results in the update of the bank card record based on the existing `Primary Account Number`.
 
-- The command to block a bank card is invoked using the HTTP `PATCH` method. The command expects input data as an object in the following `JSON` notation:
+- The command to block a bank card is invoked using the HTTP `PATCH` method. 
+The command expects input data as an object in the following `JSON` notation:
 ```
  {
    "pan": <#### #### ##### ####>
  }
- ```
+ ``` 
 Successful execution of this command results in a change to the bank card status based on the existing `Primary Account Number`.
 
- - The command to delete a bank card is invoked using the HTTP `DELETE` method. The command expects input data as an object in the following `JSON` notation:
+ - The command to delete a bank card is invoked using the HTTP `DELETE` method.
+The command expects input data as the following request parameters:
 ```
- {
-   "pan": <#### #### ##### ####>
- }
+   pan = <#### #### ##### ####>
  ```
 Successful execution of this command results in the deletion of the bank card record based on the existing `Primary Account Number`.
 
 ### <span style="color: lightgreen">${transfers}$</span> resource commands
 
-- The command to transfer funds is invoked using the HTTP `POST` method. The command expects input data as the following request parameters:
+- The command to transfer funds is invoked using the HTTP `POST` method.
+The command expects input data as the following request parameters:
 ```
-origin = <#### #### #### ####>
-destination = = <#### #### #### ####>
-amount = <number>
+  origin = <#### #### #### ####>
+  destination = = <#### #### #### ####>
+  amount = <number>
 
 ```
 Successful execution of this command results in the creation of a transaction record and the adjustment of card balances for the current session user.
+
+### <span style="color: lightgreen">${tokens}$</span> resource commands
+
+- The command of reissuing access token is invoked using the HTTP `POST` method.
+Prior of using this resource user has to have active session.
+Successful execution of this command results in refreshing the expire date of user access_token. 
