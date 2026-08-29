@@ -41,26 +41,33 @@ A detailed API description is available at `http://localhost:8081/swagger-ui/ind
 The package uses `JWT`-based authentication. To obtain a token, send a request to `http://localhost:8081/api/login`. This authentication endpoint expects input data as a `JSON` object in the following format:
 ```
   { 
-    "email": <адрес электронной почты>, 
-    "password": <пароль> 
+    "email": <email address>, 
+    "password": <password> 
   }
  ``` 
 Upon successful authentication, the `access_token` will be returned in the response body. Using this token, and based on the roles assigned during registration, the user will have access to the `users`, `cards`, and `transfers` resources.
 
 ### <span style="color: lightgreen">${users}$</span> resource commands
 
- - Вызов команды регистрации нового пользователя производится с помощью HTTP метода `POST`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+ - The command to register a new user is invoked using the HTTP `POST` method. The command expects input data as an object in the following `JSON` notation:
 ```
   { 
-    "email": <адрес электронной почты>, 
-    "password": <пароль> 
+    "email": <email address>, 
+    "password": <password>,
+    "roles": [role1,...] 
   }
  ```
-Результатом успешного выполнения данной команды является создание учетной записи;
+Successful execution of this command results in the creation of a user account.
+
+The command to delete a user is invoked using the HTTP `DELETE` method. The command expects input data as an object in the following `JSON` notation:
+```
+ { 
+   "email": <email address>
+ }
+```
+Successful execution of this command ensures that the user account no longer exists.
  
- - Вызов команды удаления пользователя производится с помощью HTTP метода `DELETE`. Результатом успешного выполнения данной команды является отсутствие учетной записи пользователя;
- 
- - Вызов команды изменения записи пользователя производится с помощью HTTP метода `PUT`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+ - The command to update a user record is invoked using the HTTP `PUT` method. The command expects input data as an object in the following `JSON` notation:
 ```
   { 
     "email": <адрес электронной почты>,
@@ -68,72 +75,72 @@ Upon successful authentication, the `access_token` will be returned in the respo
     "roles": [роль1,...]
   }
  ```
- Результатом успешного выполнения данной команды является обновление учетной записи;
+Successful execution of this command results in the update of the user account.
  
- - Вызов команды получения перечня пользователей производится с помощью HTTP метода `GET`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+ - The command to retrieve a list of users is invoked using the HTTP `GET` method. The command expects input data as an object in the following `JSON` notation:
 ```
   {
-    "email": [адрес электронной почты]
+    "email": [email address]
   }
  ```
- - Результатом успешного выполнения данной команды является возврат перечня пользователей, удовлетворяющего критериям указанным в виде `JSON` нотации.
+Successful execution of this command returns a list of users that matches the criteria specified in the request body.
 
-### Команды ресурса <span style="color: lightgreen">${cards}$</span>
+### <span style="color: lightgreen">${cards}$</span> resource commands
 
- - Вызов команды создания банковской карты производится с помощью HTTP метода `POST`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации 
+ - The command to create a bank card is invoked using the HTTP `POST` method. The command expects input data as an object in the following `JSON` notation: 
 ```
  {
    "pan": <#### #### ##### ####>,
    "expire_date": [yyyy-MM-dd],
-   "email": <адрес электронной почты>,
-   "status": [статус карты], 
-   "balance": [остаток средств]
+   "email": <email address>,
+   "status": [card status], 
+   "balance": [card balance]
  }
 ```
-Результатом успешного выполнения данной команды является создание записи банковской карты;
+Successful execution of this command results in the creation of a bank card record.
 
- - Вызов команды получения перечня банковских карт производится с помощью HTTP метода `GET`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+ - The command to retrieve a list of bank cards is invoked using the HTTP `GET` method. The command expects input data as an object in the following `JSON` notation:
 ```
  { 
-   "email": <адрес электронной почты>
+   "email": <email address>
  }
 ```
-Результатом успешного выполнения данной команды является возврат перечня банковских карт, удовлетворяющих шаблону указанному в теле запроса.
+Successful execution of this command returns a list of bank cards that matches the template specified in the request body.
 
- - Вызов команды обновления реквизитов банковской карты производится с помощью HTTP метода `PUT`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+ - The command to update bank card details is invoked using the HTTP `PUT` method. The command expects input data as an object in the following `JSON` notation:
 ```
  {
    "pan": <#### #### ##### ####>,
    "expire_date": [yyyy-MM-dd],
-   "status": [статус карты],
-   "balance": [остаток средств]
+   "status": [card status],
+   "balance": [card balance]
  }
 ```
- Результатом успешного выполнения данной команды является обновление записи банковской карты, исходя из существующего `Primary Account Number`;
+Successful execution of this command results in the update of the bank card record based on the existing `Primary Account Number`.
 
-- Вызов команды блокировки банковской карты производится с помощью HTTP метода `PATCH`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
-```
- {
-   "pan": <#### #### ##### ####>
- }
- ```
-Результатом успешного выполнения данной команды является изменение статуса банковской карты, исходя из существующего `Primary Account Number`;
-
- - Вызов команды удаления банковской карты производится с помощью HTTP метода `DELETE`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+- The command to block a bank card is invoked using the HTTP `PATCH` method. The command expects input data as an object in the following `JSON` notation:
 ```
  {
    "pan": <#### #### ##### ####>
  }
  ```
- Результатом успешного выполнения данной команды является удаление записи банковской карты, исходя из существующего `Primary Account Number`.
+Successful execution of this command results in a change to the bank card status based on the existing `Primary Account Number`.
 
-### Команды ресурса <span style="color: lightgreen">${transfers}$</span>
+ - The command to delete a bank card is invoked using the HTTP `DELETE` method. The command expects input data as an object in the following `JSON` notation:
+```
+ {
+   "pan": <#### #### ##### ####>
+ }
+ ```
+Successful execution of this command results in the deletion of the bank card record based on the existing `Primary Account Number`.
 
-- Вызов команды перевода средств производится с помощью HTTP метода `POST`. Команда ожидает входные данные в виде следующих параметров запроса:
+### <span style="color: lightgreen">${transfers}$</span> resource commands
+
+- The command to transfer funds is invoked using the HTTP `POST` method. The command expects input data as the following request parameters:
 ```
 origin = <#### #### #### ####>
 destination = = <#### #### #### ####>
 amount = <number>
 
 ```
-Результатом успешного выполнения данной команды является создание записи транзакции и корректировка остатков средств на картах пользователя текущей сессии.
+Successful execution of this command results in the creation of a transaction record and the adjustment of card balances for the current session user.
