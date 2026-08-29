@@ -26,26 +26,24 @@ public class TransactionService {
     /**
      * Requests banking card database for cash transfer between user owned accounts.
      * Main banking card cash transfer.
-     * @param origin    cash source banking card number
-     * @param destination   transfer destination banking card number
-     * @param amount    cash transfer amount
+     * @param transactionDto    transaction description object
      * @param email banking cards owner email address
      *
      * @return  successful cash transfer indicator
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
-    public TransactionDto create(String origin, String destination, BigDecimal amount, String email) {
-        var cardFrom = cardRepository.findByPan(origin)
+    public TransactionDto create(TransactionDto transactionDto, String email) {
+        var cardFrom = cardRepository.findByPan(transactionDto.getFrom())
                 .filter(entity -> entity.getStatus().equals(StatusType.ACTIVE))
                 .filter(entity -> entity.getOwner().getEmail().equals(email))
-                .orElseThrow(() -> new BadRequestException("Banking card " + origin + " not found or not active!"));
+                .orElseThrow(() -> new BadRequestException("Banking card " + transactionDto.getFrom() + " not found or not active!"));
 
-        var cardTo = cardRepository.findByPan(destination)
+        var cardTo = cardRepository.findByPan(transactionDto.getTo())
                 .filter(entity -> entity.getStatus().equals(StatusType.ACTIVE))
                 .filter(entity -> entity.getOwner().getEmail().equals(email))
-                .orElseThrow(() -> new BadRequestException("Banking card " + destination + " not found or not active!"));
+                .orElseThrow(() -> new BadRequestException("Banking card " + transactionDto.getTo() + " not found or not active!"));
 
-        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+        if (transactionDto.getAmount().compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Wrong value for cash amount!");
         }
 
@@ -54,17 +52,16 @@ public class TransactionService {
         var debit = cardMapper.cardToCardDto(cardTo);
         debit.setPan(cardTo.getPan());
 
-        credit.setBalance (credit.getBalance().subtract(amount));
+        credit.setBalance (credit.getBalance().subtract(transactionDto.getAmount()));
         var fromBuilder = cardFrom.toBuilder();
         cardMapper.updateEntityFromDto (credit, fromBuilder);
         cardRepository.save (fromBuilder.build());
 
-        debit.setBalance (debit.getBalance().add(amount));
+        debit.setBalance (debit.getBalance().add(transactionDto.getAmount()));
         var toBuilder = cardTo.toBuilder();
         cardMapper.updateEntityFromDto (debit, toBuilder);
         cardRepository.save (toBuilder.build());
 
-        var transactionDto = new TransactionDto(origin, destination, amount, null);
         var transaction = transactionRepository.save (transactionMapper.transactionDtoToTransaction (transactionDto, cardFrom, cardTo));
 
         return transactionMapper.transactionToTransactionDto (transaction);

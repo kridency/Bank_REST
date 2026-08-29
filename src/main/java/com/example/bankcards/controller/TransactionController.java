@@ -26,6 +26,7 @@ public class TransactionController {
                                    @RequestParam(name = "destination") String destination,
                                    @RequestParam(name = "amount") BigDecimal amount,
                                    @AuthenticationPrincipal String email) {
-        return transactionService.create(origin, destination, amount, email);
+        TransactionDto transactionDto = TransactionDto.builder().from(origin).to(destination).amount(amount).build();
+        return transactionService.create(transactionDto, email);
     }
 }
