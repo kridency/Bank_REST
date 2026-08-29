@@ -89,7 +89,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/login","/openapi-docs", "/openapi-docs/**", "/swagger-ui/**",
                                 "/proxy/**", "/favicon.ico", "/error").permitAll()
                         .anyRequest().authenticated())
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint(objectMapper)))
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(jwtAuthEntryPoint(objectMapper)))
                 .cors(configurer -> configurer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .securityContext(securityContext ->

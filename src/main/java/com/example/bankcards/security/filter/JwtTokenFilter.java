@@ -1,7 +1,6 @@
 package com.example.bankcards.security.filter;
 
 import com.example.bankcards.security.JwtService;
-import com.example.bankcards.service.UserService;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -24,7 +24,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
-    private final UserService userService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response,
@@ -34,9 +34,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             assert request != null;
             var jwtToken = getToken(request);
 
-            if(!jwtToken.isEmpty() && jwtService.validate(jwtToken)) {
-                var claims = jwtService.getClaims(jwtToken);
-                var userDetails = userService.loadUserByUsername(claims.get("email").toString());
+            if(!jwtToken.isEmpty() && jwtService.isValid(jwtToken)) {
+                var username = jwtService.getSubject(jwtToken);
+                var userDetails = userDetailsService.loadUserByUsername(username);
 
                 var authToken = new UsernamePasswordAuthenticationToken(
                         userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());

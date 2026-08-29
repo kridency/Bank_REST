@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
@@ -94,8 +93,8 @@ public class CardService implements CRUDService<CardDto> {
      * Main user JWT token clean up method.
      *
      */
-    @Scheduled(fixedRate = 300_000)
-    public void expireCards() { cardRepository.updateExpiredCards(Instant.now()); }
+    @Scheduled(fixedRateString = "${app.security.refreshTokenExpiration}")
+    public void expireCards() { cardRepository.updateExpiredCards(YearMonth.now()); }
 
     /**
      * Requests banking card database to delete existing record.

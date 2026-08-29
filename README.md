@@ -1,53 +1,53 @@
-# Система управления банковскими картами
+# Banking card management system
 
-## Описание
+## Description
 
-Серверная часть приложения управления банковскими картами.
+Backend of banking card management application.
 
-## Предварительные условия
+## Prerequisites
 
-Среда выполнения содержит пакеты:
+The runtime environment contains packages:
 
-- платформу разработки и выполнения Java SE 21;
-- платформу контейнеризации Docker;
-- сборщик пакетов Apache Maven.
+- Java SE 21 development and runtime platform;
+- Docker containerization platform;
+- Apache Maven build tool.
 
-Все команды запускаются в консоли из папки проекта ``Bank_REST/``.
+All commands are run in the terminal from the project folder ``Bank_REST/``.
 
-Первоначальные настройки отсутствуют.
+No initial setup is required.
 
-## Сборка
+## Build package
 
-Сборка проекта производится командой:
+The project is built using the shell command:
 ```
 mvn clean package
 ```
-При успешном завершении сборки результаты будут расположены в папке ``target/``
+Upon successful build, the results will be located in the folder ``target/``
 
-## Запуск
+## Run package
 
-Для запуска приложения в папке проекта необходимо выполнить команды
+To run the package, execute the following commands in the project folder:
 ```
 docker compose --project-directory ./docker/ up --detach
 ```
-При успешном запуске приложения `docker` будет содержать 2 контейнера `cards-microservice, postgres-container` в статусе `Up`.
+Upon successful зфслфпу startup, `docker` will run 2 containers `cards-microservice, postgres-container` in the `Up` status.
 
-## Инструкции по использованию
+## Usage Instructions
 
-Использование функциональности приложения производится посредством перехода по сетевой ссылке `http://localhost:8081/api/<endpoint>`, где `<endpoint>` представляет отдельный API ресурс.
+The package functionality is accessed via the URL `http://localhost:8081/api/<endpoint>`, where `<endpoint>` represents a specific API resource.
 
-Подробное описание API доступно по ссылке `http://localhost:8081/swagger-ui/index.html`.
+A detailed API description is available at `http://localhost:8081/swagger-ui/index.html`.
 
-Приложение использует базовую аутентификацию на основе `JWT` жетонов. Для получения жетона необходимо перейти по сетевой ссылке `http://localhost:8081/api/login`. Данный ресурс аутентификации ожидает входные данные в виде объекта в следующей `JSON` нотации:
+The package uses `JWT`-based authentication. To obtain a token, send a request to `http://localhost:8081/api/login`. This authentication endpoint expects input data as a `JSON` object in the following format:
 ```
   { 
     "email": <адрес электронной почты>, 
     "password": <пароль> 
   }
  ``` 
-При успешной аутентификации в теле ответа на запрос будет возращен `access_token`. Используя данный жетон и учитывая присвоенные при регистрации роли пользователю будут доступны ресурсы `users`, `cards` и `transfers`.
+Upon successful authentication, the `access_token` will be returned in the response body. Using this token, and based on the roles assigned during registration, the user will have access to the `users`, `cards`, and `transfers` resources.
 
-### Команды ресурса <span style="color: lightgreen">${users}$</span>
+### <span style="color: lightgreen">${users}$</span> resource commands
 
  - Вызов команды регистрации нового пользователя производится с помощью HTTP метода `POST`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
 ```
@@ -70,7 +70,13 @@ docker compose --project-directory ./docker/ up --detach
  ```
  Результатом успешного выполнения данной команды является обновление учетной записи;
  
- - Вызов команды получения перечня пользователей производится с помощью HTTP метода `GET`. Команда ожидает входные данные в виде объекта в `JSON` нотации `{ "email": <адрес электронной почты> }`. Результатом успешного выполнения данной команды является возврат перечня пользователей, удовлетворяющего критериям указанным в виде `JSON` нотации.
+ - Вызов команды получения перечня пользователей производится с помощью HTTP метода `GET`. Команда ожидает входные данные в виде объекта в следующей `JSON` нотации:
+```
+  {
+    "email": [адрес электронной почты]
+  }
+ ```
+ - Результатом успешного выполнения данной команды является возврат перечня пользователей, удовлетворяющего критериям указанным в виде `JSON` нотации.
 
 ### Команды ресурса <span style="color: lightgreen">${cards}$</span>
 

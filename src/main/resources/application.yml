@@ -15,7 +15,7 @@ app:
       password: ${KEYSTORE_PASSWORD:1gjAVnJ}
       type: PKCS12
     tokenExpiration: 15
-    refreshTokenExpiration: 30
+    refreshTokenExpiration: 30000
 
 server:
   port: ${APP_PORT:8081}

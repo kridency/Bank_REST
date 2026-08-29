@@ -20,9 +20,9 @@ public class JwtServiceTest extends BaseTest {
         var user = userService.loadUserByUsername(email);
 
         String accessToken = jwtService.create(user.getId());
-        String subject = jwtService.getClaims(accessToken).getSubject();
+        String subject = jwtService.getSubject(accessToken);
 
-        Assertions.assertEquals(user.getId().toString(), subject);
+        Assertions.assertEquals(user.getUsername(), subject);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class JwtServiceTest extends BaseTest {
         var user = userService.loadUserByUsername(email);
 
         String accessToken = jwtService.create(user.getId());
-        boolean isValid = jwtService.validate(accessToken);
+        boolean isValid = jwtService.isValid(accessToken);
 
         Assertions.assertTrue(isValid);
     }

@@ -3,9 +3,7 @@ package com.example.bankcards.security;
 import com.example.bankcards.config.property.AppProperties;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,8 +11,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-
-import io.jsonwebtoken.Jwts;
 
 import javax.crypto.SecretKey;
 import javax.management.timer.Timer;
@@ -46,9 +42,9 @@ public class JwtService {
         var moment = new Date();
         return Jwts.builder()
                 .header().type("JWT").and()
-                .subject(user.map(User::getId).map(UUID::toString).orElse(""))
+                .id(user.map(User::getId).map(UUID::toString).orElse(""))
+                .subject(user.map(User::getUsername).orElse(""))
                 .claims(new HashMap<>() {{
-                    put("email", user.map(User::getUsername).orElse(""));
                     put("roles", user.map(User::getAuthorities).orElse(List.of()));
                 }})
                 .issuedAt(moment)
@@ -64,14 +60,11 @@ public class JwtService {
      *
      * @return  Database user record representation object
      */
-    public Claims getClaims(String token) {
-        try {
-            return Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))
-                    .build().parseSignedClaims(token).getPayload();
-        } catch(ExpiredJwtException e) {
-            return e.getClaims();
-        }
+    public String getSubject(String token) {
+        return Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))
+                .build().parseSignedClaims(token).getPayload().getSubject();
+
     }
 
     /**
@@ -82,15 +75,16 @@ public class JwtService {
      * @return  JWT token validity indicator
      */
     @Cacheable(value = "isValid", key = "{ #token }", sync = true)
-    public boolean validate(String token) {
+    public boolean isValid(String token) {
         try {
-            var userId = Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(secretKey.getEncoded()))
-                    .build().parseSignedClaims(token).getPayload().getSubject();
-            return userRepository.findById(UUID.fromString(userId)).isPresent();
+            var username = getSubject(token);
+            return userRepository.getByEmail(username).isPresent();
+        } catch(ExpiredJwtException e) {
+            var claims = e.getClaims();
+            throw new ExpiredJwtException(Jwts.header().add("Authorization", "Bearer " + token).build(),
+                    claims, "Refresh token expired at " + claims.getExpiration() + ". Re-authentication required!");
         } catch (JwtException | IllegalArgumentException e) {
-            log.info("Claims string is empty: {}", e.getMessage());
-            return false;
+            throw new MalformedJwtException("The provided JWT token " + token + " is malformed.");
         }
     }
 }

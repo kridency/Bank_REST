@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
+import java.time.YearMonth;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,5 +26,5 @@ public interface CardRepository extends PagingAndSortingRepository<Card, UUID>, 
     @Modifying
     @Transactional
     @Query("UPDATE Card t SET t.status = 'EXPIRED' WHERE t.expireDate < :now AND t.status = 'ACTIVE'")
-    void updateExpiredCards(@Param("now") Instant now);
+    void updateExpiredCards(@Param("now") YearMonth now);
 }
