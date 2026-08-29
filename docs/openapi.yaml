@@ -1,1 +1,427 @@
-# Здесь будет OpenAPI описание всех доступных эндпоинтов и моделей данных.
+components:
+  schemas:
+    CardDto:
+      description: Data transfer object with banking card details.
+      properties:
+        balance:
+          description: Banking card balance.
+          type: number
+        email:
+          description: Email of banking card holder.
+          type: string
+        expire_date:
+          description: Banking card expiration date.
+          example: 2025-03
+          type: string
+        pan:
+          description: Primary Account Number.
+          pattern: ^([\d]{4}( |$)){4}$
+          type: string
+        status:
+          description: Banking card current state.
+          enum:
+          - ACTIVE
+          - BLOCKED
+          - EXPIRED
+          - PENDING
+          type: string
+      required:
+      - email
+      - expire_date
+      - pan
+      type: object
+    GrantedAuthority:
+      properties:
+        authority:
+          type: string
+      type: object
+    MessageDto:
+      description: Operation completion message.
+      properties:
+        description:
+          type: string
+        message:
+          description: Message text.
+          type: string
+      type: object
+    PageableObject:
+      properties:
+        offset:
+          format: int64
+          type: integer
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        paged:
+          type: boolean
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+      type: object
+    RefreshTokenDto:
+      description: Feedback for authentication/token refresh request.
+      properties:
+        access_token:
+          description: Access token characters sequence.
+          type: string
+      type: object
+    SliceCardDto:
+      properties:
+        content:
+          items:
+            $ref: '#/components/schemas/CardDto'
+          type: array
+        empty:
+          type: boolean
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          format: int32
+          type: integer
+        numberOfElements:
+          format: int32
+          type: integer
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          format: int32
+          type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
+      type: object
+    SliceUserDto:
+      properties:
+        content:
+          items:
+            $ref: '#/components/schemas/UserDto'
+          type: array
+        empty:
+          type: boolean
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          format: int32
+          type: integer
+        numberOfElements:
+          format: int32
+          type: integer
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          format: int32
+          type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
+      type: object
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+      type: object
+    TransactionDto:
+      properties:
+        amount:
+          description: Transferred amount.
+          type: number
+        createdAt:
+          description: Transfer moment.
+          format: date-time
+          type: string
+        from:
+          description: Source Primary Account Number.
+          type: string
+        to:
+          description: Destination Primary Account Number.
+          type: string
+      type: object
+    UserDto:
+      description: Request/feedback for user create/refresh details.
+      properties:
+        email:
+          description: User email.
+          type: string
+        password:
+          description: User password.
+          type: string
+        roles:
+          description: User roles list.
+          items:
+            enum:
+            - ROLE_ADMIN
+            - ROLE_USER
+            type: string
+          type: array
+          uniqueItems: true
+      required:
+      - email
+      - password
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+info:
+  title: Banking Card API
+  version: v1
+openapi: 3.1.0
+paths:
+  /api/cards:
+    delete:
+      description: Deletes banking card.
+      operationId: deleteCard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardDto'
+        required: true
+      responses:
+        '204':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MessageDto'
+          description: No Content
+      summary: Delete banking card record from database
+      tags:
+      - card-controller
+    get:
+      description: Forms constrained list of banking cards.
+      operationId: getCards
+      parameters:
+      - in: query
+        name: offset
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: limit
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: authorities
+        required: true
+        schema:
+          items:
+            $ref: '#/components/schemas/GrantedAuthority'
+          type: array
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SliceCardDto'
+          description: OK
+      summary: List banking cards according to filter criteria
+      tags:
+      - card-controller
+    patch:
+      description: Sets status PENDING for banking card.
+      operationId: blockCard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardDto'
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CardDto'
+          description: OK
+      summary: Request to block a credit card
+      tags:
+      - card-controller
+    post:
+      description: Register new banking card.
+      operationId: registerCard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardDto'
+        required: true
+      responses:
+        '201':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CardDto'
+          description: Created
+      summary: Register banking card
+      tags:
+      - card-controller
+    put:
+      description: Renew banking card status.
+      operationId: updateCard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardDto'
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CardDto'
+          description: OK
+      summary: Change current card status
+      tags:
+      - card-controller
+  /api/tokens:
+    post:
+      description: Refreshes previously authenticated user access token.
+      operationId: reissueToken
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RefreshTokenDto'
+          description: OK
+      summary: Refresh access token for an authenticated user
+      tags:
+      - refresh-token-controller
+  /api/transfers:
+    post:
+      description: Conduct cash withdrawal and deposit.
+      operationId: transfer
+      parameters:
+      - in: query
+        name: origin
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: destination
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: amount
+        required: true
+        schema:
+          type: number
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TransactionDto'
+          description: OK
+      summary: Transfer cash from one banking card to another
+      tags:
+      - transaction-controller
+  /api/users:
+    delete:
+      description: Deletes user credentials.
+      operationId: deleteUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+        required: true
+      responses:
+        '204':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MessageDto'
+          description: No Content
+      summary: Delete user credentials
+      tags:
+      - user-controller
+    get:
+      description: Forms constrained list of user records.
+      operationId: getUsers
+      parameters:
+      - in: query
+        name: offset
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: limit
+        required: false
+        schema:
+          format: int32
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SliceUserDto'
+          description: OK
+      summary: List users according to filter criteria
+      tags:
+      - user-controller
+    post:
+      description: Register new user.
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+        required: true
+      responses:
+        '201':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MessageDto'
+          description: Created
+      summary: Register user
+      tags:
+      - user-controller
+    put:
+      description: Updates e-mail address, password and roles.
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDto'
+          description: OK
+      summary: Update user credentials
+      tags:
+      - user-controller
+servers:
+- description: Generated server url
+  url: http://localhost:8081
+
