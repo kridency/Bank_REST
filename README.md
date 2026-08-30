@@ -19,7 +19,7 @@ No initial setup is required.
 ## Build package
 
 The project is built using the shell command:
-```
+```bash
 mvn clean package
 ```
 Upon successful build, the results will be located in the folder ``target/``
@@ -27,10 +27,10 @@ Upon successful build, the results will be located in the folder ``target/``
 ## Run package
 
 To run the package, execute the following commands in the project folder:
-```
+```bash
 docker compose --project-directory ./docker/ up --detach
 ```
-Upon successful зфслфпу startup, `docker` will run 2 containers `cards-microservice, postgres-container` in the `Up` status.
+Upon successful package startup, `docker` will run 2 containers `cards-microservice, postgres-container` in the `Up` status.
 
 ## Usage Instructions
 
@@ -40,10 +40,10 @@ A detailed API description is available at `http://localhost:8081/swagger-ui/ind
 
 The package uses `JWT`-based authentication. To obtain a token, send a request to `http://localhost:8081/api/login`. 
 This authentication endpoint expects input data as a `JSON` object in the following format:
-```
+```json
   { 
-    "email": <email address>, 
-    "password": <password> 
+    "email": "<email address>", 
+    "password": "<password>" 
   }
  ``` 
 Upon successful authentication, the `access_token` will be returned in the response body. 
@@ -53,36 +53,36 @@ Using this token, and based on the roles assigned during registration, the user 
 
  - The command to register a new user is invoked using the HTTP `POST` method. 
 The command expects input data as an object in the following `JSON` notation:
-```
+```json
   { 
-    "email": <email address>, 
-    "password": <password>,
-    "roles": [role1,...] 
+    "email": "<email address>", 
+    "password": "<password>",
+    "roles": ["role1","..."] 
   }
  ```
 Successful execution of this command results in the creation of a user account.
 
 - The command to delete a user is invoked using the HTTP `DELETE` method.
 The command expects input data as the following request parameters:
-```
+```properties
    email = <email address>
 ```
 Successful execution of this command ensures that the user account no longer exists.
  
  - The command to update a user record is invoked using the HTTP `PUT` method. 
 The command expects input data as an object in the following `JSON` notation:
-```
+```json
   { 
-    "email": <адрес электронной почты>,
-    "password": <пароль>,
-    "roles": [роль1,...]
+    "email": "<email address>",
+    "password": "<password>",
+    "roles": ["role1","..."]
   }
  ```
 Successful execution of this command results in the update of the user account.
  
  - The command to retrieve a list of users is invoked using the HTTP `GET` method.
 The command expects input data as the following request parameters:
-```
+```properties
    email = [email address]
    offset = [search result offset]
    limit = [search result page size]
@@ -93,20 +93,20 @@ Successful execution of this command returns a list of users that matches the cr
 
  - The command to create a bank card is invoked using the HTTP `POST` method.
 The command expects input data as an object in the following `JSON` notation: 
-```
+```json
  {
-   "pan": <#### #### ##### ####>,
-   "expire_date": [yyyy-MM-dd],
-   "email": <email address>,
-   "status": [card status], 
-   "balance": [card balance]
+   "pan": "<#### #### ##### ####>",
+   "expire_date": "[yyyy-MM-dd]",
+   "email": "<email address>",
+   "status": "[card status]", 
+   "balance": "[card balance]"
  }
 ```
 Successful execution of this command results in the creation of a bank card record.
 
  - The command to retrieve a list of bank cards is invoked using the HTTP `GET` method.
 The command expects input data as the following request parameters:
-```
+```properties
    offset = [search result offset]
    limit = [search result page size]
 ```
@@ -114,28 +114,28 @@ Successful execution of this command returns a list of session user banking card
 
  - The command to update bank card details is invoked using the HTTP `PUT` method.
 The command expects input data as an object in the following `JSON` notation:
-```
+```json
  {
-   "pan": <#### #### ##### ####>,
-   "expire_date": [yyyy-MM-dd],
-   "status": [card status],
-   "balance": [card balance]
+   "pan": "<#### #### ##### ####>",
+   "expire_date": "[yyyy-MM-dd]",
+   "status": "[card status]",
+   "balance": "[card balance]"
  }
 ```
 Successful execution of this command results in the update of the bank card record based on the existing `Primary Account Number`.
 
 - The command to block a bank card is invoked using the HTTP `PATCH` method. 
 The command expects input data as an object in the following `JSON` notation:
-```
+```json
  {
-   "pan": <#### #### ##### ####>
+   "pan": "<#### #### ##### ####>"
  }
  ``` 
 Successful execution of this command results in a change to the bank card status based on the existing `Primary Account Number`.
 
  - The command to delete a bank card is invoked using the HTTP `DELETE` method.
 The command expects input data as the following request parameters:
-```
+```properties
    pan = <#### #### ##### ####>
  ```
 Successful execution of this command results in the deletion of the bank card record based on the existing `Primary Account Number`.
@@ -144,11 +144,10 @@ Successful execution of this command results in the deletion of the bank card re
 
 - The command to transfer funds is invoked using the HTTP `POST` method.
 The command expects input data as the following request parameters:
-```
+```properties
   origin = <#### #### #### ####>
   destination = = <#### #### #### ####>
   amount = <number>
-
 ```
 Successful execution of this command results in the creation of a transaction record and the adjustment of card balances for the current session user.
 
@@ -156,4 +155,4 @@ Successful execution of this command results in the creation of a transaction re
 
 - The command of reissuing access token is invoked using the HTTP `POST` method.
 Prior of using this resource user has to have active session.
-Successful execution of this command results in refreshing the expire date of user access_token. 
+Successful execution of this command results in refreshing the expiry date of user access_token. 
