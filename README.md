@@ -34,11 +34,22 @@ Upon successful package startup, `docker` will run 2 containers `cards-microserv
 
 ## Usage Instructions
 
-The package functionality is accessed via the URL `http://localhost:8081/api/<endpoint>`, where `<endpoint>` represents a specific API resource.
+The package functionality is accessed via the URL:
+```Postman
+<METHOD> http://localhost:8081/api/<endpoint>
+```
+Where `<endpoint>` represents a specific API resource. 
+Depending on the chosen `<METHOD>`, the package will initiate corresponding command. 
 
-A detailed API description is available at `http://localhost:8081/swagger-ui/index.html`.
+A detailed API description is available at:
+```Postman
+GET http://localhost:8081/swagger-ui/index.html
+```
 
-The package uses `JWT`-based authentication. To obtain a token, send a request to `http://localhost:8081/api/login`. 
+The package uses `JWT`-based authentication. To obtain a token, send a request to:
+```Postman
+POST http://localhost:8081/api/login
+``` 
 This authentication endpoint expects input data as a `JSON` object in the following format:
 ```json
   { 
