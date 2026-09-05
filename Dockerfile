@@ -5,7 +5,7 @@ FROM alpine/java:21
 WORKDIR /app
 
 # Определяем переменную сборки со значением по умолчанию
-ARG SPRING_VERSION=6.2.9
+ARG SPRING_VERSION
 
 # Копирование JAR-файла приложения в контейнер
 COPY ./target/cards-microservice-1.0.0-SNAPSHOT.jar cards_microservice.jar
